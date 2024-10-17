@@ -2,7 +2,8 @@ import {useState} from "react";
 import { ProSidebar, Menu, MenuItem} from "react-pro-sidebar";
 
 import {Box, IconButton, Typography, useTheme } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import "react-pro-sidebar/dist/css/styles.css"; /*CSS file not included potentiall breaks sidebar ??*/
 import {tokens} from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -45,7 +46,6 @@ const Sidebar = () => {
     const [selected, setSelected] =useState("Dashboard");  {/*Which page/tab user is on */}
 
 
-const navigate = useNavigate();
 
 
 return(
@@ -136,12 +136,11 @@ return(
 
          <Box paddingLeft={isClosed ? undefined : "10%"}>
            <Item
-             title="Portal Home"
+             title="Dashboard Home"
              to="/"
              icon={<HomeOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
-             onClick={() => navigate("/")}
            />
            <Typography
                to="/"
@@ -153,7 +152,7 @@ return(
            </Typography>
            <Item
              title="Manage Staff"
-             to="/team"
+             to="/employees"
              icon={<PeopleOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -167,7 +166,7 @@ return(
            />
             <Item
              title="Vendor Information"
-             to="/contacts"
+             to="/vendors"
              icon={<ContactsOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -188,7 +187,7 @@ return(
            />
             <Item
              title="Transactions"
-             to="/invoices"
+             to="/transactions"
              icon={<ReceiptOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}

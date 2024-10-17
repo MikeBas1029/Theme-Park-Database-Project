@@ -1,15 +1,18 @@
-import {Routes, Route} from "react-router-dom"
+import {Routes, Route, Link} from "react-router-dom"
 import { DisplayModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./scenes/global/Navbar";
 import Sidebar from "./scenes/global/Sidebar";
-//import Staff from "./scenes/Staff";
-//import Transactions from "./scenes/Transactions";
 //import Rides from "./scenes/Rides";
 //import Security from "./scenes/Security";
 //import Calendar from "./scenes/Calendar";
-import Dashboard from "./scenes/dashboard/index";
-import LoginForm from "./scenes/login/LoginForm";
+import Dashboard from "./scenes/dashboard";
+import LoginForm from "./scenes/login/LoginForm"
+import Employees from "./scenes/employees";
+import Vendors from "./scenes/vendors";
+import TransactionSelection from "./scenes/transactions/transactionSelection";
+import Invoices from "./scenes/invoices";
+
 
 
 
@@ -26,7 +29,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
-          <Route path="/login" element={<LoginForm />} />   {/*Login page routing */}
+          <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
+          <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
+          <Route path="/login" element={<LoginForm />} />   {/*Login form routing */}
+          <Route path="/transactions" element={<TransactionSelection />} />   {/*Login form routing */}
+          <Route path="/invoices" element={<Invoices />} />   {/*Login form routing */}
         </Routes>
 
       </main>
