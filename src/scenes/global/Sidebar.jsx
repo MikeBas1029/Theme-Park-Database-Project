@@ -159,7 +159,7 @@ return(
            />
             <Item
              title="Rides/Attractions/Facilites"
-             to="/contacts"
+             to="https://www.disneyworld.co.uk/attractions/magic-kingdom/#/sort=alpha/"
              icon={<ContactsOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}

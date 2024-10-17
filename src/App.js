@@ -12,6 +12,7 @@ import Employees from "./scenes/employees";
 import Vendors from "./scenes/vendors";
 import TransactionSelection from "./scenes/transactions/transactionSelection";
 import Invoices from "./scenes/invoices";
+import Form from "./scenes/form";
 
 
 
@@ -32,8 +33,9 @@ function App() {
           <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
           <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
           <Route path="/login" element={<LoginForm />} />   {/*Login form routing */}
-          <Route path="/transactions" element={<TransactionSelection />} />   {/*Login form routing */}
-          <Route path="/invoices" element={<Invoices />} />   {/*Login form routing */}
+          <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions main page routing */}
+          <Route path="/invoices" element={<Invoices />} />   {/*Invoice page  routing */}
+          <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
         </Routes>
 
       </main>

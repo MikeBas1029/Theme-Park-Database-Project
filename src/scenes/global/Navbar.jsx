@@ -11,6 +11,7 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useNavigate } from "react-router-dom";
+import ProfileDropdown from "../../components/ProfileDropdown";
 
 
 
@@ -22,6 +23,13 @@ const Navbar = () => {
 
     const [open, setOpen] = useState(false); 
     const navigate = useNavigate();
+
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggleDropdown = () => {
+        setDropdownOpen((prev) => !prev);
+    };
+
 
 
 
@@ -56,8 +64,9 @@ const Navbar = () => {
                 <SettingsOutlinedIcon />
             </IconButton>
 
-            <IconButton onClick={() => navigate("/login")}>
-                <PersonOutlinedIcon />
+            <IconButton onClick={toggleDropdown}>
+                <PersonOutlinedIcon/>
+                <ProfileDropdown visible={dropdownOpen} />
             </IconButton>
         </Box>
 

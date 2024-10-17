@@ -1,16 +1,19 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, IconButton} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import {sampleDataRoster} from "../../data/sampleData"
 import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; // Import the plus icon
 import  Header from "../../components/Header"
+import { useNavigate } from "react-router-dom";
 
 
 const Employees = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const navigate = useNavigate();
 
     const columns = [
         {field: "id", headerName: "ID", flex: 0.5}, 
@@ -46,8 +49,19 @@ const Employees = () => {
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
     return(
+
+        
         <Box m="20px">
             <Header title="Employees" subtitle="Manage Employees"/>
+
+            {/*Employee creation form button + linking */}
+            <Box display="flex" justifyContent="flex-end" mb="20px">
+                <IconButton onClick={() => navigate("/form")}>
+                <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
+                </IconButton>
+            </Box>
+
+            {/*Form fields, missing validation method linkings + user auth */}
             <Box
             m="40px 0 0 0"
             height="75vh"
