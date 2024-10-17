@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import {Routes, Route} from "react-router-dom"
+import { DisplayModeContext, useMode } from "./theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import Navbar from "./scenes/global/Navbar";
+import Sidebar from "./scenes/global/Sidebar";
+//import Staff from "./scenes/Staff";
+//import Transactions from "./scenes/Transactions";
+//import Rides from "./scenes/Rides";
+//import Security from "./scenes/Security";
+//import Calendar from "./scenes/Calendar";
+import Dashboard from "./scenes/dashboard/index";
+import LoginForm from "./scenes/login/LoginForm";
+
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [theme, colorMode] = useMode();
+  return ( 
+  <DisplayModeContext.Provider value={colorMode}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <div className="app">
+        <Sidebar />
+       <main className="content">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
+          <Route path="/login" element={<LoginForm />} />   {/*Login page routing */}
+        </Routes>
+
+      </main>
+      </div>
+    </ThemeProvider>
+  </DisplayModeContext.Provider>
   );
 }
 
