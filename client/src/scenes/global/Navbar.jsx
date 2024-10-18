@@ -12,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useNavigate } from "react-router-dom";
 import ProfileDropdown from "../../components/ProfileDropdown";
+import AccountMenu from "../../components/AccountMenu";
 
 
 
@@ -60,15 +61,18 @@ const Navbar = () => {
                 <CalendarTodayOutlinedIcon />
             </IconButton>
 
-            
+
             <IconButton>
                 <NotificationsOutlinedIcon />
             </IconButton>
 
-            <IconButton onClick={toggleDropdown}>
+            { /*
+                <IconButton >
                 <PersonOutlinedIcon/>
-                <ProfileDropdown visible={dropdownOpen} />
-            </IconButton>
+                </IconButton> 
+            */}
+            
+            <AccountMenu />
         </Box>
 
 
