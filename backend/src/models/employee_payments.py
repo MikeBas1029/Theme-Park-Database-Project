@@ -1,34 +1,48 @@
 from datetime import date
-from typing import Optional
-from sqlmodel import SQLModel, Field, Relationship, Column
+from typing import TYPE_CHECKING
+from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey, Index
 import sqlalchemy.dialects.mysql as mysql
-from src.models import Employees, PaymentMethods
+
+if TYPE_CHECKING:
+    from src.models.employees import Employees
+    from src.models.payment_methods import PaymentMethods
 
 class EmployeePayments(SQLModel, table=True):
     __tablename__ = "employeepayments"
     
+    # EmployeePaymentID is the primary key that uniquely identifies each payment record.
     employee_payment_id: int = Field(
-        primary_key=True, 
-        index=True, 
-        sa_column=Column(mysql.INTEGER, nullable=False),
+        sa_column=Column(mysql.INTEGER, primary_key=True, nullable=False, comment="Unique ID for each payment record"),
         alias="EmployeePaymentID"
     )
+    
+    # EmployeeID is the foreign key that links to the employee who received the payment.
+    # It refers to the SSN of the employee in the employees table.
     employee_id: int = Field(
-        sa_column=Column(mysql.INTEGER, nullable=False),
-        foreign_key="employees.SSN",
+        sa_column=Column(mysql.INTEGER, ForeignKey("employees.ssn"), nullable=False, comment="ID of the employee receiving the payment"),
         alias="EmployeeID"
     )
-    payment_date: date = Field(sa_column=Column(mysql.DATE), alias="PaymentDate")
+    
+    # PaymentDate represents the date when the payment was made to the employee.
+    # This is a required field, stored as a date value.
+    payment_date: date = Field(sa_column=Column(mysql.DATE, nullable=False, comment="Date the payment was made"), alias="PaymentDate")
+    
+    # PaymentMethodID is the foreign key that links to the method used for the payment (e.g., direct deposit, check).
+    # It refers to the PaymentMethodID in the paymentmethods table.
     payment_method_id: int = Field(
-        sa_column=Column(mysql.INTEGER),
-        foreign_key="paymentmethods.PaymentMethodID",
-        ondelete="RESTRICT",
+        sa_column=Column(mysql.INTEGER, ForeignKey("paymentmethods.payment_method_id", ondelete="RESTRICT"), nullable=False, comment="Payment method used for the payment"),
         alias="PaymentMethodID"
     )
 
     # Relationships
-    employee: "Employees" = Relationship(back_populates="employee_payments", cascade='all, delete-orphan')
-    payment_method: "PaymentMethods" = Relationship(back_populates="employee_payments")
+    # An employee can have multiple payments, linked through the employee_payment relationship.
+    employee: "Employees" = Relationship(back_populates="employee_payments", cascade_delete=True)
+    
+    # Each payment record is associated with a payment method (e.g., direct deposit, check).
+    payment_method: "PaymentMethods" = Relationship(
+        back_populates="employee_payments",
+        sa_relationship_kwargs={"lazy": "joined"}  # Eager load PaymentMethods with a JOIN
+        )
 
     @property
     def hours_worked(self) -> float:
@@ -49,9 +63,19 @@ class EmployeePayments(SQLModel, table=True):
         Calculate the payment amount based on the hours worked
         and the employee's pay rate.
         """
+        # For hourly employees, payment is based on hourly wage and hours worked
         if self.employee.employee_type == "Hourly" and self.employee.hourly_wage:
             return self.employee.hourly_wage * self.hours_worked
-        elif self.employee.employee_type == "Salary" and self.employee.salary:
-            # Assuming salary is monthly, so calculate a pro-rated amount for the payment period if needed
-            return self.employee.salary / 26  # Monthly salary converted to weekly or bi-weekly if needed
+        
+        # For salaried employees, payment is calculated as a pro-rated salary (e.g., bi-weekly)
+        elif self.employee.employee_type == "Salary" and hasattr(self.employee, 'salary'):
+            return self.employee.salary / 26  # Assuming salary is monthly, converted to bi-weekly pay
+
+        # If no valid wage/salary is provided, return 0.0
         return 0.0
+    
+    # Table index: Adds an index on the employee_payment_id field.
+    # This index improves performance for queries filtering by the employee_payment_id.
+    __table_args__ = (
+        Index("idx_employee_payment_id", "employee_payment_id"),
+    )

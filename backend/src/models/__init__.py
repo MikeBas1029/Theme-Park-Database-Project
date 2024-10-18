@@ -8,7 +8,6 @@ from .entertainment import Entertainment
 from .food_items import FoodItems
 from .guest_services import GuestServices
 from .invoices import Invoice
-from .items import Items 
 from .merchandise import Merchandise
 from .payment_methods import PaymentMethods
 from .park_facilities import ParkFacilities
@@ -30,3 +29,5 @@ from .vendors import Vendors
 from .vendor_payments import VendorPayments
 from .visits import Visits
 from .work_orders import WorkOrders
+from .items import Items 
+
