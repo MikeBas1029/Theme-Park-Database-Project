@@ -11,6 +11,14 @@ import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+import ConstructionIcon from '@mui/icons-material/Construction';
+import HandymanIcon from '@mui/icons-material/Handyman';
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import TourIcon from '@mui/icons-material/Tour';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import InsightsIcon from '@mui/icons-material/Insights';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
+import SecurityIcon from '@mui/icons-material/Security';
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
@@ -150,6 +158,41 @@ return(
            >
                Park Overview
            </Typography>
+            <Item
+             title="Shops & Inventory"
+             to="/inventory"
+             icon={<InventoryIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+            <Item
+             title="Orders & Vendors"
+             to="/vendors"
+             icon={<ContactsOutlinedIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+            <Item
+             title="Rides & Attractions"
+             to="https://www.disneyworld.co.uk/attractions/magic-kingdom/#/sort=alpha/"
+             icon={<LocalActivityIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+            <Item
+             title="Park Safety"
+             to="/safety"
+             icon={<SecurityIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+           <Typography
+             variant="h4"
+             color={colors.grey[300]}
+             sx={{ m: "15px 0 5px 20px" }}
+           >
+             Team and Operations
+           </Typography>
            <Item
              title="Manage Staff"
              to="/employees"
@@ -157,17 +200,24 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
-            <Item
-             title="Rides/Attractions/Facilites"
-             to="https://www.disneyworld.co.uk/attractions/magic-kingdom/#/sort=alpha/"
-             icon={<ContactsOutlinedIcon />}
+           <Item
+             title="Maintenance"
+             to="/maintenance"
+             icon={<HandymanIcon />}
              selected={selected}
              setSelected={setSelected}
            />
             <Item
-             title="Vendor Information"
-             to="/vendors"
-             icon={<ContactsOutlinedIcon />}
+             title="Customer/Visit info"
+             to="/line"
+             icon={<TourIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+            <Item
+             title="Facilities"
+             to="/facilities"
+             icon={<AccessibilityNewIcon />}
              selected={selected}
              setSelected={setSelected}
            />
@@ -176,15 +226,16 @@ return(
              color={colors.grey[300]}
              sx={{ m: "15px 0 5px 20px" }}
            >
-             Documents (?)
-           </Typography>
-           <Item
-             title="Calendar"
-             to="/calendar"
-             icon={<CalendarTodayOutlinedIcon />}
+            </Typography>
+             Reports and Analytics
+             <Item
+             title="Insights"
+             to="/insights"
+             icon={<InsightsIcon />}
              selected={selected}
              setSelected={setSelected}
            />
+
             <Item
              title="Transactions"
              to="/transactions"
@@ -192,31 +243,11 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
-           <Typography
-             variant="h4"
-             color={colors.grey[300]}
-             sx={{ m: "15px 0 5px 20px" }}
-           >
-             Reports and Analytics
-           </Typography>
+
            <Item
-             title="Bar Chart"
-             to="/bar"
-             icon={<BarChartOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-           <Item
-             title="Line Chart"
-             to="/line"
+             title="Tikcets n such (fix name)"
+             to="/tickets"
              icon={<TimelineOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-           <Item
-             title="Pie Chart"
-             to="/pie"
-             icon={<PieChartOutlineOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
            />

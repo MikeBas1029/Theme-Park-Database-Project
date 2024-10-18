@@ -6,7 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined"; 
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"; 
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined"; 
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -57,11 +57,12 @@ const Navbar = () => {
             </IconButton>
 
             <IconButton>
-                <NotificationsOutlinedIcon />
+                <CalendarTodayOutlinedIcon />
             </IconButton>
 
+            
             <IconButton>
-                <SettingsOutlinedIcon />
+                <NotificationsOutlinedIcon />
             </IconButton>
 
             <IconButton onClick={toggleDropdown}>
