@@ -67,9 +67,9 @@ class Shops(SQLModel, table=True):
         alias="ParkSectionID"
     )
     
-    manager_id: int = Field(
+    manager_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(9), 
             ForeignKey("employees.ssn"),  # Links to the Employees table (Manager)
             nullable=False,
             comment="Foreign key linking the shop to the employee manager"

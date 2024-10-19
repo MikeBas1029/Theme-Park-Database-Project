@@ -107,6 +107,6 @@ class SalesOrderDetail(SQLModel, table=True):
         Index("idx_detail_id", "detail_id"),  
         Index("idx_transaction_id", "transaction_id"),  
         Index("idx_item_id", "item_id"),  
-        CheckConstraint("quantity > 0", name="chk_quantity_positive"),  # Constraint ensuring quantity is positive
-        CheckConstraint("unit_price > 0", name="chk_unit_price_positive")  # Constraint ensuring unit_price is positive
+        CheckConstraint("quantity > 0", name="chk_so_quantity_positive"),  # Constraint ensuring quantity is positive
+        CheckConstraint("unit_price > 0", name="chk_so_unit_price_positive")  # Constraint ensuring unit_price is positive
     )

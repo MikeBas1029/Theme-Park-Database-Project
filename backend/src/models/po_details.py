@@ -60,8 +60,8 @@ class PurchaseOrderDetails(SQLModel, table=True):
         Index("idx_supply_id", "supply_id"),
         
         # Ensures the quantity is always greater than zero (check constraint)
-        CheckConstraint("quantity > 0", name="chk_quantity_positive"),
+        CheckConstraint("quantity > 0", name="chk_po_quantity_positive"),
         
         # Ensures the unit price is always greater than zero (check constraint)
-        CheckConstraint("unit_price > 0", name="chk_unit_price_positive"),
+        CheckConstraint("unit_price > 0", name="chk_po_unit_price_positive"),
     )

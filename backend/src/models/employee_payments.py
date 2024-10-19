@@ -18,8 +18,8 @@ class EmployeePayments(SQLModel, table=True):
     
     # EmployeeID is the foreign key that links to the employee who received the payment.
     # It refers to the SSN of the employee in the employees table.
-    employee_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("employees.ssn"), nullable=False, comment="ID of the employee receiving the payment"),
+    employee_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.ssn"), nullable=False, comment="ID of the employee receiving the payment"),
         alias="EmployeeID"
     )
     

@@ -37,8 +37,8 @@ class Restaurants(SQLModel, table=True):
     
     # manager_id is a foreign key linking to the Employees table. It represents the employee who manages 
     # the restaurant.
-    manager_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("employees.ssn"), nullable=False, comment="SSN of the employee managing the restaurant"),
+    manager_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.ssn"), nullable=False, comment="SSN of the employee managing the restaurant"),
         alias="ManagerID"
     )
     
