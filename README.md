@@ -2,6 +2,15 @@
 
 <p align="center"><img src="https://socialify.git.ci/MikeBas1029/Theme-Park-Database-Project/image?description=1&amp;descriptionEditable=A%20full-stack%20app%20to%20manage%20the%20operations%20of%20a%20theme%20park.&amp;font=Source%20Code%20Pro&amp;language=1&amp;name=1&amp;pattern=Charlie%20Brown&amp;theme=Dark" alt="project-image"></p>
 
+## Table of Contents
+
+-   [Table of Contents](#table-of-contents)
+-   [Run Locally](#run-locally)
+-   [Usage](#usage)
+    -   [Frontend](#frontend)
+    -   [Backend](#backend)
+-   [Environment Variables](#environment-variables)
+
 ## Run Locally
 
 Clone the project
@@ -111,7 +120,6 @@ To run the `backend` directory for this project, you will need to add the enviro
 > Download the certificate from [here](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-connect-tls-ssl#download-the-public-ssl-certificate) and store it in your root directory. Then update the `SSL_CERT` env variable in `.env` to be the path to that certificate. Nothing else is required.
 
 <h2>💻 Built with</h2>
-
 Technologies used in the project:
 
 -   Python
