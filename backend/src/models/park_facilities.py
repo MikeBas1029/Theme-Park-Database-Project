@@ -47,7 +47,7 @@ class ParkFacilities(SQLModel, table=True):
 
     # Relationships
     # The facility is associated with a section, defined by the foreign key to the Section table.
-    section: "Section" = Relationship(back_populates="facilities", cascade_delete=True)  # Ensures cascading deletes if the section is deleted
+    section: "Section" = Relationship(back_populates="facilities")  # Ensures cascading deletes if the section is deleted
 
     # Table index: Adds an index to improve query performance on facility_id.
     __table_args__ = (

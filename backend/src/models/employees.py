@@ -8,6 +8,10 @@ if TYPE_CHECKING:
     from src.models.departments import Departments
     from src.models.timesheet import Timesheet
     from src.models.employee_payments import EmployeePayments
+    from src.models.guest_services import GuestServices
+    from src.models.restaurants import Restaurants
+    from src.models.work_orders import WorkOrders
+    from src.models.shops import Shops
 
 class Employees(SQLModel, table=True):
     __tablename__ = "employees"
@@ -92,10 +96,48 @@ class Employees(SQLModel, table=True):
     departments: List["Departments"] = Relationship(back_populates="manager", cascade_delete=True)
 
     # A timesheet is created for each employee, capturing work hours and attendance.
-    timesheets: List["Timesheet"] = Relationship(back_populates="employee", cascade_delete=True)
+    assigned_timesheets: List["Timesheet"] = Relationship(
+        back_populates="employee", 
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "Timesheet.employee_id"},
+    )
+
+    created_timesheets: List["Timesheet"] = Relationship(
+        back_populates="creator",
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "Timesheet.created_by"},
+    )
+
+    updated_timesheets: List["Timesheet"] = Relationship(
+        back_populates="updater",
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "Timesheet.updated_by"},
+    )
+
+    worker: List["WorkOrders"] = Relationship(
+        back_populates="assigned_worker",
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "WorkOrders.assigned_worker_id"},
+    )
+    wo_creator: "WorkOrders" = Relationship(
+        back_populates="creator",
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "WorkOrders.created_by"},
+    )
+    wo_updater: "WorkOrders" = Relationship(
+        back_populates="updater",
+        cascade_delete=True,
+        sa_relationship_kwargs={"foreign_keys": "WorkOrders.updated_by"},
+    )
+
+    managed_shops: Optional["Shops"] = Relationship(back_populates="manager")
 
     # An employee can have multiple payments recorded in the employee_payments table.
     employee_payments: List["EmployeePayments"] = Relationship(back_populates="employee", cascade_delete=True)
+
+    guest_services: Optional["GuestServices"] = Relationship(back_populates="employee")
+
+    managed_restaurants: Optional["Restaurants"] = Relationship(back_populates="manager")
 
     # Table index: Adds an index on the SSN field.
     # This index improves performance for queries filtering by SSN.

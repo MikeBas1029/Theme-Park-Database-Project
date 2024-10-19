@@ -8,6 +8,8 @@ import sqlalchemy.dialects.mysql as mysql
 if TYPE_CHECKING:
     from src.models.vendors import Vendors
     from src.models.po_details import PurchaseOrderDetails
+    from src.models.invoices import Invoice
+    from src.models.purchase_order_items import PurchaseOrderItems
 
 # Enum to represent the possible order statuses
 class OrderStatus(str, Enum):
@@ -51,6 +53,10 @@ class PurchaseOrders(SQLModel, table=True):
     
     # One purchase order can have many order details (items ordered)
     order_details: List["PurchaseOrderDetails"] = Relationship(back_populates="purchase_order", cascade_delete=True)  # Relationship to the PurchaseOrderDetails model
+
+    invoice: "Invoice" = Relationship(back_populates="purchase_order")
+
+    po_items: "PurchaseOrderItems" = Relationship(back_populates="purchase_order", cascade_delete=True)
 
     @property
     def total_cost(self):

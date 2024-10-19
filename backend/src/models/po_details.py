@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, CheckConstraint
 import sqlalchemy.dialects.mysql as mysql
 
@@ -50,7 +50,7 @@ class PurchaseOrderDetails(SQLModel, table=True):
     purchase_order: "PurchaseOrders" = Relationship(back_populates="order_details")
     
     # The PurchaseOrderDetails table is linked to the Supplies table (one-to-many relationship).
-    supply: "Supplies" = Relationship(back_populates="order_details")
+    supplies: "Supplies" = Relationship(back_populates="order_details")
 
     # Table indexes and constraints
     __table_args__ = (

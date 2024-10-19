@@ -36,7 +36,7 @@ class EmployeePayments(SQLModel, table=True):
 
     # Relationships
     # An employee can have multiple payments, linked through the employee_payment relationship.
-    employee: "Employees" = Relationship(back_populates="employee_payments", cascade_delete=True)
+    employee: "Employees" = Relationship(back_populates="employee_payments")
     
     # Each payment record is associated with a payment method (e.g., direct deposit, check).
     payment_method: "PaymentMethods" = Relationship(

@@ -81,7 +81,7 @@ class Visits(SQLModel, table=True):
     )
     
     visit_ticket: "VisitTickets" = Relationship(
-        back_populates="visits", 
+        back_populates="visit", 
         cascade_delete=True,
     )
 
