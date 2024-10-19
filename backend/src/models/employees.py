@@ -18,8 +18,14 @@ class Employees(SQLModel, table=True):
     
     # SSN is the primary key for the employees table.
     # It uniquely identifies each employee in the system.
+    employee_id: str = Field( 
+        sa_column=Column(mysql.VARCHAR(7), primary_key=True, nullable=False, unique=True, comment="Unique employee id (primary key)"),
+        alias="SSN"
+    )
+
+    # SSN is a candidate key that uniquely identifies each employee in the system.
     ssn: str = Field( 
-        sa_column=Column(mysql.VARCHAR(9), primary_key=True, nullable=False, comment="Social Security Number (primary key)"),
+        sa_column=Column(mysql.VARCHAR(9), unique=True, nullable=False, comment="Social Security Number (primary key)"),
         alias="SSN"
     )
     
@@ -85,6 +91,8 @@ class Employees(SQLModel, table=True):
     # HourlyWage is the employee's hourly wage, applicable only for hourly employees.
     # This is an optional field, stored as a decimal value.
     hourly_wage: Optional[float] = Field(sa_column=Column(mysql.DECIMAL(8, 2), comment="Hourly wage of the employee (for hourly employees only)"), alias="HourlyWage")
+   
+    salary: Optional[float] = Field(sa_column=Column(mysql.DECIMAL(9, 2), comment="Salary of the employee (for salary employees only)"), alias="Salary")
     
     # JobFunction represents the job function or title of the employee.
     # This is a required field, stored as a string.

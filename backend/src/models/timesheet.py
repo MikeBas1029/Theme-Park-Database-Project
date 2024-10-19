@@ -58,7 +58,7 @@ class Timesheet(SQLModel, table=True):
     employee_id: str = Field(
         sa_column=Column(
             mysql.VARCHAR(9), 
-            ForeignKey("employees.ssn"),
+            ForeignKey("employees.employee_id"),
             nullable=False,
             comment="Foreign key reference to the employee (SSN)."
         ),
@@ -152,7 +152,7 @@ class Timesheet(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9),
-            ForeignKey("employees.ssn"), 
+            ForeignKey("employees.employee_id"), 
             nullable=False,
             comment="Foreign key to the employee who created the timesheet."
         ),
@@ -163,7 +163,7 @@ class Timesheet(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9),
-            ForeignKey("employees.ssn"), 
+            ForeignKey("employees.employee_id"), 
             nullable=True,
             comment="Foreign key to the employee who last updated the timesheet."
         ),

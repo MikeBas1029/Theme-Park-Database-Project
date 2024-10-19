@@ -48,7 +48,7 @@ class GuestServices(SQLModel, table=True):
     # EmployeeID is an optional foreign key referencing the Employees table.
     # It associates an employee with the service request. If NULL, no employee is associated.
     employee_id: Optional[str] = Field(
-        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.ssn"), comment="Foreign key linking to the Employees table (employee assigned to the service request)"),
+        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.employee_id"), comment="Foreign key linking to the Employees table (employee assigned to the service request)"),
         alias="EmployeeID"
     )
 
