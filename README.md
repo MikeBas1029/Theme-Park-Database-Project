@@ -16,6 +16,8 @@ Go to the project directory
   cd Theme-Park-Database-Project
 ```
 
+## Usage
+
 ### Frontend
 
 Install dependencies
@@ -61,7 +63,7 @@ Deactivate virtual environment
 deactivate
 ```
 
-**Mac**
+**Mac Setup**
 
 Create virtual environment
 
@@ -106,7 +108,7 @@ To run the `backend` directory for this project, you will need to add the enviro
 
 > [!NOTE]
 > The `SSL_CERT` environment variable must be set in order to connect to the remote database on Azure.
-> Download the certificate from [here](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-connect-tls-ssl#download-the-public-ssl-certificate) and store it in your root directory. Then update the `SSL_CERT` variable to be the path to that certificate.
+> Download the certificate from [here](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-connect-tls-ssl#download-the-public-ssl-certificate) and store it in your root directory. Then update the `SSL_CERT` env variable in `.env` to be the path to that certificate. Nothing else is required.
 
 <h2>💻 Built with</h2>
 
