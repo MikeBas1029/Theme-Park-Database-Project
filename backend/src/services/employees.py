@@ -49,7 +49,7 @@ class EmployeeService:
         existing_employee = await self.employee_exists(new_emp.employee_id, session)
 
         if existing_employee:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"employee with email {new_emp.email} already exists.")
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Employee with email {new_emp.employee_id} already exists.")
         else:
             session.add(new_emp)
 

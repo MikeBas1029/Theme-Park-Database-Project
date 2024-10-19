@@ -31,7 +31,7 @@ async def get_employee(emp_id: str, session: AsyncSession = Depends(get_session)
 @employee_router.post(
     "/",
     status_code=status.HTTP_201_CREATED,
-    response_model=EmployeeCreateModel,
+    response_model=Employee,
 )
 async def create_a_employee(
     cust_data: EmployeeCreateModel,
@@ -44,7 +44,7 @@ async def create_a_employee(
 
 
 
-@employee_router.patch("/{emp_id}", response_model=EmployeeUpdateModel)
+@employee_router.patch("/{emp_id}", response_model=Employee)
 async def update_employee(
     emp_id: str,
     update_data: EmployeeUpdateModel,
