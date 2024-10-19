@@ -1,72 +1,119 @@
-# Theme-Park-Database-Project
+<h1 align="center" id="title">Theme Park Management</h1>
 
-## Getting Started with Create React App
+<p align="center"><img src="https://socialify.git.ci/MikeBas1029/Theme-Park-Database-Project/image?description=1&amp;descriptionEditable=A%20full-stack%20app%20to%20manage%20the%20operations%20of%20a%20theme%20park.&amp;font=Source%20Code%20Pro&amp;language=1&amp;name=1&amp;pattern=Charlie%20Brown&amp;theme=Dark" alt="project-image"></p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Run Locally
 
-## Available Scripts
+Clone the project
 
-In the project directory, you can run:
+```bash
+  git clone https://github.com/MikeBas1029/Theme-Park-Database-Project.git
+```
 
-### `npm start`
+Go to the project directory
 
-Runs the app in the development mode.\
+```bash
+  cd Theme-Park-Database-Project
+```
+
+### Frontend
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+This runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend
 
-### `npm test`
+**Windows (Command Prompt)**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Create virtual environment
 
-### `npm run build`
+```cmd
+python -m venv venv
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Activate virtual environment
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```cmd
+venv\Scripts\activate
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Install requirements
 
-### `npm run eject`
+```cmd
+pip install -r backend/requirements.txt
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Deactivate virtual environment
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```cmd
+deactivate
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Mac**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Create virtual environment
 
-## Learn More
+```bash
+python3 -m venv venv
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Activate virtual environment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+source ./venv/bin/activate
+```
 
-### Code Splitting
+Install requirements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+pip install -r backend/requirements.txt
+```
 
-### Analyzing the Bundle Size
+Deactivate virtual environment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+deactivate
+```
 
-### Making a Progressive Web App
+To start the backend server, run the following from the root directory:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+fastapi dev backend/src/main.py
+```
 
-### Advanced Configuration
+This runs a local development server at http://127.0.0.1:8000.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+More useful, navigate to http://127.0.0.1:8000/docs to see the available endpoints. You can test them out from here.
 
-### Deployment
+> [!CAUTION]
+> If you test out any of the CRUD endpoints, it will alter the table. Beware of any unintended changes.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Environment Variables
 
-### `npm run build` fails to minify
+To run the `backend` directory for this project, you will need to add the environment variables in `.env.example` to a `.env` file in your local root directory
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> [!NOTE]
+> The `SSL_CERT` environment variable must be set in order to connect to the remote database on Azure.
+> Download the certificate from [here](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-connect-tls-ssl#download-the-public-ssl-certificate) and store it in your root directory. Then update the `SSL_CERT` variable to be the path to that certificate.
+
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+-   Python
+-   FastAPI
+-   MySQL
+-   Azure
+-   React
