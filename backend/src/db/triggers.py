@@ -9,8 +9,8 @@ BEGIN
     IF NEW.rewards_member = 1 AND 
        MONTH(NEW.date_of_birth) = MONTH(CURDATE()) AND 
        DAY(NEW.date_of_birth) = DAY(CURDATE()) THEN
-        INSERT INTO tickets (CustomerID, TicketType, Price, PurchaseDate, StartDate, ExpirationDate, Discount, Status)
-        VALUES (NEW.CustomerID, 'WEEKEND', 75.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 15.00, 'ACTIVE');
+        INSERT INTO tickets (customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
+        VALUES (NEW.customer_id, 'WEEKEND', 75.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 15.00, 'ACTIVE');
     END IF;
 END;
 """)
@@ -48,7 +48,7 @@ CREATE TRIGGER IF NOT EXISTS update_ride_status
 BEFORE UPDATE ON rides
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(UTC_TIMESTAMP(), NEW.LastInspected) > 7 AND NEW.Status != 'CLOSED - MAINTENANCE' THEN
+    IF DATEDIFF(UTC_TIMESTAMP(), NEW.last_inspected) > 7 AND NEW.status != 'CLOSED - MAINTENANCE' THEN
         SET NEW.Status = 'CLOSED - MAINTENANCE';
     END IF;
 END;

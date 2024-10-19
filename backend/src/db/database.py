@@ -14,7 +14,7 @@ from sqlalchemy import text
 ssl_context = ssl.create_default_context(cafile=Config.SSL_CERT)
 
 # Create an asynchronous engine to interact with db
-async_engine = AsyncEngine(create_engine(url=Config.DATABASE_URL, echo=True, connect_args={"ssl": ssl_context}))
+async_engine = AsyncEngine(create_engine(url=Config.DATABASE_URL, connect_args={"ssl": ssl_context}))
 
 async def init_db() -> None:
     try:
@@ -32,11 +32,9 @@ async def init_db() -> None:
 
             # Create trigger to check last inspection on ride
             await conn.execute(birthday_discount_trigger)
-            conn.commit()
 
             # Birthday discount trigger
             await conn.execute(change_status_if_not_inspected)
-            conn.commit()
    
         logging.info("Checking created tables...")
         async with async_engine.connect() as conn:
