@@ -51,7 +51,7 @@ class RideType(SQLModel, table=True):
     
     # Relationships
     # A one-to-many relationship with the Rides model, where one ride type can be associated with many rides.
-    rides: List["Rides"] = Relationship(back_populates="ride_type")
+    rides: List["Rides"] = Relationship(back_populates="ride_type_rel")
     
     # Indexing the `ride_type` field for faster queries based on ride type.
     __table_args__ = (

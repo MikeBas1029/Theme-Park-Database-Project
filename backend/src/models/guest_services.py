@@ -1,5 +1,5 @@
-from typing import Optional, TYPE_CHECKING
 from datetime import date
+from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
 
@@ -60,7 +60,7 @@ class GuestServices(SQLModel, table=True):
     
     # Establishes a relationship between the GuestServices model and the Employees model.
     # The "employee" field is populated with data from the "Employees" table based on the employee_id.
-    employee: Optional["Employees"] = Relationship(back_populates="guest_services")
+    employee: List["Employees"] = Relationship(back_populates="guest_services")
 
     # Table index: Adds an index for the service_request_id field.
     # This index improves performance for queries filtering by service_request_id.

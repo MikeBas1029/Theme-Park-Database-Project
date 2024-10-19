@@ -172,13 +172,16 @@ class Timesheet(SQLModel, table=True):
     
     # Relationships
     employee: "Employees" = Relationship(
-        back_populates="timesheets"
+        back_populates="assigned_timesheets",
+        sa_relationship_kwargs={"foreign_keys": "Timesheet.employee_id"},
     )
     creator: "Employees" = Relationship(
-        back_populates="timesheets"
+        back_populates="created_timesheets",
+        sa_relationship_kwargs={"foreign_keys": "Timesheet.created_by"},
     )
     updater: "Employees" = Relationship(
-        back_populates="timesheets"
+        back_populates="updated_timesheets",
+        sa_relationship_kwargs={"foreign_keys": "Timesheet.updated_by"},
     )
     
     section: "Section" = Relationship(

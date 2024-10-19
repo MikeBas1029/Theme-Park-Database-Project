@@ -7,6 +7,8 @@ if TYPE_CHECKING:
     from src.models.beverage_items import BeverageItems
     from src.models.food_items import FoodItems
     from src.models.merchandise import Merchandise
+    from src.models.rentals import Rentals
+    from src.models.sales_order_details import SalesOrderDetail
 
 
 class Items(SQLModel, table=True):
@@ -60,15 +62,22 @@ class Items(SQLModel, table=True):
     
     # Relationship to BeverageItems model: If this item belongs to the beverage category,
     # this relationship will link to the associated BeverageItems records.
-    beverage_items: List["BeverageItems"] = Relationship(back_populates="item")
+    beverage_items: List["BeverageItems"] = Relationship(back_populates="item", cascade_delete=True)
     
     # Relationship to FoodItems model: If this item belongs to the food category,
     # this relationship will link to the associated FoodItems records.
-    food_items: List["FoodItems"] = Relationship(back_populates="item")
+    food_items: List["FoodItems"] = Relationship(back_populates="item", cascade_delete=True)
     
     # Relationship to Merchandise model: If this item belongs to the merchandise category,
     # this relationship will link to the associated Merchandise records.
-    merchandise: List["Merchandise"] = Relationship(back_populates="item")
+    merchandise: List["Merchandise"] = Relationship(back_populates="item", cascade_delete=True)
+
+    rentals: List["Rentals"] = Relationship(back_populates="item", cascade_delete=True)
+
+    sales_order_details: List["SalesOrderDetail"] = Relationship(
+        back_populates="item",
+        cascade_delete=True,
+    )
 
     # Table index: Adds an index on the "sku" column to speed up lookups based on SKU.
     # This ensures that queries filtering by SKU will be faster.

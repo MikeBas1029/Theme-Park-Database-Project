@@ -26,7 +26,7 @@ class VisitTickets(SQLModel, table=True):
     visit_id: int = Field(
         sa_column=Column(
             mysql.INTEGER, 
-            ForeignKey("visits.VisitID"), 
+            ForeignKey("visits.visit_id"), 
             primary_key=True, 
             nullable=False,
             comment="The unique identifier for the visit"
@@ -37,7 +37,7 @@ class VisitTickets(SQLModel, table=True):
     ticket_id: int = Field(
         sa_column=Column(
             mysql.INTEGER, 
-            ForeignKey("tickets.TicketID"), 
+            ForeignKey("tickets.ticket_id"), 
             primary_key=True, 
             nullable=False,
             comment="The unique identifier for the ticket"
@@ -56,7 +56,7 @@ class VisitTickets(SQLModel, table=True):
 
     # Relationships
     visit: "Visits" = Relationship(
-        back_populates="visit_tickets"
+        back_populates="visit_ticket"
     )
     
     ticket: "Tickets" = Relationship(

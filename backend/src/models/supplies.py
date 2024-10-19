@@ -5,7 +5,6 @@ from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, C
 
 if TYPE_CHECKING:
     from src.models.vendors import Vendors
-    from src.models.invoices import Invoice
     from src.models.po_details import PurchaseOrderDetails
 
 class Supplies(SQLModel, table=True):
@@ -57,16 +56,6 @@ class Supplies(SQLModel, table=True):
         ),
         alias="VendorID"
     )
-
-    invoice_id: Optional[int] = Field(
-        sa_column=Column(
-            mysql.INTEGER,  # Integer type for invoice ID
-            ForeignKey("invoice.invoice_id"),  # Foreign key reference to the Invoice table
-            nullable=True,  # This column is nullable (not all supplies need an invoice)
-            comment="Foreign key linking supply to a specific invoice (if available)"  # Comment
-        ),
-        alias="InvoiceID"
-    )
     
     # Supply details
     name: str = Field(
@@ -108,11 +97,8 @@ class Supplies(SQLModel, table=True):
     vendor: "Vendors" = Relationship(
         back_populates="supplies", 
     )
-    invoice: Optional["Invoice"] = Relationship(
-        back_populates="supplies"
-    )
-    order_details: List["PurchaseOrderDetails"] = Relationship(
-        back_populates="supply", 
+    order_details: "PurchaseOrderDetails" = Relationship(
+        back_populates="supplies", 
     )
 
     # Derived property for calculating the total value of supplies on hand
@@ -140,7 +126,6 @@ class Supplies(SQLModel, table=True):
         # Indexes for optimizing queries
         Index("idx_supply_id", "supply_id"),  # Index for the supply_id column
         Index("idx_vendor_id", "vendor_id"),  # Index for the vendor_id column
-        Index("idx_invoice_id", "invoice_id"),  # Index for the invoice_id column
         
         # Check constraints to ensure data validity
         CheckConstraint("on_hand_amount >= 0", name="chk_oh_positive"),  # Ensure on_hand_amount is non-negative

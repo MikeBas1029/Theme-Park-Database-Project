@@ -8,6 +8,9 @@ if TYPE_CHECKING:
     from src.models.shops import Shops
     from src.models.restaurants import Restaurants
     from src.models.entertainment import Entertainment
+    from src.models.park_facilities import ParkFacilities
+    from src.models.work_orders import WorkOrders
+    from src.models.timesheet import Timesheet
 
 class Section(SQLModel, table=True):
     """
@@ -68,9 +71,12 @@ class Section(SQLModel, table=True):
     # Relationships with other models
     department: "Departments" = Relationship(back_populates="sections")  # The department managing the section
     rides: List["Rides"] = Relationship(back_populates="section")  # Rides in this section
-    shops: List["Shops"] = Relationship(back_populates="park_section")  # Shops in this section
-    restaurants: List["Restaurants"] = Relationship(back_populates="park_section")  # Restaurants in this section
+    shops: List["Shops"] = Relationship(back_populates="section")  # Shops in this section
+    restaurants: List["Restaurants"] = Relationship(back_populates="section")  # Restaurants in this section
     entertainment: List["Entertainment"] = Relationship(back_populates="section")  # Entertainment activities in this section
+    facilities: List["ParkFacilities"] = Relationship(back_populates="section")
+    work_orders: List["WorkOrders"] = Relationship(back_populates="section", cascade_delete=True)
+    timesheets: List["Timesheet"] = Relationship(back_populates="section")
 
     # Table-level index for the section ID
     __table_args__ = (

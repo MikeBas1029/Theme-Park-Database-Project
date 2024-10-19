@@ -13,6 +13,7 @@ from .payment_methods import PaymentMethods
 from .park_facilities import ParkFacilities
 from .po_details import PurchaseOrderDetails
 from .purchase_orders import PurchaseOrders
+from .purchase_order_items import PurchaseOrderItems
 from .rentals import Rentals
 from .restaurants import Restaurants
 from .ride_type import RideType
@@ -28,6 +29,8 @@ from .timesheet import Timesheet
 from .vendors import Vendors
 from .vendor_payments import VendorPayments
 from .visits import Visits
+from .visit_tickets import VisitTickets
 from .work_orders import WorkOrders
+from .work_order_items import WorkOrderItems
 from .items import Items 
 

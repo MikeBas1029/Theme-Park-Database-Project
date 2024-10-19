@@ -1,7 +1,7 @@
 from enum import Enum
 from datetime import datetime, timezone
 import sqlalchemy.dialects.mysql as mysql
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
 
 if TYPE_CHECKING:
@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from src.models.sections import Section
     from src.models.invoices import Invoice
     from src.models.employees import Employees
+    from src.models.work_order_items import WorkOrderItems
 
 
 class MaintenanceType(str, Enum):
@@ -174,11 +175,26 @@ class WorkOrders(SQLModel, table=True):
     
     # Relationships
     section: "Section" = Relationship(back_populates="work_orders")
-    assigned_worker: "Employees" = Relationship(back_populates="work_orders")
-    creator: "Employees" = Relationship(back_populates="work_orders")
-    updater: "Employees" = Relationship(back_populates="work_orders")
-    ride: Optional["Rides"] = Relationship(back_populates="work_orders")
-    invoice: Optional["Invoice"] = Relationship(back_populates="work_orders")
+    assigned_worker: "Employees" = Relationship(
+        back_populates="worker",
+        sa_relationship_kwargs={"foreign_keys": "WorkOrders.assigned_worker_id"},
+
+    )
+    creator: "Employees" = Relationship(
+        back_populates="wo_creator",
+        sa_relationship_kwargs={"foreign_keys": "WorkOrders.created_by"},
+        
+    )
+    updater: "Employees" = Relationship(
+        back_populates="wo_updater",
+        sa_relationship_kwargs={"foreign_keys": "WorkOrders.updated_by"},
+        
+    )
+    ride: Optional["Rides"] = Relationship(
+        back_populates="work_order",
+    )
+    invoices: Optional["Invoice"] = Relationship(back_populates="work_order")
+    wo_items: List["WorkOrderItems"] = Relationship(back_populates="work_order")
 
     __table_args__ = (
         Index("idx_woid", "woid"),

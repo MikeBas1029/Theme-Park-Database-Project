@@ -1,11 +1,13 @@
 from datetime import date, datetime
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
 
 if TYPE_CHECKING:
     from src.models.vendors import Vendors
     from src.models.purchase_orders import PurchaseOrders
+    from src.models.work_orders import WorkOrders
+    from src.models.vendor_payments import VendorPayments
 
 class Invoice(SQLModel, table=True):
     __tablename__ = "invoice"
@@ -75,7 +77,11 @@ class Invoice(SQLModel, table=True):
     
     # Establishes a relationship between the Invoice model and the PurchaseOrders model.
     # The "purchase_order" field is populated with data from the "PurchaseOrders" table based on the po_number.
-    purchase_order: "PurchaseOrders" = Relationship(back_populates="invoices")
+    purchase_order: "PurchaseOrders" = Relationship(back_populates="invoice")
+
+    work_order: Optional["WorkOrders"] = Relationship(back_populates="invoices")
+
+    vendor_payments: List["VendorPayments"] = Relationship(back_populates="invoice")
 
     # Table indexes: Adds indexes for the invoice_id, vendor_id, and purchase_order fields.
     # These indexes improve performance for queries filtering by these columns.

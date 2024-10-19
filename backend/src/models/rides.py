@@ -62,12 +62,12 @@ class Rides(SQLModel, table=True):
         alias="LastInspected"
     )
     
-    # work order ID (WOID) is a foreign key linking this ride to a specific work order (maintenance task).
-    woid: Optional[int] = Field(
-        default=None,
-        sa_column=Column(mysql.INTEGER, ForeignKey("workorder.woid"), nullable=True),
-        alias="WOID"
-    )
+    # # work order ID (WOID) is a foreign key linking this ride to a specific work order (maintenance task).
+    # woid: Optional[int] = Field(
+    #     default=None,
+    #     sa_column=Column(mysql.INTEGER, ForeignKey("workorder.woid"), nullable=True),
+    #     alias="WOID"
+    # )
     
     # The height requirement (in cm) to go on the ride. This ensures safety by restricting access to certain rides.
     height_requirement: int = Field(
@@ -97,7 +97,10 @@ class Rides(SQLModel, table=True):
     ride_type_rel: "RideType" = Relationship(back_populates="rides", sa_relationship_kwargs={"lazy": "joined"})
     
     # The `work_order` relationship links each ride to its maintenance work order (from the WorkOrders table).
-    work_order: Optional["WorkOrders"] = Relationship(back_populates="rides")
+    work_order: List["WorkOrders"] = Relationship(
+        back_populates="ride", 
+        cascade_delete=True,
+    )
     
     # The `section` relationship links each ride to a section in the park where the ride is located (from the Section table).
     section: "Section" = Relationship(back_populates="rides")
@@ -108,7 +111,6 @@ class Rides(SQLModel, table=True):
     # Table arguments to define additional properties like indexes.
     __table_args__ = (
         Index("idx_ride_id", "ride_id"),  # Index for faster queries by ride ID
-        Index("idx_woid", "woid"),  # Index for faster queries by work order ID
     )
 
 # Event listener to check the last inspection date and update the ride status before insert or update

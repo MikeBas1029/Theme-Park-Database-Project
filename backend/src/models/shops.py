@@ -89,8 +89,8 @@ class Shops(SQLModel, table=True):
     )
 
     # Relationships with other models
-    section: "Section" = Relationship(back_populates="shops", cascade_delete=True)
-    manager: "Employees" = Relationship(back_populates="managed_shops", cascade_delete=True)
+    section: "Section" = Relationship(back_populates="shops")
+    manager: "Employees" = Relationship(back_populates="managed_shops")
 
     # Derived property to calculate operating hours as the difference between opening and closing time
     @property
