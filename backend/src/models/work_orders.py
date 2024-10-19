@@ -2,7 +2,7 @@ from enum import Enum
 from datetime import datetime, timezone
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING
-from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
+from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
 
 if TYPE_CHECKING:
     from src.models.rides import Rides
@@ -81,7 +81,7 @@ class WorkOrders(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.INTEGER, 
-            ForeignKey("invoices.invoice_id"),
+            ForeignKey("invoice.invoice_id"),
             nullable=True,
             comment="Foreign key to an invoice related to the work order."
         ),
@@ -108,10 +108,10 @@ class WorkOrders(SQLModel, table=True):
         alias="MaintenanceType"
     )
     
-    assigned_worker_id: int = Field(
+    assigned_worker_id: str = Field(
         default=None, 
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(9), 
             ForeignKey("employees.ssn"),
             nullable=False,
             comment="Foreign key to the employee assigned to the work order."
@@ -130,11 +130,11 @@ class WorkOrders(SQLModel, table=True):
     )
     
     updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(
             mysql.DATETIME, 
             nullable=False,
-            sa_column_kwargs={"onupdate": "CURRENT_TIMESTAMP"}, 
+            server_default=func.now(),
+            onupdate=func.now(),
             comment="The timestamp when the work order was last updated."
         ),
         alias="UpdatedAt"

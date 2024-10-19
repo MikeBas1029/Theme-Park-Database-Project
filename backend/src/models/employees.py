@@ -14,8 +14,8 @@ class Employees(SQLModel, table=True):
     
     # SSN is the primary key for the employees table.
     # It uniquely identifies each employee in the system.
-    ssn: int = Field( 
-        sa_column=Column(mysql.INTEGER, primary_key=True, nullable=False, comment="Social Security Number (primary key)"),
+    ssn: str = Field( 
+        sa_column=Column(mysql.VARCHAR(9), primary_key=True, nullable=False, comment="Social Security Number (primary key)"),
         alias="SSN"
     )
     

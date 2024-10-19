@@ -3,7 +3,7 @@ from datetime import timezone, datetime
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING
 from datetime import date, time, timedelta
-from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
+from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
 
 if TYPE_CHECKING:
     from src.models.employees import Employees
@@ -55,9 +55,9 @@ class Timesheet(SQLModel, table=True):
         alias="ShiftID"
     )
 
-    employee_id: int = Field(
+    employee_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(9), 
             ForeignKey("employees.ssn"),
             nullable=False,
             comment="Foreign key reference to the employee (SSN)."
@@ -138,11 +138,11 @@ class Timesheet(SQLModel, table=True):
     )
     
     updated_on: Optional[datetime] = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(
             mysql.DATETIME, 
             nullable=True,
-            sa_column_kwargs={"onupdate": "CURRENT_TIMESTAMP"}, 
+            server_default=func.now(),
+            onupdate=func.now(),
             comment="The timestamp when the timesheet was last updated."
         ),
         alias="UpdatedOn"
