@@ -1,3 +1,4 @@
+from enum import Enum
 from datetime import date
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index
@@ -12,6 +13,10 @@ if TYPE_CHECKING:
     from src.models.restaurants import Restaurants
     from src.models.work_orders import WorkOrders
     from src.models.shops import Shops
+
+class EmployeeType(Enum):
+    hourly = "Hourly"
+    salary = "Salary"
 
 class Employees(SQLModel, table=True):
     __tablename__ = "employees"
@@ -46,8 +51,8 @@ class Employees(SQLModel, table=True):
     phone_number: str = Field(sa_column=Column(mysql.VARCHAR(15), nullable=False, comment="Phone number of the employee"), alias="PhoneNumber")
     
     # Email is the employee's email address.
-    # This is a required field and validated as an email format.
-    email: EmailStr = Field(sa_column=Column(mysql.VARCHAR(100), nullable=False, comment="Email address of the employee"), alias="Email")
+    # This is a required field and validated as an email format. Must be unique.
+    email: EmailStr = Field(sa_column=Column(mysql.VARCHAR(100), nullable=False, unique=True, comment="Email address of the employee"), alias="Email")
     
     # AddressLine1 is the first line of the employee's address.
     # This is a required field, stored as a string.
@@ -83,8 +88,8 @@ class Employees(SQLModel, table=True):
     
     # EmployeeType indicates whether the employee is hourly or salaried.
     # This is a required field, stored as a string, with an ENUM type.
-    employee_type: str = Field(
-        sa_column=Column(mysql.ENUM("Hourly", "Salary"), nullable=False, comment="Type of employee (Hourly or Salary)"),
+    employee_type: EmployeeType = Field(
+        sa_column=Column(mysql.VARCHAR(6), nullable=False, comment="Type of employee (Hourly or Salary)"),
         alias="EmployeeType"
     )
     
