@@ -28,7 +28,7 @@ from .employees import employee_router
 # from .timesheet import timesheet_router
 # from .vendors import vendors_router
 # from .vendor_payments import vend_payments_router
-# from .visits import visits_router
+from .visits import visit_router
 # from .visit_tickets import visit_tickets_router
 # from .work_orders import work_order_router
 # from .work_order_items import wo_items_router

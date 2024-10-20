@@ -34,11 +34,11 @@ async def get_employee(emp_id: str, session: AsyncSession = Depends(get_session)
     response_model=Employee,
 )
 async def create_a_employee(
-    cust_data: EmployeeCreateModel,
+    emp_data: EmployeeCreateModel,
     session: AsyncSession = Depends(get_session),
 ) -> dict:
     try:
-        return await employee_service.create_employee(cust_data, session)
+        return await employee_service.create_employee(emp_data, session)
     except Exception as error:
         raise error
 

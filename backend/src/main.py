@@ -32,3 +32,4 @@ app = FastAPI(
 app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=["customers"])
 app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=["employees"])
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
+app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
