@@ -56,9 +56,9 @@ class Rides(SQLModel, table=True):
     )
     
     # The date and time of the last inspection. The ride must be inspected periodically for safety.
-    last_inspected: datetime = Field(
+    last_inspected: Optional[datetime] = Field(
         default=None,
-        sa_column=Column(mysql.TIMESTAMP(), nullable=False),
+        sa_column=Column(mysql.TIMESTAMP(), default=None, nullable=True),
         alias="LastInspected"
     )
     

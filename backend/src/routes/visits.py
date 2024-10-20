@@ -24,7 +24,7 @@ async def get_visit(visit_id: str, session: AsyncSession = Depends(get_session))
     if visit:
         return visit
     else:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Visit with email {visit_id} not found.") 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Visit with visit {visit_id} not found.") 
 
 
 
@@ -53,7 +53,7 @@ async def update_visit(
     updated_visit = await visit_service.update_visit(visit_id, update_data, session)
 
     if updated_visit is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Visit with email {visit_id} not found.") 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Visit with visit {visit_id} not found.") 
     else:
         return updated_visit
 
@@ -66,4 +66,4 @@ async def delete_visit(visit_id: str, session: AsyncSession = Depends(get_sessio
     visit_to_delete = await visit_service.delete_visit(visit_id, session)
     
     if visit_to_delete is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Visit with email {visit_id} not found.") 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Visit with visit {visit_id} not found.") 
