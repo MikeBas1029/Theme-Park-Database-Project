@@ -6,6 +6,7 @@ from src.routes.customers import customer_router
 from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import *
+from src.routes import items
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,3 +33,4 @@ app = FastAPI(
 )
 
 app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=["customers"])
+app.include_router(items.item_router, prefix="/items", tags=["Items"])

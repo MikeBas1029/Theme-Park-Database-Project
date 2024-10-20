@@ -27,7 +27,6 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 
 
-
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -52,8 +51,6 @@ const Sidebar = () => {
     const colors = tokens(theme.palette.mode);
     const [isClosed, setIsClosed] = useState(false); {/*sidebar status */}
     const [selected, setSelected] =useState("Dashboard");  {/*Which page/tab user is on */}
-
-
 
 
 return(
@@ -103,8 +100,7 @@ return(
                ml="15px"
              >
                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN
-                 PORTAL
+                  ADMIN PORTAL
                </Typography>
                <IconButton onClick={() => setIsClosed(!isClosed)}>
                  <MenuOutlinedIcon />
@@ -150,14 +146,18 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
+           {!isClosed &&(
            <Typography
-               to="/"
+             to="/"
              variant="h4"
              color={colors.grey[300]}
              sx={{ m: "15px 0 5px 20px" }}
            >
                Park Overview
            </Typography>
+             )}
+
             <Item
              title="Shops & Inventory"
              to="/inventory"
@@ -165,6 +165,7 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
             <Item
              title="Orders & Vendors"
              to="/vendors"
@@ -172,6 +173,7 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
             <Item
              title="Rides & Attractions"
              to="https://www.disneyworld.co.uk/attractions/magic-kingdom/#/sort=alpha/"
@@ -186,6 +188,8 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
+             {!isClosed &&(
            <Typography
              variant="h4"
              color={colors.grey[300]}
@@ -193,6 +197,8 @@ return(
            >
              Team and Operations
            </Typography>
+                 )}
+
            <Item
              title="Manage Staff"
              to="/employees"
@@ -200,6 +206,7 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
            <Item
              title="Maintenance"
              to="/maintenance"
@@ -207,6 +214,7 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
             <Item
              title="Customer/Visit info"
              to="/line"
@@ -214,6 +222,7 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
             <Item
              title="Facilities"
              to="/facilities"
@@ -221,20 +230,23 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+
+             {!isClosed &&(
            <Typography
              variant="h4"
              color={colors.grey[300]}
              sx={{ m: "15px 0 5px 20px" }}
            >
-            </Typography>
-             Reports and Analytics
+               Reports and Analytics
+           </Typography>
+                 )}
              <Item
              title="Insights"
              to="/insights"
              icon={<InsightsIcon />}
              selected={selected}
              setSelected={setSelected}
-           />
+             />
 
             <Item
              title="Transactions"

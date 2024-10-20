@@ -32,8 +32,6 @@ const Navbar = () => {
     };
 
 
-
-
     return (
     <Box display="flex" justifyContent="space-between" p={2} > 
         {/*Search bar*/}
