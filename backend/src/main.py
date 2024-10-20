@@ -33,6 +33,7 @@ app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=[
 app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=["employees"])
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
-app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
 app.include_router(section_router, prefix=f"{version_prefix}/section", tags=["section"])
 app.include_router(ride_type_router, prefix=f"{version_prefix}/ridetype", tags=["ride_type"])
+app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
+app.include_router(ride_usage_router, prefix=f"{version_prefix}/rideusage", tags=["ride_usage"])
