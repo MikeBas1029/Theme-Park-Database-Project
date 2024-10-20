@@ -1,11 +1,11 @@
 import phonenumbers
-from enum import Enum
+import enum
 from datetime import date
 from pydantic import EmailStr, validator
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
-
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.items import Items 
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 # Enum for vendor types
-class VendorType(str, Enum):
+class VendorType(str, enum.Enum):
     """
     Enum representing the types of vendors in the system.
 
@@ -126,7 +126,11 @@ class Vendors(SQLModel, table=True):
     )
     
     vendor_type: VendorType = Field(
-        sa_column=Column(mysql.ENUM(VendorType), nullable=False, comment="The type of vendor (Service, Supply, Equipment)"),
+        sa_column=Column(
+            SAEnum(VendorType, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="The type of vendor (Service, Supply, Equipment)"
+        ),
         alias="VendorType"
     )
     

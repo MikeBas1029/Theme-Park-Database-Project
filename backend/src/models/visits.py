@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
@@ -48,7 +48,7 @@ class Visits(SQLModel, table=True):
         alias="CustomerID"
     )
 
-    visit_date: datetime = Field(
+    visit_date: date = Field(
         sa_column=Column(
             mysql.DATE, 
             nullable=False, 

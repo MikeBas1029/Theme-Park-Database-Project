@@ -1,10 +1,19 @@
+import enum
 from datetime import date, time
 from typing import TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.sections import Section
+
+class ShowStatus(str, enum.Enum):
+    active = "Active"
+    canceled = "Canceled"
+    postponed = "Postponed"
+    discontinued = "Discontinued"
+
 
 class Entertainment(SQLModel, table=True):
     __tablename__ = "entertainment"
@@ -61,8 +70,12 @@ class Entertainment(SQLModel, table=True):
 
     # Status indicates the current status of the show.
     # It can be either 'ACTIVE', 'CANCELED', or 'POSTPONED' as defined in the ENUM.
-    status: str = Field(
-        sa_column=Column(mysql.ENUM("ACTIVE", "CANCELED", "POSTPONED"), nullable=False, comment="Status of the show (e.g., ACTIVE, CANCELED, POSTPONED)"),
+    status: ShowStatus = Field(
+        sa_column=Column(
+            SAEnum(ShowStatus, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Status of the show (e.g., ACTIVE, CANCELED, POSTPONED)"
+            ),
         alias="Status"
     )
 

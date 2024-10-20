@@ -1,16 +1,19 @@
 from typing import Optional
-from datetime import datetime
+from datetime import date
 from pydantic import BaseModel
 
-class VisitOutputModel(BaseModel):
+class Visit(BaseModel):
     visit_id: int 
     customer_id: int
-    visit_date: datetime
+    visit_date: date
     visit_feedback: Optional[str]
     visit_rating: Optional[float]
 
-class VisitInputModel(BaseModel):
+class VisitCreateModel(BaseModel):
     customer_id: int
-    visit_date: datetime
-    visit_feedback: Optional[str]
-    visit_rating: Optional[float]
+    visit_date: date
+
+class VisitUpdateModel(BaseModel):
+    customer_id: int
+    visit_feedback: Optional[str | None] = None
+    visit_rating: Optional[float | None] = None

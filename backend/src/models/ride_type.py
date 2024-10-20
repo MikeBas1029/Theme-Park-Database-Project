@@ -39,7 +39,7 @@ class RideType(SQLModel, table=True):
     
     # ride_type stores the type of the ride, defined by the RideTypeEnum, ensuring valid values from the enum.
     ride_type: RideTypeEnum = Field(
-        sa_column=Column(mysql.VARCHAR(50), nullable=False, comment="Type of the ride (based on predefined enums)"),
+        sa_column=Column(mysql.VARCHAR(50), unique=True, nullable=False, comment="Type of the ride (based on predefined enums)"),
         alias="RideType"
     )
     

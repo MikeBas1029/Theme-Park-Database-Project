@@ -1,6 +1,8 @@
+import enum 
 from typing import List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.vendors import Vendors
@@ -10,6 +12,16 @@ if TYPE_CHECKING:
     from src.models.rentals import Rentals
     from src.models.sales_order_details import SalesOrderDetail
 
+class ItemCategory(str, enum.Enum):
+    merch = "Merchandise"
+    concession = "Concession"
+    entertainment = "Entertainment"
+    other = "Other"
+
+class ItemStatus(str, enum.Enum):
+    active = "Active"
+    discontinued = "Discontinued"
+    backorder = "Backorder"
 
 class Items(SQLModel, table=True):
     __tablename__ = "items"
@@ -27,8 +39,12 @@ class Items(SQLModel, table=True):
     
     # Category defines the type of item, either Merchandise, Concession, or Entertainment.
     # It uses an ENUM type to restrict values to the allowed categories.
-    category: str = Field(
-        sa_column=Column(mysql.ENUM("Merchandise", "Concession", "Entertainment"), nullable=False, comment="Category of the item (Merchandise, Concession, Entertainment)"),
+    category: ItemCategory = Field(
+        sa_column=Column(
+            SAEnum(ItemCategory, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Category of the item (Merchandise, Concession, Entertainment)"
+        ),
         alias="Category"
     )
     
@@ -42,8 +58,12 @@ class Items(SQLModel, table=True):
     
     # Status of the item. Indicates if the item is Active, Discontinued, or on Backorder.
     # Uses an ENUM type for restricted values.
-    status: str = Field(
-        sa_column=Column(mysql.ENUM("Active", "Discontinued", "Backorder"), nullable=False, comment="Status of the item (Active, Discontinued, or Backorder)"),
+    status: ItemStatus = Field(
+        sa_column=Column(
+            SAEnum(ItemStatus, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Status of the item (Active, Discontinued, or Backorder)"
+        ),
         alias="Status"
     )
     

@@ -1,14 +1,15 @@
-from enum import Enum
+import enum
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.employee_payments import EmployeePayments
     from src.models.vendor_payments import VendorPayments
 
 # Define an Enum for payment methods
-class PaymentMethodType(str, Enum):
+class PaymentMethodType(str, enum.Enum):
     CASH = "CASH"
     CARD = "CARD"
     BANK_TRANSFER = "BANK_TRANSFER"
@@ -26,7 +27,11 @@ class PaymentMethods(SQLModel, table=True):
     
     # method_type is an Enum representing the type of payment method (e.g., CASH, CARD, BANK_TRANSFER).
     method_type: PaymentMethodType = Field(
-        sa_column=Column(mysql.ENUM(PaymentMethodType), nullable=False, comment="Type of payment method"), 
+        sa_column=Column(
+            SAEnum(PaymentMethodType, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Type of payment method"
+        ), 
         alias="MethodType"
     )
     

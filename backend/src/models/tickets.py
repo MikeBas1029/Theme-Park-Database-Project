@@ -1,15 +1,17 @@
-from enum import Enum
+import enum
 from datetime import date
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
+from sqlalchemy import Enum as SAEnum
+
 
 if TYPE_CHECKING:
     from src.models.customers import Customers
     from src.models.visit_tickets import VisitTickets
 
 # Enum for Ticket Status
-class TicketStatus(str, Enum):
+class TicketStatus(str, enum.Enum):
     """
     Enumeration for the status of the ticket.
     """
@@ -19,7 +21,7 @@ class TicketStatus(str, Enum):
     CANCELLED = "CANCELLED"
 
 # Enum for Ticket Types
-class TicketType(str, Enum):
+class TicketType(str, enum.Enum):
     """
     Enumeration for the different types of tickets available.
     """
@@ -83,7 +85,7 @@ class Tickets(SQLModel, table=True):
     
     ticket_type: TicketType = Field(
         sa_column=Column(
-            mysql.ENUM(TicketType),  # Enum type for ticket type
+            SAEnum(TicketType, values_callable=lambda x: [e.value for e in x]),  # Enum type for ticket type
             nullable=False,  
             comment="The type of the ticket (e.g., 'VIP', 'DAY_PASS')"  
         ), 
@@ -146,7 +148,7 @@ class Tickets(SQLModel, table=True):
     
     status: TicketStatus = Field(
         sa_column=Column(
-            mysql.ENUM(TicketStatus), # Enum type for ticket status (ACTIVE, EXPIRED, etc.)
+            SAEnum(TicketStatus, values_callable=lambda x: [e.value for e in x]), # Enum type for ticket status (ACTIVE, EXPIRED, etc.)
             nullable=False,  
             default="ACTIVE",  
             comment="The current status of the ticket (ACTIVE, EXPIRED, USED, CANCELLED)"  
