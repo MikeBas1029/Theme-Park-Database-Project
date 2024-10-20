@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta
+import enum 
+from datetime import date, timedelta
 from typing import List, TYPE_CHECKING, Optional
 import sqlalchemy.dialects.mysql as mysql
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
-from sqlalchemy import event, func, text
-from sqlalchemy.ext.compiler import compiles
-from sqlalchemy.sql import expression
+from sqlalchemy import event, Enum as SAEnum
+# from sqlalchemy.ext.compiler import compiles
 
 if TYPE_CHECKING:
     from src.models.ride_type import RideType
@@ -12,13 +12,18 @@ if TYPE_CHECKING:
     from src.models.sections import Section
     from src.models.work_orders import WorkOrders
 
-# Custom SQL expression to get the current UTC timestamp
-class UtcNow(expression.FunctionElement):
-    type = mysql.TIMESTAMP()
+class RideStatus(str, enum.Enum):
+    open = "OPEN"
+    closed_maint = "CLOSED(M)"
+    closed_rainout = "CLOSED(R)"
 
-@compiles(UtcNow, 'mysql')
-def mysql_utc_now(element, compiler, **kw):
-    return "UTC_TIMESTAMP()"
+# # Custom SQL expression to get the current UTC timestamp
+# class UtcNow(expression.FunctionElement):
+#     type = mysql.TIMESTAMP()
+
+# @compiles(UtcNow, 'mysql')
+# def mysql_utc_now(element, compiler, **kw):
+#     return "UTC_TIMESTAMP()"
 
 class Rides(SQLModel, table=True):
     """
@@ -56,23 +61,16 @@ class Rides(SQLModel, table=True):
     )
     
     # The date and time of the last inspection. The ride must be inspected periodically for safety.
-    last_inspected: Optional[datetime] = Field(
+    last_inspected: Optional[date] = Field(
         default=None,
-        sa_column=Column(mysql.TIMESTAMP(), default=None, nullable=True),
+        sa_column=Column(mysql.DATE(), default=None, nullable=True),
         alias="LastInspected"
     )
     
-    # # work order ID (WOID) is a foreign key linking this ride to a specific work order (maintenance task).
-    # woid: Optional[int] = Field(
-    #     default=None,
-    #     sa_column=Column(mysql.INTEGER, ForeignKey("workorder.woid"), nullable=True),
-    #     alias="WOID"
-    # )
-    
-    # The height requirement (in cm) to go on the ride. This ensures safety by restricting access to certain rides.
+    # The height requirement (in inches) to go on the ride. This ensures safety by restricting access to certain rides.
     height_requirement: int = Field(
         default=None,
-        sa_column=Column(mysql.INTEGER, nullable=False, comment="Height required to go on the ride."),
+        sa_column=Column(mysql.INTEGER, nullable=False, comment="Height required to go on the ride in inches."),
         alias="HeightRequirement"
     )
     
@@ -85,10 +83,12 @@ class Rides(SQLModel, table=True):
     
     # The current status of the ride, which can be one of the following: 
     # "OPEN", "CLOSED - MAINTENANCE", or "CLOSED - RAINOUT".
-    status: str = Field(
+    status: RideStatus = Field(
         default=None,  
-        sa_column=Column(mysql.ENUM("OPEN", "CLOSED - MAINTENANCE", "CLOSED - RAINOUT"), nullable=False, 
-                         comment="The state of the ride: OPEN, CLOSED - Maintenance, CLOSED - RainOut."),
+        sa_column=Column(
+            SAEnum(RideStatus, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="The state of the ride: OPEN, CLOSED(M), CLOSED(RO)"),
         alias="Status"
     )
     
@@ -119,12 +119,13 @@ class Rides(SQLModel, table=True):
 def check_last_inspected(mapper, connection, target):
     """
     This event listener is triggered before a ride record is inserted or updated in the database.
-    If the ride's last inspection date is more than 7 days ago, it updates the ride's status to "CLOSED - MAINTENANCE",
+    If the ride's last inspection date is more than 7 days ago, it updates the ride's status to "CLOSED(M)",
     unless the ride is already in maintenance.
     """
     if target.last_inspected:
-        # Calculate the number of days since the last inspection.
-        days_since_inspection = (func.utc_timestamp() - target.last_inspected).days
-        # If the inspection is overdue by more than 7 days, set the status to "CLOSED - MAINTENANCE".
-        if days_since_inspection > 7 and target.status != "CLOSED - MAINTENANCE":
-            target.status = "CLOSED - MAINTENANCE"
+        # Calculate the date 7 days ago
+        seven_days_ago = date.today() - timedelta(days=7)
+        
+        # If the last inspection was more than 7 days ago, set the status to "CLOSED(M)"
+        if target.last_inspected < seven_days_ago and target.status != RideStatus.closed_maint:
+            target.status = RideStatus.closed_maint
