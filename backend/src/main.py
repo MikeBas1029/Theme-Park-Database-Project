@@ -2,6 +2,7 @@ import logging
 from fastapi import FastAPI
 from sqlmodel import SQLModel
 from src.db.database import init_db
+from src.routes.customers import customer_router
 from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import *
