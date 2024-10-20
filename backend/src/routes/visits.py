@@ -5,19 +5,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.database import get_session
 from src.services.visits import VisitService
-from src.schemas.visits import VisitInputModel, VisitOutputModel
+from src.schemas.visits import Visit, VisitCreateModel, VisitUpdateModel
 
 visit_router = APIRouter()
 visit_service = VisitService()
 
 
-@visit_router.get("/", response_model=List[VisitOutputModel])
+@visit_router.get("/", response_model=List[Visit])
 async def get_all_visits(session: AsyncSession = Depends(get_session)):
     visits = await visit_service.get_all_visits(session)
     return visits
 
 
-@visit_router.get("/{visit_id}", response_model=VisitOutputModel) 
+@visit_router.get("/{visit_id}", response_model=Visit) 
 async def get_visit(visit_id: str, session: AsyncSession = Depends(get_session)):
     visit = await visit_service.get_visit_by_id(visit_id, session)
     
@@ -31,10 +31,10 @@ async def get_visit(visit_id: str, session: AsyncSession = Depends(get_session))
 @visit_router.post(
     "/",
     status_code=status.HTTP_201_CREATED,
-    response_model=VisitOutputModel,
+    response_model=Visit,
 )
 async def create_a_visit(
-    visit_data: VisitInputModel,
+    visit_data: VisitCreateModel,
     session: AsyncSession = Depends(get_session),
 ) -> dict:
     try:
@@ -44,10 +44,10 @@ async def create_a_visit(
 
 
 
-@visit_router.patch("/{visit_id}", response_model=VisitOutputModel)
+@visit_router.patch("/{visit_id}", response_model=Visit)
 async def update_visit(
     visit_id: str,
-    update_data: VisitInputModel,
+    update_data: VisitUpdateModel,
     session: AsyncSession = Depends(get_session),
 ) -> dict:
     updated_visit = await visit_service.update_visit(visit_id, update_data, session)

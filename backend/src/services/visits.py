@@ -2,7 +2,7 @@ from sqlmodel import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 from src.models.visits import Visits 
-from src.schemas.visits import VisitInputModel
+from src.schemas.visits import VisitCreateModel, VisitUpdateModel
 
 class VisitService:
     async def get_all_visits(self, session: AsyncSession):
@@ -32,7 +32,7 @@ class VisitService:
     
     async def create_visit(
             self,
-            visit_data: VisitInputModel,
+            visit_data: VisitCreateModel,
             session: AsyncSession
     ):
         visit_data_dict = visit_data.model_dump()
@@ -55,7 +55,7 @@ class VisitService:
     async def update_visit(
             self, 
             visit_id: str,
-            update_data: VisitInputModel,
+            update_data: VisitUpdateModel,
             session: AsyncSession
     ):
         visit_to_update = await self.get_visit_by_id(visit_id, session)
