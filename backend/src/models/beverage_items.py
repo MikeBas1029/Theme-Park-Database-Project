@@ -2,9 +2,11 @@ import enum
 from sqlmodel import SQLModel, Field, Relationship
 from sqlalchemy import Column, ForeignKey, Index
 import sqlalchemy.dialects.mysql as mysql
-from typing import Optional
-from src.models.items import Items
+from typing import Optional, TYPE_CHECKING
 from sqlalchemy import Enum as SAEnum
+
+if TYPE_CHECKING:
+    from src.models.items import Items
 
 
 class BeverageType(str, enum.Enum):
