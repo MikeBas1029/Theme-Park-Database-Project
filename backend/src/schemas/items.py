@@ -13,28 +13,29 @@ class ItemStatus(str, Enum):
     discontinued = "Discontinued"
     backorder = "Backorder"
 
-class ItemBase(BaseModel):
-    name: str
+class Item(BaseModel):
+    sku: int 
+    name: str 
     category: ItemCategory
-    price: float
-    cost: float
+    price: float 
+    cost: float 
     status: ItemStatus
     vendor_id: int
 
-class Item(ItemBase):
-    sku: int
-    class Config:
-        orm_mode = True
+class ItemCreateModel(BaseModel):
+    sku: int 
+    name: str 
+    category: ItemCategory
+    price: float 
+    cost: float 
+    status: Optional[ItemStatus | None] = 'Active'
+    vendor_id: int
 
-# Schema for creating an item
-class ItemCreateModel(ItemBase):
-    pass  # All fields from ItemBase are required for creation
-
-# Schema for updating an item
 class ItemUpdateModel(BaseModel):
-    name: Optional[str]
+    sku: int 
+    name: str 
     category: Optional[ItemCategory]
-    price: Optional[float]
-    cost: Optional[float]
-    status: Optional[ItemStatus]
-    vendor_id: Optional[int]
+    price: Optional[float ]
+    cost: Optional[float ]
+    status: ItemStatus
+    vendor_id: int
