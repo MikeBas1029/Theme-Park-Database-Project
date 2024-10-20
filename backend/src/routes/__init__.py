@@ -22,7 +22,7 @@ from .rides import ride_router
 # from .sales_orders import sales_order_router
 # from .sales_order_details import so_detail_router
 # from .shops import shops_router
-# from .sections import section_router
+from .sections import section_router
 # from .supplies import supplies_router
 # from .tickets import tickets_router
 # from .timesheet import timesheet_router

@@ -34,3 +34,4 @@ app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=[
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
+app.include_router(section_router, prefix=f"{version_prefix}/section", tags=["section"])
