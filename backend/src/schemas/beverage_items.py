@@ -9,7 +9,6 @@ class BeverageType(str, Enum):
     water = "Water"
     other = "Other"
 
-
 class Beverage(BaseModel):
     bev_id: int 
     sku: int 
