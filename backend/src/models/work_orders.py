@@ -1,8 +1,9 @@
-from enum import Enum
+import enum
 from datetime import datetime, timezone
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.rides import Rides
@@ -12,12 +13,12 @@ if TYPE_CHECKING:
     from src.models.work_order_items import WorkOrderItems
 
 
-class MaintenanceType(str, Enum):
+class MaintenanceType(str, enum.Enum):
     REPAIR = "repair"
     INSPECTION = "inspection"
     UPGRADE = "upgrade"
 
-class WorkOrderStatus(str, Enum):
+class WorkOrderStatus(str, enum.Enum):
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
@@ -102,7 +103,7 @@ class WorkOrders(SQLModel, table=True):
     maintenance_type: MaintenanceType = Field(
         default=None, 
         sa_column=Column(
-            mysql.ENUM(MaintenanceType), 
+            SAEnum(MaintenanceType, values_callable=lambda x: [e.value for e in x]), 
             nullable=False,
             comment="The type of maintenance being performed (e.g., repair, inspection)."
         ),
@@ -113,7 +114,7 @@ class WorkOrders(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9), 
-            ForeignKey("employees.ssn"),
+            ForeignKey("employees.employee_id"),
             nullable=False,
             comment="Foreign key to the employee assigned to the work order."
         ),
@@ -145,7 +146,7 @@ class WorkOrders(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9),
-            ForeignKey("employees.ssn"), 
+            ForeignKey("employees.employee_id"), 
             nullable=True,
             comment="Foreign key to the employee who created the work order."
         ),
@@ -156,7 +157,7 @@ class WorkOrders(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9),
-            ForeignKey("employees.ssn"), 
+            ForeignKey("employees.employee_id"), 
             nullable=True,
             comment="Foreign key to the employee who last updated the work order."
         ),
@@ -166,7 +167,7 @@ class WorkOrders(SQLModel, table=True):
     status: WorkOrderStatus = Field(
         default=None, 
         sa_column=Column(
-            mysql.ENUM(WorkOrderStatus), 
+            SAEnum(WorkOrderStatus, values_callable=lambda x: [e.value for e in x]), 
             nullable=False,
             comment="The current status of the work order (e.g., pending, completed)."
         ),

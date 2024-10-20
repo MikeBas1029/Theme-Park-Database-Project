@@ -19,10 +19,12 @@ Clone the project
   git clone https://github.com/MikeBas1029/Theme-Park-Database-Project.git
 ```
 
-Go to the project directory
+Go to the project **client** directory
 
 ```bash
   cd Theme-Park-Database-Project
+  cd client
+
 ```
 
 ## Usage

@@ -1,8 +1,17 @@
+import enum
 from sqlmodel import SQLModel, Field, Relationship
 from sqlalchemy import Column, ForeignKey, Index
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional
 from src.models.items import Items
+from sqlalchemy import Enum as SAEnum
+
+
+class BeverageType(str, enum.Enum):
+    soda = "Soda"
+    juice = "Juice"
+    water = "Water"
+    other = "Other"
 
 class BeverageItems(SQLModel, table=True):
     __tablename__ = "beverageitems"
@@ -27,8 +36,12 @@ class BeverageItems(SQLModel, table=True):
     )
     
     # beverage_item defines the type of beverage (e.g., SODA, JUICE, WATER, OTHER).
-    beverage_item: str = Field(
-        sa_column=Column(mysql.ENUM("SODA", "JUICE", "WATER", "OTHER"), nullable=False, comment="Type of beverage item"),
+    beverage_item: BeverageType = Field(
+        sa_column=Column(
+            SAEnum(BeverageType, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Type of beverage item"
+        ),
         alias="BeverageItem"
     )
     

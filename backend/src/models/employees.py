@@ -1,7 +1,9 @@
+from enum import Enum
 from datetime import date
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 from pydantic import EmailStr
 
 if TYPE_CHECKING:
@@ -13,13 +15,23 @@ if TYPE_CHECKING:
     from src.models.work_orders import WorkOrders
     from src.models.shops import Shops
 
+class EmployeeType(str, Enum):
+    hourly = "Hourly"
+    salary = "Salary"
+
 class Employees(SQLModel, table=True):
     __tablename__ = "employees"
     
     # SSN is the primary key for the employees table.
     # It uniquely identifies each employee in the system.
+    employee_id: str = Field( 
+        sa_column=Column(mysql.VARCHAR(7), primary_key=True, nullable=False, unique=True, comment="Unique employee id (primary key)"),
+        alias="SSN"
+    )
+
+    # SSN is a candidate key that uniquely identifies each employee in the system.
     ssn: str = Field( 
-        sa_column=Column(mysql.VARCHAR(9), primary_key=True, nullable=False, comment="Social Security Number (primary key)"),
+        sa_column=Column(mysql.VARCHAR(9), unique=True, nullable=False, comment="Social Security Number (primary key)"),
         alias="SSN"
     )
     
@@ -40,8 +52,8 @@ class Employees(SQLModel, table=True):
     phone_number: str = Field(sa_column=Column(mysql.VARCHAR(15), nullable=False, comment="Phone number of the employee"), alias="PhoneNumber")
     
     # Email is the employee's email address.
-    # This is a required field and validated as an email format.
-    email: EmailStr = Field(sa_column=Column(mysql.VARCHAR(100), nullable=False, comment="Email address of the employee"), alias="Email")
+    # This is a required field and validated as an email format. Must be unique.
+    email: EmailStr = Field(sa_column=Column(mysql.VARCHAR(100), nullable=False, unique=True, comment="Email address of the employee"), alias="Email")
     
     # AddressLine1 is the first line of the employee's address.
     # This is a required field, stored as a string.
@@ -77,14 +89,20 @@ class Employees(SQLModel, table=True):
     
     # EmployeeType indicates whether the employee is hourly or salaried.
     # This is a required field, stored as a string, with an ENUM type.
-    employee_type: str = Field(
-        sa_column=Column(mysql.ENUM("Hourly", "Salary"), nullable=False, comment="Type of employee (Hourly or Salary)"),
+    employee_type: EmployeeType = Field(
+        sa_column=Column(
+            SAEnum(EmployeeType, values_callable=lambda x: [e.value for e in x]),  
+            nullable=False, 
+            comment="Type of employee (Hourly or Salary)"
+        ),
         alias="EmployeeType"
     )
     
     # HourlyWage is the employee's hourly wage, applicable only for hourly employees.
     # This is an optional field, stored as a decimal value.
     hourly_wage: Optional[float] = Field(sa_column=Column(mysql.DECIMAL(8, 2), comment="Hourly wage of the employee (for hourly employees only)"), alias="HourlyWage")
+   
+    salary: Optional[float] = Field(sa_column=Column(mysql.DECIMAL(9, 2), comment="Salary of the employee (for salary employees only)"), alias="Salary")
     
     # JobFunction represents the job function or title of the employee.
     # This is a required field, stored as a string.

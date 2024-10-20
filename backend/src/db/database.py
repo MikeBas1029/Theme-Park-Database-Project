@@ -22,12 +22,10 @@ async def init_db() -> None:
         
         # Print all models that should be creating tables
         model_classes = SQLModel.__subclasses__()
-        logging.info(f"Found {len(model_classes)} SQLModel subclasses:")
-        for model in model_classes:
-            logging.info(f"  - {model.__name__}")
+        logging.info(f"Found {len(model_classes)} SQLModel subclasses.")
         
         async with async_engine.begin() as conn:
-            logging.info("Creating tables...")
+            logging.info("Creating tables if don't exist...")
             await conn.run_sync(SQLModel.metadata.create_all)
 
             # Create trigger to check last inspection on ride
@@ -36,7 +34,7 @@ async def init_db() -> None:
             # Birthday discount trigger
             await conn.execute(change_status_if_not_inspected)
    
-        logging.info("Checking created tables...")
+        logging.info("Tables in the database:")
         async with async_engine.connect() as conn:
             result = await conn.execute(text("SHOW TABLES"))
             tables = [row[0] for row in result]

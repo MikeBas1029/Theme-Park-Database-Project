@@ -1,68 +1,49 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
+import CustomizedTabs from "../../components/tabs";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
+import Invoices from "../invoices";
+import Payroll from "../payroll";
+import Transactions from "../customertransactions";
 
 
 
 const TransactionSelection = () => {
 
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
-
-
-    return <Box m="20px"> 
-                <Header title="Transactions" subtitle="Select the Category you'd Like to see Transactions for. " />
-                    <Box 
-                        display="flex" 
-                        justifyContent="center" 
-                        alignItems="center" 
-                        flexDirection="column"
-                        gap={2}
-                    >
-
-
-        <Card sx={{ minWidth: 275, cursor: 'pointer'}} onClick={() => navigate('./transactions')}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Customer
-        </Typography>
-        <Typography variant="body2">
-          View customer transaction history.
-        </Typography>
-      </CardContent>
-      </Card>
-
-
-
-        <Card sx={{ minWidth: 275, cursor: 'pointer'}} onClick={() => navigate('/transactions')}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Payroll
-        </Typography>
-        <Typography variant="body2">
-          View employees salaries/paychecks
-        </Typography>
-      </CardContent>
-      </Card>
-
-
-
-        <Card sx={{ minWidth: 275, cursor: 'pointer'}} onClick={() => navigate('/invoices')}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Invoices
-        </Typography>
-        <Typography variant="body2">
-          View invoice history for past orders.
-        </Typography>
-      </CardContent>
-      </Card>
-                    </Box>  
-    
-            </Box>
-    
-    }
+  {/*Table/Tab state management */}
+    const [activeTab, setActiveTab] = useState('Employee Payroll');
+    const tabs = ['Employee Payroll', 'Vendor Invoices', 'Customer Transactions'];   // Page table tabs
+    // Function to render the correct table component
+    const renderTable = () => {
+      switch (activeTab) {
+        case 'Employee Payroll':
+          return <Payroll />
+        case 'Vendor Invoices':
+          return <Invoices />
+        case 'Customer Transactions':
+          return <Transactions />
+        default:
+          return null;
+      }
+    };
+  
+  
+  
+  
+      return <Box m="20px"> 
+                  <Header title="Shops and Inventory" subtitle="Select the Category you'd Like to see Transactions for. " />
+                      <Box >
+                        <CustomizedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
+                        {renderTable()} 
+                      </Box>  
+      
+              </Box>
+      
+      }
     
     export default TransactionSelection; 

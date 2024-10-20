@@ -1,13 +1,14 @@
-from enum import Enum
-from typing import Optional, TYPE_CHECKING
+import enum 
+from typing import TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.sections import Section
 
 # Enum for status
-class FacilityStatus(str, Enum):
+class FacilityStatus(str, enum.Enum):
     ACTIVE = "Active"
     INACTIVE = "Inactive"
     UNDER_MAINTENANCE = "Under Maintenance"
@@ -41,7 +42,10 @@ class ParkFacilities(SQLModel, table=True):
     
     # status is an Enum that stores the status of the facility (e.g., "Active", "Inactive", "Under Maintenance").
     status: FacilityStatus = Field(
-        sa_column=Column(mysql.ENUM(FacilityStatus), nullable=False, comment="Status of the facility"), 
+        sa_column=Column(
+            SAEnum(FacilityStatus, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Status of the facility"), 
         alias="Status"
     )
 

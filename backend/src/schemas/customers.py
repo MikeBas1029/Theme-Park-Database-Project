@@ -48,7 +48,7 @@ class CustomerUpdateModel(BaseModel):
     state: Optional[str] 
     zip_code: Optional[str] 
     country: str
-    date_of_birth: Optional[date] 
+    date_of_birth: Optional[date] = None
     membership_type: Optional[MembershipType] 
-    registration_date: Optional[date] 
-    renewal_date: Optional[date] 
+    registration_date: Optional[date] = None
+    renewal_date: Optional[date] = None

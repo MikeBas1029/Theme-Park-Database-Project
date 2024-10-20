@@ -26,7 +26,7 @@ class Departments(SQLModel, table=True):
     # manager_id is the foreign key that links to the employee managing this department.
     # It refers to the SSN of the employee in the employees table.
     manager_id: str = Field(
-        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.ssn"), nullable=False, comment="ID of the manager for this department"),
+        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.employee_id"), nullable=False, comment="ID of the manager for this department"),
         alias="EmployeeID"
     )
     

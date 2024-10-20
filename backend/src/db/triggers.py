@@ -48,8 +48,8 @@ CREATE TRIGGER IF NOT EXISTS update_ride_status
 BEFORE UPDATE ON rides
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(UTC_TIMESTAMP(), NEW.last_inspected) > 7 AND NEW.status != 'CLOSED - MAINTENANCE' THEN
-        SET NEW.Status = 'CLOSED - MAINTENANCE';
+    IF DATEDIFF(UTC_TIMESTAMP(), NEW.last_inspected) > 7 AND NEW.status != 'CLOSED(M)' THEN
+        SET NEW.Status = 'CLOSED(M)';
     END IF;
 END;
 """)
@@ -58,13 +58,13 @@ END;
 Ride Maintenance Status Trigger Documentation:
 
 Purpose:
-This trigger automatically updates a ride's status to 'CLOSED - MAINTENANCE' if it hasn't been inspected in the last 7 days.
+This trigger automatically updates a ride's status to 'CLOSED(M)' if it hasn't been inspected in the last 7 days.
 
 Functionality:
 1. Activates BEFORE UPDATE operations on the 'rides' table.
 2. Calculates the number of days since the last inspection using DATEDIFF().
-3. If more than 7 days have passed since the last inspection and the current status is not already 'CLOSED - MAINTENANCE',
-   it changes the Status to 'CLOSED - MAINTENANCE'.
+3. If more than 7 days have passed since the last inspection and the current status is not already 'CLOSED(M)',
+   it changes the Status to 'CLOSED(M)'.
 
 Important Considerations:
 - This trigger will prevent any manual status updates that might overlook the need for maintenance.

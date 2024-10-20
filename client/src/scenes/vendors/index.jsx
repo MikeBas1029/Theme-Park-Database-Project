@@ -23,7 +23,7 @@ const Vendors = () => {
 
     return(
         <Box m="20px">
-            <Header title="Orders and Vendors" subtitle="View vendor and order information"/>
+            <Header title="Vendors" subtitle="View vendor information"/>
             <Box
             m="40px 0 0 0"
             height="75vh"

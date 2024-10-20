@@ -1,16 +1,17 @@
-from enum import Enum
+import enum
 from datetime import timezone, datetime
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING
 from datetime import date, time, timedelta
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.employees import Employees
     from src.models.sections import Section
 
 # Enum for Timesheet Status
-class TimesheetStatus(str, Enum):
+class TimesheetStatus(str, enum.Enum):
     PENDING = "PENDING"
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
@@ -58,7 +59,7 @@ class Timesheet(SQLModel, table=True):
     employee_id: str = Field(
         sa_column=Column(
             mysql.VARCHAR(9), 
-            ForeignKey("employees.ssn"),
+            ForeignKey("employees.employee_id"),
             nullable=False,
             comment="Foreign key reference to the employee (SSN)."
         ),
@@ -120,7 +121,7 @@ class Timesheet(SQLModel, table=True):
     
     status: TimesheetStatus = Field(
         sa_column=Column(
-            mysql.ENUM(TimesheetStatus), 
+            SAEnum(TimesheetStatus, values_callable=lambda x: [e.value for e in x]), 
             nullable=False,
             comment="The current status of the timesheet (Pending, Approved, etc.)."
         ), 
@@ -152,7 +153,7 @@ class Timesheet(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9),
-            ForeignKey("employees.ssn"), 
+            ForeignKey("employees.employee_id"), 
             nullable=False,
             comment="Foreign key to the employee who created the timesheet."
         ),
@@ -163,7 +164,7 @@ class Timesheet(SQLModel, table=True):
         default=None, 
         sa_column=Column(
             mysql.VARCHAR(9),
-            ForeignKey("employees.ssn"), 
+            ForeignKey("employees.employee_id"), 
             nullable=True,
             comment="Foreign key to the employee who last updated the timesheet."
         ),

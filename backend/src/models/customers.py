@@ -3,6 +3,7 @@ from datetime import date
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.visits import Visits
@@ -12,7 +13,7 @@ if TYPE_CHECKING:
     from src.models.ride_usage import RideUsage
     from src.models.sales_orders import SalesOrders
 
-class MembershipType(Enum):
+class MembershipType(str, Enum):
     bronze = 'Bronze'
     gold = 'Gold'
     silver = 'Silver'
@@ -68,7 +69,14 @@ class Customers(SQLModel, table=True):
     date_of_birth: Optional[date] = Field(sa_column=Column(mysql.DATE, nullable=True, default=None, comment="Customer's date of birth"), alias="DateOfBirth")
     
     # membership_type defines the type of membership the customer has, such as "Standard" or "Premium".
-    membership_type: MembershipType = Field(sa_column=Column(mysql.VARCHAR(25), nullable=False, default='Bronze', comment="Customer's membership type"), alias="MembershipType")
+    membership_type: MembershipType = Field(
+        sa_column=Column(
+            SAEnum(MembershipType, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, default='Bronze', 
+            comment="Customer's membership type"
+        ), 
+        alias="MembershipType"
+    )
     
     # registration_date is the date when the customer registered for the service.
     registration_date: Optional[date] = Field(sa_column=Column(mysql.DATE, nullable=True, default=None, comment="Customer's registration date"), alias="RegistrationDate")
