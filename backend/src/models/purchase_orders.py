@@ -1,8 +1,10 @@
-from enum import Enum
+import enum
 from datetime import datetime, timezone
 from typing import List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
+
 
 # Importing models that will be used for relationships, but only during type-checking
 if TYPE_CHECKING:
@@ -12,7 +14,7 @@ if TYPE_CHECKING:
     from src.models.purchase_order_items import PurchaseOrderItems
 
 # Enum to represent the possible order statuses
-class OrderStatus(str, Enum):
+class OrderStatus(str, enum.Enum):
     PENDING = "Pending"  # Order is placed but not yet processed
     SHIPPED = "Shipped"  # Order has been shipped to the customer
     RECEIVED = "Received"  # Order has been received by the customer
@@ -43,7 +45,11 @@ class PurchaseOrders(SQLModel, table=True):
 
     # order_status is an enum field that represents the current status of the order (e.g., Pending, Shipped)
     order_status: OrderStatus = Field(
-        sa_column=Column(mysql.ENUM(OrderStatus), nullable=False, comment="Status of the purchase order"),
+        sa_column=Column(
+            SAEnum(OrderStatus, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Status of the purchase order"
+        ),
         alias="order_status"  # Alias used for the column in queries
     )
 

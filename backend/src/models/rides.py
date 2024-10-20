@@ -4,7 +4,6 @@ from typing import List, TYPE_CHECKING, Optional
 import sqlalchemy.dialects.mysql as mysql
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 from sqlalchemy import event, Enum as SAEnum
-# from sqlalchemy.ext.compiler import compiles
 
 if TYPE_CHECKING:
     from src.models.ride_type import RideType
@@ -16,14 +15,6 @@ class RideStatus(str, enum.Enum):
     open = "OPEN"
     closed_maint = "CLOSED(M)"
     closed_rainout = "CLOSED(R)"
-
-# # Custom SQL expression to get the current UTC timestamp
-# class UtcNow(expression.FunctionElement):
-#     type = mysql.TIMESTAMP()
-
-# @compiles(UtcNow, 'mysql')
-# def mysql_utc_now(element, compiler, **kw):
-#     return "UTC_TIMESTAMP()"
 
 class Rides(SQLModel, table=True):
     """

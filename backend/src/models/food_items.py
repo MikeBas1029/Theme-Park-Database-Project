@@ -1,9 +1,18 @@
+import enum
 from typing import Optional, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.items import Items
+
+class FoodType(str, enum.Enum):
+    snack = "Snack"
+    meal = "Meal"
+    dessert = "Dessert"
+    candy = "Candy"
+
 
 class FoodItems(SQLModel, table=True):
     __tablename__ = "fooditems"
@@ -25,8 +34,12 @@ class FoodItems(SQLModel, table=True):
 
     # FoodType indicates the category of the food item.
     # It can be either 'SNACK', 'MEAL', or 'DESSERT' as defined in the ENUM.
-    food_type: str = Field(
-        sa_column=Column(mysql.ENUM("SNACK", "MEAL", "DESSERT"), nullable=False, comment="Category of the food item (e.g., SNACK, MEAL, DESSERT)"),
+    food_type: FoodType = Field(
+        sa_column=Column(
+            SAEnum(FoodType, values_callable=lambda x: [e.value for e in x]), 
+            nullable=False, 
+            comment="Category of the food item (e.g., SNACK, MEAL, DESSERT)"
+        ),
         alias="FoodType"
     )
 

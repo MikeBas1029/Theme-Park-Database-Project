@@ -3,6 +3,7 @@ from datetime import date
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 from pydantic import EmailStr
 
 if TYPE_CHECKING:
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
     from src.models.work_orders import WorkOrders
     from src.models.shops import Shops
 
-class EmployeeType(Enum):
+class EmployeeType(str, Enum):
     hourly = "Hourly"
     salary = "Salary"
 
@@ -89,7 +90,11 @@ class Employees(SQLModel, table=True):
     # EmployeeType indicates whether the employee is hourly or salaried.
     # This is a required field, stored as a string, with an ENUM type.
     employee_type: EmployeeType = Field(
-        sa_column=Column(mysql.VARCHAR(6), nullable=False, comment="Type of employee (Hourly or Salary)"),
+        sa_column=Column(
+            SAEnum(EmployeeType, values_callable=lambda x: [e.value for e in x]),  
+            nullable=False, 
+            comment="Type of employee (Hourly or Salary)"
+        ),
         alias="EmployeeType"
     )
     
