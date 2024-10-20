@@ -160,14 +160,14 @@ return(
            </Typography>
             <Item
              title="Shops & Inventory"
-             to="/inventory"
+             to="/supplies"
              icon={<InventoryIcon />}
              selected={selected}
              setSelected={setSelected}
            />
             <Item
              title="Orders & Vendors"
-             to="/vendors"
+             to="/vendorsandorders"
              icon={<ContactsOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -209,7 +209,7 @@ return(
            />
             <Item
              title="Customer/Visit info"
-             to="/line"
+             to="/customers"
              icon={<TourIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -245,7 +245,7 @@ return(
            />
 
            <Item
-             title="Tikcets n such (fix name)"
+             title="Tikcets might merge w/ visits, need new tab here"
              to="/tickets"
              icon={<TimelineOutlinedIcon />}
              selected={selected}

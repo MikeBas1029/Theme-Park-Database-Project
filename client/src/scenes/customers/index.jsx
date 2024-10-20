@@ -10,13 +10,13 @@ import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 
 
-const Employees = () => {
+const Customers = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
     const columns = [
-        {field: "id", headerName: "EmployeeID(SSN?)", flex: 0.5}, 
+        {field: "id", headerName: "CustomerID", flex: 0.5}, 
         {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell"}, 
         {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left"},
         {field: "phone", headerName: "Phone Number", flex: 1},
@@ -52,7 +52,7 @@ const Employees = () => {
 
         
         <Box m="20px">
-            <Header title="Employees" subtitle="Manage Employees"/>
+            <Header title="Customer" subtitle="View customers and track daily park history"/>
 
             {/*Employee creation form button + linking */}
             <Box display="flex" justifyContent="flex-end" mb="20px">
@@ -99,7 +99,7 @@ const Employees = () => {
     );
 }
 
-export default Employees;
+export default Customers;
 
 
 

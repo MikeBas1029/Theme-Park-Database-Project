@@ -3,30 +3,27 @@ import CustomizedTabs from "../../components/tabs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
-import Invoices from "../invoices";
-import Payroll from "../payroll";
-import Transactions from "../customertransactions";
+import Orders from "../orders";
+import Vendors from "../vendors";
 
 
 
-const TransactionSelection = () => {
+const VendorSelection = () => {
 
 
   const navigate = useNavigate();
 
 
   {/*Table/Tab state management */}
-    const [activeTab, setActiveTab] = useState('Employee Payroll');
-    const tabs = ['Employee Payroll', 'Vendor Invoices', 'Customer Transactions'];   // Page table tabs
+    const [activeTab, setActiveTab] = useState('Orders');
+    const tabs = ['Orders', 'Vendors'];   // Page table tabs
     // Function to render the correct table component
     const renderTable = () => {
       switch (activeTab) {
-        case 'Employee Payroll':
-          return <Payroll />
-        case 'Vendor Invoices':
-          return <Invoices />
-        case 'Customer Transactions':
-          return <Transactions />
+        case 'Orders':
+          return <Orders />
+        case 'Vendors':
+          return <Vendors />
         default:
           return null;
       }
@@ -36,7 +33,7 @@ const TransactionSelection = () => {
   
   
       return <Box m="20px"> 
-                  <Header title="Shops and Inventory" subtitle="Select the Category you'd Like to see Transactions for. " />
+                  <Header title="Vendor and Order " subtitle="Track order status/history, and view list of park vendors " />
                       <Box >
                         <CustomizedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                         {renderTable()} 
@@ -46,4 +43,4 @@ const TransactionSelection = () => {
       
       }
     
-    export default TransactionSelection; 
+    export default VendorSelection; 

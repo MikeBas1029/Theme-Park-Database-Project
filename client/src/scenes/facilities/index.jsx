@@ -8,7 +8,7 @@ import  Header from "../../components/Header"
 import { sampleDataVendors } from "../../data/sampleVendorData";
 
 
-const Vendors = () => {
+const Facilities = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -23,7 +23,7 @@ const Vendors = () => {
 
     return(
         <Box m="20px">
-            <Header title="Vendors" subtitle="View vendor information"/>
+            <Header title="Park Facilities" subtitle="View park facilities (restrooms, etc)"/>
             <Box
             m="40px 0 0 0"
             height="75vh"
@@ -58,4 +58,4 @@ const Vendors = () => {
     );
 }
 
-export default Vendors;
+export default Facilities;

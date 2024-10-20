@@ -4,7 +4,6 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./scenes/global/Navbar";
 import Sidebar from "./scenes/global/Sidebar";
 //import Rides from "./scenes/Rides";
-//import Security from "./scenes/Security";
 //import Calendar from "./scenes/Calendar";
 import Dashboard from "./scenes/dashboard";
 import LoginForm from "./scenes/login/LoginForm"
@@ -13,13 +12,28 @@ import Vendors from "./scenes/vendors";
 import TransactionSelection from "./scenes/transactions/transactionSelection";
 import Invoices from "./scenes/invoices";
 import Form from "./scenes/form";
+import Maintenance from "./scenes/maintenance";
+import Shops from "./scenes/shops";
+import Supplies from "./scenes/supplies";
+import Customers from "./scenes/customers";
+import Facilities from "./scenes/facilities";
+import VendorSelection from "./scenes/vendorsandorders/vendorSelection";
+import Safety from "./scenes/safety";
+
+
 
 
 
 
 
 function App() {
+  
+
+  {/*diplay state management */}
   const [theme, colorMode] = useMode();
+
+
+
   return ( 
   <DisplayModeContext.Provider value={colorMode}>
     <ThemeProvider theme={theme}>
@@ -32,10 +46,17 @@ function App() {
           <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
           <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
           <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
-          <Route path="/login" element={<LoginForm />} />   {/*Login form routing */}
-          <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions main page routing */}
-          <Route path="/invoices" element={<Invoices />} />   {/*Invoice page  routing */}
+          <Route path="/login" element={<LoginForm />} />   {/*Login page routing */}
+          <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
+          <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
           <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
+          <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
+          <Route path="/maintenance" element={<Maintenance />} />   {/*Maintenance page routing */}
+          <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
+          <Route path="/customers" element={<Customers />} />   {/*Customers page routing */}
+          <Route path="/facilities" element={<Facilities />} />   {/*Facilities page routing */}
+          <Route path="/vendorsandorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
+          <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
         </Routes>
 
       </main>
