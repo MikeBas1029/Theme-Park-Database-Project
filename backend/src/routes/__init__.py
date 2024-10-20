@@ -9,7 +9,7 @@ from .employees import employee_router
 # from .guest_services import guest_services_router
 # from .invoices import invoice_router
 # from .merchandise import merchandise_router
-# from .payment_methods import payment_methods_router
+from .payment_methods import payment_method_router
 # from .park_facilities import park_facilities_router
 # from .po_details import po_details_router
 # from .purchase_orders import purchase_order_router
