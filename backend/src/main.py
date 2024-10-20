@@ -35,3 +35,4 @@ app.include_router(department_router, prefix=f"{version_prefix}/departments", ta
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
 app.include_router(section_router, prefix=f"{version_prefix}/section", tags=["section"])
+app.include_router(ride_type_router, prefix=f"{version_prefix}/ridetype", tags=["ride_type"])

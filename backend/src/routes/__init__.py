@@ -16,7 +16,7 @@ from .employees import employee_router
 # from .purchase_order_items import po_items_router
 # from .rentals import rentals_router
 # from .restaurants import restaurants_router
-# from .ride_type import ride_type_router
+from .ride_type import ride_type_router
 # from .ride_usage import ride_usage_router
 from .rides import ride_router
 # from .sales_orders import sales_order_router
