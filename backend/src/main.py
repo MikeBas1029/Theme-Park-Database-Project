@@ -37,3 +37,4 @@ app.include_router(section_router, prefix=f"{version_prefix}/section", tags=["se
 app.include_router(ride_type_router, prefix=f"{version_prefix}/ridetype", tags=["ride_type"])
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
 app.include_router(ride_usage_router, prefix=f"{version_prefix}/rideusage", tags=["ride_usage"])
+app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["beverage"])
