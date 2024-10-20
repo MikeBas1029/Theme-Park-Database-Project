@@ -36,7 +36,7 @@ const TransactionSelection = () => {
   
   
       return <Box m="20px"> 
-                  <Header title="Shops and Inventory" subtitle="Select the Category you'd Like to see Transactions for. " />
+                  <Header title="Transactions" subtitle="Select the Category you'd Like to see Transactions for. " />
                       <Box >
                         <CustomizedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                         {renderTable()} 

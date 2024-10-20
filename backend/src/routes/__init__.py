@@ -32,5 +32,5 @@ from .visits import visit_router
 # from .visit_tickets import visit_tickets_router
 # from .work_orders import work_order_router
 # from .work_order_items import wo_items_router
-# from .items import items_router
+from .items import item_router
 

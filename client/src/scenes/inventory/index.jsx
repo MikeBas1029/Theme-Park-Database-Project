@@ -1,7 +1,6 @@
 import { Box, useTheme, IconButton} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import {sampleDataRoster} from "../../data/sampleData"
 import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
@@ -11,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+
 const Inventory = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -18,9 +18,12 @@ const Inventory = () => {
     const [rows, setRows] = useState([]);
 
     const columns = [
-        {field: "id", headerName: "ID", flex: 0.5},
-        {field: "item", headerName: "Item", flex: 1, cellClassName: "name-column--cell"},
-        {field: "quantity", headerName: "Quantity", type: "number", headerAlign: "left", align: "left"},
+        {field: "id", headerName: "ID", flex: 0.2},
+        {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell"},
+        {field: "status", headerName: "Status", flex: .3},
+        {field: "category", headerName: "Category", flex: 1},
+        {field: "price", headerName: "Price", type: "number", headerAlign: "left", align: "left"},
+        {field: "cost", headerName: "Unit Cost", type: "number", headerAlign: "left", align: "left"}
 
     ]; {/*field: value/data grabbed from  colName: column title in table */}
 
@@ -28,7 +31,7 @@ const Inventory = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/inventory');
+                const response = await axios.get('http://127.0.0.1:8000/items');
                 console.log(response.data); //log the response data
                 setRows(response.data);
             } catch (error) {
@@ -42,11 +45,11 @@ const Inventory = () => {
 
 
         <Box m="20px">
-            <Header title="Shops & Inventory" subtitle="Manage Inventory in Shops"/>
+            <Header title="Shops & Inventory" subtitle="Manage Inventory"/>
 
             {/*Employee creation form button + linking */}
             <Box display="flex" justifyContent="flex-end" mb="20px">
-                <IconButton onClick={() => navigate("/form")}>
+                <IconButton onClick={() => navigate("/inventoryform")}>
                     <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
                 </IconButton>
             </Box>

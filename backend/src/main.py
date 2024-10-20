@@ -38,4 +38,4 @@ app.include_router(ride_type_router, prefix=f"{version_prefix}/ridetype", tags=[
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
 app.include_router(ride_usage_router, prefix=f"{version_prefix}/rideusage", tags=["ride_usage"])
 app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["beverage"])
-app.include_router(items.item_router, prefix="/items", tags=["Items"])
+app.include_router(items.item_router, prefix=f"{version_prefix}/items", tags=["Items"])
