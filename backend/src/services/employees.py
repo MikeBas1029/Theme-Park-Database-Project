@@ -1,4 +1,3 @@
-from enum import Enum
 from sqlmodel import select 
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status 
@@ -6,9 +5,6 @@ from fastapi import HTTPException, status
 from src.models.employees import Employees
 from src.schemas.employees import EmployeeCreateModel, EmployeeUpdateModel
 
-class EmployeeType(Enum):
-    hourly = "Hourly"
-    salary = "Salary"
 
 class EmployeeService:
     async def get_all_employees(self, session: AsyncSession):
