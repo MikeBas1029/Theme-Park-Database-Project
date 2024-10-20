@@ -3,15 +3,15 @@ from pydantic import BaseModel
 from typing import Optional
 
 class ItemCategory(str, Enum):
-    category1 = "Merchandise"
-    category2 = "Concession"
-    category3 = "Entertainment"
-
+    merch = "Merchandise"
+    concession = "Concession"
+    entertainment = "Entertainment"
+    other = "Other"
 
 class ItemStatus(str, Enum):
-    status1 = "Active"
-    status2 = "Discontinued"
-    status3 = "BackOrder"
+    active = "Active"
+    discontinued = "Discontinued"
+    backorder = "Backorder"
 
 class ItemBase(BaseModel):
     name: str
