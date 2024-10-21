@@ -50,3 +50,5 @@ app.include_router(ride_usage_router, prefix=f"{version_prefix}/rideusage", tags
 app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["beverage"])
 app.include_router(payment_method_router, prefix=f"{version_prefix}/paymentmethods", tags=["payment_methods"])
 app.include_router(employee_payment_router, prefix=f"{version_prefix}/employeepayments", tags=["employee_payments"])
+app.include_router(items.item_router, prefix=f"{version_prefix}/items", tags=["Items"])
+app.include_router(vendors.vendor_router, prefix=f"{version_prefix}/vendors", tags=["Vendor"])

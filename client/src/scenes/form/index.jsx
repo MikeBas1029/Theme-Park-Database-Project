@@ -1,8 +1,10 @@
-import { Box, Button, TextField } from "@mui/material";
+import {Box, Button, IconButton, TextField} from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Header from "../../components/Header";
+import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
     firstName: "",
@@ -37,7 +39,8 @@ const userSchema = yup.object().shape({
 
 
 const Form = () => {
-    const isNonMobile = useMediaQuery("(min-width:600px)")
+    const isNonMobile = useMediaQuery("(min-width:600px)");
+    const navigate = useNavigate();
 
     const handleFormSubmit = (values) => {
         console.log(values) /*FORM IS ONLY CONSOLE LOGGING */
@@ -46,6 +49,10 @@ const Form = () => {
     return(
     
     <Box  m="20px">
+        <IconButton onClick={() => navigate('/employees')}>
+            <ArrowBackIcon sx={{ fontSize: "30px", color: "grey" }} />
+        </IconButton>
+
         <Header title="ADD NEW EMPLOYEE" subtitle="Add a profile for a NEW employee" />
         <Formik 
         onSubmit={handleFormSubmit}
