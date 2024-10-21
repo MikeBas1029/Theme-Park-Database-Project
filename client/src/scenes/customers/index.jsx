@@ -8,6 +8,8 @@ import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; // Import the plus icon
 import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 const Customers = () => {
@@ -15,42 +17,39 @@ const Customers = () => {
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
+    const [customers, setCustomers] = useState([]); // State for storing customers data
+    const [loading, setLoading] = useState(true); // State for loading indicator
+
+
     const columns = [
-        {field: "id", headerName: "CustomerID", flex: 0.5}, 
-        {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left"},
-        {field: "phone", headerName: "Phone Number", flex: 1},
-        {field: "email", headerName: "Email", flex: 1},
-        {field: "access", headerName: "Access Level", flex: 1, renderCell: ({row: {access}}) => {
-            return (
-                <Box
-                width="60%"
-                m="0 auto"
-                p="5px"
-                display="flex"
-                justifyContent="center"
-                backgroundColor={
-                    access === "admin"
-                    ? colors.greenAccent[600]
-                    : colors.greenAccent[700]
-                }
-                borderRadius="4px"
-                >
-                    {access === "admin" && <AdminPanelSettingsOutlinedIcon /> }
-                    {access === "manager" && <SecurityOutlinedIcon />}
-                    {access === "user" && <LockOpenOutlinedIcon />}
-                    <p color={colors.grey[100]} sx={{ml: "5px"}}>
-                        {access}
-                    </p>
-                </Box>
-            )
-         }
-        },
+        { field: "customer_id", headerName: "CustomerID", flex: 0.5 },
+        { field: "first_name", headerName: "First Name", flex: 1, cellClassName: "name-column--cell" },
+        { field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell" },
+        { field: "phone_number", headerName: "Phone Number", flex: 1 },
+        { field: "email", headerName: "Email", flex: 1 },
         ]; {/*field: value/data grabbed from  colName: column title in table */}
+
+
+        // Fetch customers from the backend
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/api/v1/customers/");
+                console.log("Fetched customers:", response.data);
+                setCustomers(response.data);
+            } catch (error) {
+                console.error("Error fetching customers:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCustomers();
+    }, []);
+
 
     return(
 
-        
         <Box m="20px">
             <Header title="Customer" subtitle="View customers and track daily park history"/>
 
@@ -91,10 +90,18 @@ const Customers = () => {
                 },
                 }}>
 
-            <DataGrid rows={sampleDataRoster} columns={columns} components={{Toolbar: GridToolbar}}/>
+                {loading ? (
+                    <div>Loading...</div>
+                ) : (
+                    
+            <DataGrid 
+            rows={customers} 
+            columns={columns} 
+            components={{Toolbar: GridToolbar}}
+            loading={loading} 
+            getRowId={(row) => row.customer_id}/>
+                )}
             </Box>
-
-
         </Box>
     );
 }

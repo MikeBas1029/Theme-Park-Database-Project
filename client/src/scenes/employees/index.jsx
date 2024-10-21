@@ -5,9 +5,11 @@ import {sampleDataRoster} from "../../data/sampleData"
 import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; // Import the plus icon
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; 
 import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios  from "axios"; //install if have !! needed for API requests
 
 
 const Employees = () => {
@@ -15,12 +17,50 @@ const Employees = () => {
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
+    const [employeeData, setEmployeeData] = useState([]); {/*State for storing employee data*/}
+    const [loading, setLoading] = useState(true); // Loading state
+
+
+    {/*Fetch employee data from endpoints when table is pulled*/}
+    useEffect(() => {
+        const fetchEmployeeData = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/api/v1/employees/");
+                console.log("Fetched employees:", response.data);
+                setEmployeeData(response.data);
+            } catch (error) {
+                console.error("Error fetching employees:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchEmployeeData();
+        }, []);
+
+        
+
+    {/*Colums for employee table */ } {/*field: value/data grabbed from  headerName: column title in table*/}
     const columns = [
-        {field: "id", headerName: "EmployeeID(SSN?)", flex: 0.5}, 
-        {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "age", headerName: "Age", type: "number", headerAlign: "left", align: "left"},
-        {field: "phone", headerName: "Phone Number", flex: 1},
-        {field: "email", headerName: "Email", flex: 1},
+        { field: "employee_id", headerName: "EmployeeID", flex: 0.5 },
+        { field: "ssn", headerName: "SSN", flex: 0.5 },
+        { field: "first_name", headerName: "First Name", cellClassName: "name-column--cell" },
+        { field: "last_name", headerName: "Last Name", cellClassName: "name-column--cell" },
+        { field: "middle_initial", headerName: "MI", cellClassName: "name-column--cell" },
+        { field: "phone_number", headerName: "Phone Number" },
+        { field: "email", headerName: "Email" },
+        { field: "address_line1", headerName: "Address Line 1" },
+        { field: "address_line2", headerName: "Address Line 2" },
+        { field: "city", headerName: "City" },
+        { field: "state", headerName: "State" },
+        { field: "zip_code", headerName: "Zip Code" },
+        { field: "country", headerName: "Country" },
+        { field: "dob", headerName: "Date of Birth" },
+        { field: "start_date", headerName: "Start Date" },
+        { field: "employee_type", headerName: "Employee Type" },
+        { field: "hourly_wage", headerName: "Hourly Wage" },
+        { field: "salary", headerName: "Salary" },
+        { field: "job_function", headerName: "Job Function" },
         {field: "access", headerName: "Access Level", flex: 1, renderCell: ({row: {access}}) => {
             return (
                 <Box
@@ -46,7 +86,11 @@ const Employees = () => {
             )
          }
         },
-        ]; {/*field: value/data grabbed from  colName: column title in table */}
+        ]; 
+        
+
+        
+
 
     return(
 
@@ -91,7 +135,12 @@ const Employees = () => {
                 },
                 }}>
 
-            <DataGrid rows={sampleDataRoster} columns={columns} components={{Toolbar: GridToolbar}}/>
+            <DataGrid 
+            rows={employeeData} 
+            columns={columns} 
+            components={{Toolbar: GridToolbar}}
+            loading={loading} 
+            getRowId={(row) => row.employee_id}/>
             </Box>
 
 
