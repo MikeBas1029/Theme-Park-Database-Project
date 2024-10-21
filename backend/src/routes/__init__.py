@@ -2,14 +2,14 @@ from .beverage_items import beverage_router
 from .customers import customer_router
 # from .department_roles import dept_roles_router
 from .departments import department_router
-# from .employee_payments import empl_payments_router
-from .employees import employee_router
+from .employee_payments import employee_payment_router
+from .employees import employee_router 
 # from .entertainment import entertainment_router
 # from .food_items import food_router
 # from .guest_services import guest_services_router
 # from .invoices import invoice_router
 # from .merchandise import merchandise_router
-# from .payment_methods import payment_methods_router
+from .payment_methods import payment_method_router
 # from .park_facilities import park_facilities_router
 # from .po_details import po_details_router
 # from .purchase_orders import purchase_order_router

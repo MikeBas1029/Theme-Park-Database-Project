@@ -2,11 +2,11 @@ import logging
 from fastapi import FastAPI
 from sqlmodel import SQLModel
 from src.db.database import init_db
-from src.routes.customers import customer_router
 from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import *
 from src.routes import *
+from fastapi.middleware.cors import CORSMiddleware
 
 
 logging.basicConfig(level=logging.INFO)
@@ -30,6 +30,15 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Add your frontend URL here
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=["customers"])
 app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=["employees"])
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
@@ -39,4 +48,6 @@ app.include_router(ride_type_router, prefix=f"{version_prefix}/ridetype", tags=[
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
 app.include_router(ride_usage_router, prefix=f"{version_prefix}/rideusage", tags=["ride_usage"])
 app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["beverage"])
+app.include_router(payment_method_router, prefix=f"{version_prefix}/paymentmethods", tags=["payment_methods"])
+app.include_router(employee_payment_router, prefix=f"{version_prefix}/employeepayments", tags=["employee_payments"])
 app.include_router(items.item_router, prefix=f"{version_prefix}/items", tags=["Items"])
