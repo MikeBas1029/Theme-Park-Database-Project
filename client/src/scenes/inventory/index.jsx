@@ -19,6 +19,7 @@ const Inventory = () => {
 
     const columns = [
         {field: "id", headerName: "ID", flex: 0.2},
+        {field: "vendorID", headerName: "Vendor ID", flex: 0.2},
         {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell"},
         {field: "status", headerName: "Status", flex: .3},
         {field: "category", headerName: "Category", flex: 1},
@@ -31,7 +32,7 @@ const Inventory = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/items');
+                const response = await axios.get('http://127.0.0.1:8000/api/v1/items');
                 console.log(response.data); //log the response data
                 setRows(response.data);
             } catch (error) {
@@ -45,18 +46,17 @@ const Inventory = () => {
 
 
         <Box m="20px">
-            <Header title="Shops & Inventory" subtitle="Manage Inventory"/>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Header title="Inventory" subtitle="Manage & view Inventory"/>
 
-            {/*Employee creation form button + linking */}
-            <Box display="flex" justifyContent="flex-end" mb="20px">
+                {/*Employee creation form button + linking */}
                 <IconButton onClick={() => navigate("/inventoryform")}>
                     <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
                 </IconButton>
-            </Box>
-
+              </Box>
             {/*To display inventory*/}
             <Box
-                m="40px 0 0 0"
+                m="10px 0 0 0"
                 height="75vh"
                 sx={{"& .MuiDataGrid-root": {
                         border: "none"

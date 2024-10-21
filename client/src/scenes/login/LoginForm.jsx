@@ -2,14 +2,10 @@ import React from 'react';
 import './LoginForm.css';
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockIcon from '@mui/icons-material/Lock';
-import CloseIcon from '@mui/icons-material/Close';
 
 const LoginForm = ({ onClose }) => {
     return (
         <div className='wrapper'>
-            <button className='close-button' onClick={onClose}>
-                <CloseIcon /> {/* Close button with icon */}
-            </button>
 
             <form action="">
                 <h1>Login</h1>
