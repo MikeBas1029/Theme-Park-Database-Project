@@ -53,7 +53,7 @@ const Customers = () => {
         <Box m="20px">
             <Header title="Customer" subtitle="View customers and track daily park history"/>
 
-            {/*Employee creation form button + linking */}
+            {/*Customer(?) creation form button + linking */}
             <Box display="flex" justifyContent="flex-end" mb="20px">
                 <IconButton onClick={() => navigate("/form")}>
                 <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
