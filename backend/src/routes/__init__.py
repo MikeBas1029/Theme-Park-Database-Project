@@ -7,7 +7,7 @@ from .employees import employee_router
 # from .entertainment import entertainment_router
 # from .food_items import food_router
 # from .guest_services import guest_services_router
-# from .invoices import invoice_router
+from .invoices import invoice_router
 # from .merchandise import merchandise_router
 from .payment_methods import payment_method_router
 # from .park_facilities import park_facilities_router
