@@ -20,6 +20,11 @@ class EmployeeType(str, Enum):
     hourly = "Hourly"
     salary = "Salary"
 
+class EmployeeGender(str, Enum):
+    male = "M"
+    female = "F"
+    nonbinary = "N"
+
 class Employees(SQLModel, table=True):
     __tablename__ = "employees"
     
@@ -56,6 +61,13 @@ class Employees(SQLModel, table=True):
     # This is a required field and validated as an email format. Must be unique.
     email: EmailStr = Field(sa_column=Column(mysql.VARCHAR(100), nullable=False, unique=True, comment="Email address of the employee"), alias="Email")
     
+    gender: EmployeeGender = Field(
+        sa_column=Column(
+            SAEnum(EmployeeGender, values_callable=lambda x: [e.value for e in x]),
+            nullable=False,
+        )
+    )
+
     # AddressLine1 is the first line of the employee's address.
     # This is a required field, stored as a string.
     address_line1: str = Field(sa_column=Column(mysql.VARCHAR(100), nullable=False, comment="First line of the employee's address"), alias="AddressLine1")

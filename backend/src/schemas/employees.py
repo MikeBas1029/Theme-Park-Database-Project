@@ -7,6 +7,11 @@ class EmployeeType(str, Enum):
     hourly = "Hourly"
     salary = "Salary"
 
+class EmployeeGender(str, Enum):
+    male = "M"
+    female = "F"
+    nonbinary = "N"
+
 class Employee(BaseModel):
     ssn: str
     employee_id: str 
@@ -15,6 +20,7 @@ class Employee(BaseModel):
     middle_initial: Optional[str] 
     phone_number: str 
     email: EmailStr 
+    gender: EmployeeGender
     address_line1: str 
     address_line2: Optional[str] 
     city: str 
@@ -37,6 +43,7 @@ class EmployeeCreateModel(BaseModel):
     middle_initial: Optional[str] 
     phone_number: str 
     email: EmailStr 
+    gender: EmployeeGender
     address_line1: str 
     address_line2: Optional[str] 
     city: str 
@@ -57,6 +64,7 @@ class EmployeeUpdateModel(BaseModel):
     middle_initial: Optional[str] 
     phone_number: str 
     email: EmailStr 
+    gender: Optional[EmployeeGender]
     address_line1: Optional[str] 
     address_line2: Optional[str] 
     city: Optional[str] 
