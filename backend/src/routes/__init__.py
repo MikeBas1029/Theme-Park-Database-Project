@@ -1,9 +1,11 @@
 from .beverage_items import beverage_router
 from .customers import customer_router
+from .cust_auth import cust_auth_router
 # from .department_roles import dept_roles_router
 from .departments import department_router
 from .employee_payments import employee_payment_router
 from .employees import employee_router 
+# from .emp_auth import emp_auth_router
 # from .entertainment import entertainment_router
 # from .food_items import food_router
 # from .guest_services import guest_services_router

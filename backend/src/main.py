@@ -51,3 +51,4 @@ app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["
 app.include_router(payment_method_router, prefix=f"{version_prefix}/paymentmethods", tags=["payment_methods"])
 app.include_router(employee_payment_router, prefix=f"{version_prefix}/employeepayments", tags=["employee_payments"])
 app.include_router(invoice_router, prefix=f"{version_prefix}/invoices", tags=["invoices"])
+app.include_router(cust_auth_router, prefix=f"{version_prefix}/custauth", tags=["cust_auth"])
