@@ -84,7 +84,11 @@ const Inventory = () => {
                     },
                 }}>
 
-                <DataGrid rows={rows} columns={columns} components={{Toolbar: GridToolbar}}/>
+<DataGrid 
+            rows={rows} 
+            columns={columns} 
+            components={{Toolbar: GridToolbar}}
+            getRowId={(row) => row.id}/>
             </Box>
 
 

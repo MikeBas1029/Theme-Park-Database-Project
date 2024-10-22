@@ -7,32 +7,43 @@ import Header from "../../components/Header";
 import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
-    firstName: "",
-    middleInitial: "",
-    lastName: "",
+    first_name: "", 
+    last_name: "",
+    middle_initial: "",
+    phone_number: "",
     email: "",
-    phone: "",
-    addres1: "",
-    address2: "", 
-    DOB: "",
+    address_line1: "",
+    address_line2: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    country: "",
+    dob: "",
+    start_date: "",
+    employee_type: "",
+    hourly_wage: "",
+    salary: "",
+    job_function: "",
 };
+
 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/; {/*highly comprehensive regExp (?) works for international nums */}
 
 
+
+
 const userSchema = yup.object().shape({
-    firstName: yup.string().required("required"),
-    middleInitial: yup.string(),
-    lastName: yup.string().required("required"),
+    ssn: yup.string().required("required"),
+    first_name: yup.string().required("required"),
+    middle_initial: yup.string(),
+    last_name: yup.string().required("required"),
     email: yup.string().email("Invalid email").required("required"),
-    phone: yup.string().matches(phoneRegExp,"Phone number is not valid").required("required"),
-    addres1: yup.string().required("required"),
-    address2: yup.string(),
-    DOB: yup.string().required("required"),
-
-
-})
+    phone_number: yup.string().matches(phoneRegExp, "Phone number is not valid").required("required"),
+    address_line1: yup.string().required("required"),
+    address_line2: yup.string(),
+    dob: yup.string().required("required"),
+});
 
 
 
@@ -71,12 +82,26 @@ const Form = () => {
                         label="First Name"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.firstName}
-                        name="firstName"
-                        error={!!touched.firstName && !!errors.firstName}
-                        helperText={touched.firstName && errors.firstName}
+                        value={values.first_name}
+                        name="first_name"
+                        error={!!touched.first_name && !!errors.first_name}
+                        helperText={touched.first_name && errors.first_name}
                         sx={{
-                            gridColumn: "span 2"
+                            gridColumn: "span 1"
+                        }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Middle Initial"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.middle_initial}
+                        name="middle_initial"
+                        error={!!touched.middle_initial && !!errors.middle_initial}
+                        helperText={touched.middle_initial && errors.dmiddle_initialb}
+                        sx={{
+                            gridColumn: "span 1"
                         }}/>
                         <TextField 
                         fullWidth
@@ -85,12 +110,68 @@ const Form = () => {
                         label="Last Name"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.lastName}
-                        name="lastName"
-                        error={!!touched.lastName && !!errors.lastName}
-                        helperText={touched.lastName && errors.lastName}
+                        value={values.last_name}
+                        name="last_name"
+                        error={!!touched.last_name && !!errors.last_name}
+                        helperText={touched.last_name && errors.last_name}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Title"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.last_name}
+                        name="last_name"
+                        error={!!touched.last_name && !!errors.last_name}
+                        helperText={touched.last_name && errors.last_name}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Social Security Number"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.email}
+                        name="ssn"
+                        error={!!touched.ssn && !!errors.ssn}
+                        helperText={touched.ssn && errors.ssn}
                         sx={{
                             gridColumn: "span 2"
+                        }}/>   
+                         <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Data of Birth"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.dob}
+                        name="dob"
+                        error={!!touched.dob && !!errors.dob}
+                        helperText={touched.dob && errors.dob}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Gender"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.dob}
+                        name="dob"
+                        error={!!touched.dob && !!errors.dob}
+                        helperText={touched.dob && errors.dob}
+                        sx={{
+                            gridColumn: "span 1"
                         }}/>
                         <TextField 
                         fullWidth
@@ -104,8 +185,9 @@ const Form = () => {
                         error={!!touched.email && !!errors.email}
                         helperText={touched.email && errors.email}
                         sx={{
-                            gridColumn: "span 3"
-                        }}/>
+                            gridColumn: "span 2"
+                        }}/>       
+
                         <TextField 
                         fullWidth
                         variant="filled"
@@ -113,13 +195,13 @@ const Form = () => {
                         label="Phone Number"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.phone}
-                        name="phone"
-                        error={!!touched.phone && !!errors.phone}
-                        helperText={touched.phone && errors.phone}
+                        value={values.phone_number}
+                        name="phone_number"
+                        error={!!touched.phone_number && !!errors.phone_number}
+                        helperText={touched.phone_number && errors.phone_number}
                         sx={{
                             gridColumn: "span 2"
-                        }}/>
+                        }}/>   
                         <TextField 
                         fullWidth
                         variant="filled"
@@ -127,12 +209,12 @@ const Form = () => {
                         label="Adress 1"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.addres1}
-                        name="addres1"
-                        error={!!touched.addres1 && !!errors.addres1}
-                        helperText={touched.addres1 && errors.addres1}
+                        value={values.address_line1}
+                        name="address_line1"
+                        error={!!touched.address_line1 && !!errors.address_line1}
+                        helperText={touched.address_line1 && errors.address_line1}
                         sx={{
-                            gridColumn: "span 3"
+                            gridColumn: "span 4"
                         }}/>
                         <TextField 
                         fullWidth
@@ -141,13 +223,70 @@ const Form = () => {
                         label="Adress 2"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.address2}
-                        name="address2"
-                        error={!!touched.address2 && !!errors.address2}
-                        helperText={touched.address2 && errors.address2}
+                        value={values.address_line2}
+                        name="address_line2"
+                        error={!!touched.address_line2 && !!errors.address_line2}
+                        helperText={touched.address_line2 && errors.address_line2}
                         sx={{
                             gridColumn: "span 4"
                         }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="City"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.city}
+                        name="city"
+                        error={!!touched.city && !!errors.city}
+                        helperText={touched.city && errors.city}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="State"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.state}
+                        name="state"
+                        error={!!touched.state && !!errors.state}
+                        helperText={touched.state && errors.state}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+                                                <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Country"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.country}
+                        name="country"
+                        error={!!touched.country && !!errors.country}
+                        helperText={touched.country && errors.country}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
+                        label="Zip Code"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.state}
+                        name="zip_code"
+                        error={!!touched.zip_code && !!errors.zip_code}
+                        helperText={touched.zip_code && errors.zip_code}
+                        sx={{
+                            gridColumn: "span 1"
+                        }}/>
+
                     </Box>
                     <Box display="flex" justifyContent="end" mt="20px">
                         <Button type="submit" color="secondary" variant="contained">
