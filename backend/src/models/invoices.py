@@ -1,13 +1,28 @@
+import enum
 from datetime import date, datetime
 from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
+from sqlalchemy import Enum as SAEnum
 
 if TYPE_CHECKING:
     from src.models.vendors import Vendors
     from src.models.purchase_orders import PurchaseOrders
     from src.models.work_orders import WorkOrders
     from src.models.vendor_payments import VendorPayments
+
+class PaymentStatus(str, enum.Enum):
+    paid = "paid" # full payment received and processed
+    partial = "partial" # partial payment but balance still outstanding
+    pending = "pending" # invoice generate but not paid yet
+    overdue = "overdue" # payment due but not paid yet
+    canceled = "canceled" # invoice canceled after created no payment due
+    failed = "failed" # payment attempted but failed
+    refunded = "refunded" # payment made but later refunded
+    disputed = "disputed" # customer has raised an issue 
+    awaiting = "awaiting" # invoice sent to customer, payment still expected
+    void = "void" # never processed
+
 
 class Invoice(SQLModel, table=True):
     __tablename__ = "invoice"
@@ -34,39 +49,33 @@ class Invoice(SQLModel, table=True):
         alias="LineItemID"
     )
 
-    # Quantity of items being invoiced. This field cannot be NULL.
-    # It represents the number of items for this particular invoice line item.
-    quantity: int = Field(
-        sa_column=Column(mysql.INTEGER, nullable=False, comment="Quantity of items invoiced"),
-        alias="Quantity"
-    )
-    
-    # Price of the item being invoiced. This field cannot be NULL.
-    # It stores the cost of a single unit of the item, represented as a decimal value.
-    price: float = Field(
+    # Amount being invoiced. This field cannot be NULL.
+    # It stores the total amount of the item or service, represented as a decimal value.
+    amount_due: float = Field(
         sa_column=Column(mysql.DECIMAL(10, 2), nullable=False, comment="Price per unit of the item invoiced"),
         alias="Price"
     )
 
-    # Expected date when the invoice items should be received.
-    # This is an optional field that can be NULL if no expected date is provided.
-    expected_date: Optional[date] = Field(
-        sa_column=Column(mysql.DATE, comment="Expected date for the item to be received"), 
-        alias="ExpectedDate"
+    issue_date: date = Field(
+        sa_column=Column(mysql.DATE, comment="Date invoice was generated."), 
+        alias="IssueDate"
     )
-    
-    # Actual date when the invoice items were received.
-    # This field is mandatory and will be populated when the invoice is processed.
-    actual_date: datetime = Field(
-        sa_column=Column(mysql.TIMESTAMP, nullable=False, comment="Actual date when the invoice was received"),
-        alias="ActualDate"
+
+    due_date: Optional[date] = Field(
+        sa_column=Column(
+            mysql.DATE, 
+            nullable=True,
+            comment="Expected date for the invoice to be paid."
+        ), 
+        alias="DueDate"
     )
-    
-    # A flag to indicate if the invoice has been fully received.
-    # This field is optional and will be either True, False, or NULL (if not set).
-    received: Optional[bool] = Field(
-        sa_column=Column(mysql.TINYINT(1), comment="Indicates whether the invoice has been received (True/False)"),
-        alias="Received"
+
+    payment_status: PaymentStatus = Field(
+        sa_column=Column(
+            SAEnum(PaymentStatus),
+            nullable=False,
+            comment="The current status of the invoice."
+        )
     )
 
     # Relationships

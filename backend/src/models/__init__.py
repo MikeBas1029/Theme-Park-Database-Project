@@ -1,4 +1,5 @@
 from .beverage_items import BeverageItems
+from .cust_auth import CustAuth
 from .customers import Customers
 from .department_roles import DepartmentRoles
 from .departments import Departments
