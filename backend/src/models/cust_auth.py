@@ -33,7 +33,7 @@ class CustAuth(SQLModel, table=True):
     last_name: str
     role: str = Field(
         sa_column=Column(
-            mysql.VARCHAR, 
+            mysql.VARCHAR(4), 
             nullable=False, 
             server_default="user",
             comment="Customer role in the database that sets permission levels.",
@@ -41,7 +41,7 @@ class CustAuth(SQLModel, table=True):
     )
     is_verified: bool = Field(default=False)
     password_hash: str = Field(
-        sa_column=Column(mysql.VARCHAR, nullable=False), exclude=True
+        sa_column=Column(mysql.VARCHAR(60), nullable=False), exclude=True
     )
     created_at: datetime = Field(sa_column=Column(mysql.TIMESTAMP, default=datetime.now))
     update_at: datetime = Field(sa_column=Column(mysql.TIMESTAMP, default=datetime.now))

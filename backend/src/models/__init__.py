@@ -5,6 +5,7 @@ from .department_roles import DepartmentRoles
 from .departments import Departments
 from .employee_payments import EmployeePayments
 from .employees import Employees 
+from .emp_auth import EmpAuth
 from .entertainment import Entertainment 
 from .food_items import FoodItems
 from .guest_services import GuestServices

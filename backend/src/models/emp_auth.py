@@ -25,10 +25,10 @@ class EmpAuth(SQLModel, table=True):
             default=uuid.uuid4)
     )
 
-    employee_id: Optional[int] = Field(
+    employee_id: Optional[str] = Field(
         default=None,
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(7),
             ForeignKey("employees.employee_id", ondelete="SET NULL"),
             nullable=True,
             comment="Foreign key to employees table, may be optional"
@@ -48,7 +48,7 @@ class EmpAuth(SQLModel, table=True):
     )
     is_verified: bool = Field(default=False)
     password_hash: str = Field(
-        sa_column=Column(mysql.VARCHAR, nullable=False), exclude=True
+        sa_column=Column(mysql.VARCHAR(60), nullable=False), exclude=True
     )
     created_at: datetime = Field(sa_column=Column(mysql.TIMESTAMP, default=datetime.now))
     update_at: datetime = Field(sa_column=Column(mysql.TIMESTAMP, default=datetime.now))
