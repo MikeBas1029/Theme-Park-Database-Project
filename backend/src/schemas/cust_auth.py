@@ -23,4 +23,8 @@ class CustAuthCreateModel(BaseModel):
     last_name: str
     password: str = Field(min_length=8)
 
+class CustAuthLogin(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=8)
+
 
