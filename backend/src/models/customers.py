@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from src.models.rentals import Rentals
     from src.models.ride_usage import RideUsage
     from src.models.sales_orders import SalesOrders
+    from src.models.cust_auth import CustAuth
 
 class MembershipType(str, Enum):
     bronze = 'Bronze'
@@ -99,6 +100,8 @@ class Customers(SQLModel, table=True):
     ride_usages: List["RideUsage"] = Relationship(back_populates="customer")
 
     sales_orders: List["SalesOrders"] = Relationship(back_populates="customer")
+
+    cust_auth: Optional["CustAuth"] = Relationship(back_populates="customer")
 
     # Table index: Adds an index on the customer_id field to improve query performance.
     __table_args__ = (

@@ -53,6 +53,8 @@ class PurchaseOrders(SQLModel, table=True):
         alias="order_status"  # Alias used for the column in queries
     )
 
+    # add expected delivery date 
+
     # Relationships
     # One purchase order is associated with one vendor (many-to-one relationship)
     vendor: "Vendors" = Relationship(back_populates="purchase_orders")  # Relationship to the Vendors model
