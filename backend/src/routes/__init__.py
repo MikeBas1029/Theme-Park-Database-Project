@@ -13,7 +13,7 @@ from .invoices import invoice_router
 # from .merchandise import merchandise_router
 from .payment_methods import payment_method_router
 # from .park_facilities import park_facilities_router
-# from .po_details import po_details_router
+from .po_details import po_detail_router
 from .purchase_orders import purchase_order_router
 from .purchase_order_items import purchase_order_item_router
 # from .rentals import rentals_router
