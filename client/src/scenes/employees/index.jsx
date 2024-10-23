@@ -107,7 +107,7 @@ const Employees = () => {
                 columns={columns} 
                 />
 
-                <IconButton onClick={() => navigate("/inventoryform")}>
+                <IconButton onClick={() => navigate("/form")}>
                     <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600]}} />
                 </IconButton>
               </Box>

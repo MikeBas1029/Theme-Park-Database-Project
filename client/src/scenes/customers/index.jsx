@@ -27,6 +27,16 @@ const Customers = () => {
         { field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell" }, 
         { field: "email", headerName: "Email", flex: 1 },
         { field: "phone_number", headerName: "Phone Number", flex: 1 },
+        { field: "address_line1", headerName: "Address Line 1" },
+        { field: "address_line2", headerName: "Address Line 2" },
+        { field: "city", headerName: "City" },
+        { field: "state", headerName: "State" },
+        { field: "zip_code", headerName: "Zip Code" },
+        { field: "country", headerName: "Country" },
+        { field: "date_of_birth", headerName: "Date of Birth" },
+        { field: "membership_type", headerName: "Membership Type" },
+        { field: "registration_date", headerName: "Registration Date" },
+        { field: "renewal_date", headerName: "Renewal Date" },
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
 
@@ -55,10 +65,11 @@ const Customers = () => {
 
             {/*Customer(?) creation form button + linking */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Customer🔜" subtitle="View customers and track daily park history"/>
+            <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
             <DownloadButton 
                  apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
                 fileName="customers_report.csv" 
+                columns={columns} 
                 />
                 <IconButton onClick={() => navigate("/form")}>
                 <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />

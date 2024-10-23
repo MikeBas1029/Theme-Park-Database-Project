@@ -6,8 +6,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Header from "../../components/Header";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import BasicDateTimePicker from "../../components/DateTime";
 ;
 const initialValues = {
+    ssn: "",
     first_name: "", 
     last_name: "",
     middle_initial: "",
@@ -136,7 +138,7 @@ const userSchema = yup.object().shape({
         otherwise: yup.number().nullable(),
     }),*/
     job_function: yup.string().required("Job function is required"),
-    gender: yup.string().required("Gender is required"),
+    gender: yup.string(),
 
 });
 
@@ -153,7 +155,6 @@ const Form = () => {
     const navigate = useNavigate();
 
     
-
 
     const handleFormSubmit = async (values) => {
         // Create a request body that matches the expected API schema
@@ -315,7 +316,12 @@ const Form = () => {
                         sx={{
                             gridColumn: "span 2"
                         }}/>   
-                         <TextField 
+
+                        <BasicDateTimePicker label="Date of Birth"/>
+
+
+
+{/*      save for style refernce                   <TextField 
                         fullWidth
                         variant="filled"
                         type="text"
@@ -333,7 +339,7 @@ const Form = () => {
                         sx={{
                             gridColumn: "span 1"
                         }}/>
-
+*/}
 
                         <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
                             <InputLabel>Gender</InputLabel>
