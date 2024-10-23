@@ -1,12 +1,16 @@
 import string 
 import secrets
+from sqlalchemy import event
+# from sqlalchemy.future import select as async_select
+# from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 from typing import TYPE_CHECKING, List
-from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, CheckConstraint
+from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, CheckConstraint, select
 import sqlalchemy.dialects.mysql as mysql
 
 # Importing models that will be used for relationships, but only during type-checking
+from src.models.supplies import Supplies
 if TYPE_CHECKING:
-    from src.models.supplies import Supplies
     from src.models.purchase_orders import PurchaseOrders
 
 class PurchaseOrderDetails(SQLModel, table=True):
@@ -26,7 +30,7 @@ class PurchaseOrderDetails(SQLModel, table=True):
     
     # order_id is a foreign key referencing the PurchaseOrders table, linking each order detail to a specific order.
     order_id: str = Field(
-        sa_column=Column(mysql.VARCHAR(10), ForeignKey("purchaseorders.order_id"), nullable=False, comment="ID of the related purchase order"),
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("purchaseorders.order_id"), nullable=False, comment="ID of the related purchase order"),
         alias="OrderID"
     )
     
@@ -73,3 +77,40 @@ class PurchaseOrderDetails(SQLModel, table=True):
         # Ensures the unit price is always greater than zero (check constraint)
         CheckConstraint("unit_price > 0", name="chk_po_unit_price_positive"),
     )
+
+# # Define an async event to listen for before inserting or updating
+# @event.listens_for(PurchaseOrderDetails, "before_insert")
+# @event.listens_for(PurchaseOrderDetails, "before_update")
+# async def set_unit_price(mapper, connection, target):
+#     """
+#     Asynchronous event listener to set the unit price in PurchaseOrderDetails
+#     before inserting or updating a record.
+#     """
+#     async with AsyncSession(connection) as session:
+#         # Fetch the price from the Supplies table based on supply_id
+#         result = await session.execute(
+#             async_select(Supplies).where(Supplies.supply_id == target.supply_id)
+#         )
+#         supply = result.scalar_one_or_none()
+#         print("FROM LISTENER")
+#         print(supply)
+
+#         if supply:
+#             target.unit_price = supply.price
+#         else:
+#             raise ValueError(f"Supply with ID {target.supply_id} not found")
+
+@event.listens_for(PurchaseOrderDetails, "before_insert")
+@event.listens_for(PurchaseOrderDetails, "before_update")
+def set_unit_price(mapper, connection, target):
+    # Use a regular session with a synchronous query
+    with Session(connection) as session:
+        result = session.execute(
+            select(Supplies).where(Supplies.supply_id == target.supply_id)
+        )
+        supply = result.scalar_one_or_none()
+        if supply:
+            print(f"Setting unit_price for supply_id: {target.supply_id}")
+            target.unit_price = supply.price
+        else:
+            raise ValueError(f"Supply with ID {target.supply_id} not found")

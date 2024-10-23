@@ -5,10 +5,9 @@ class PurchaseOrderDetailsOutputModel(BaseModel):
     order_id: str
     supply_id: str 
     quantity: int
-    unit_price: float 
+    unit_price: float
 
 class PurchaseOrderDetailsInputModel(BaseModel):
     order_id: str
     supply_id: str 
     quantity: int
-    unit_price: float 
