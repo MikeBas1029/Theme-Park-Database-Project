@@ -10,6 +10,7 @@ import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios  from "axios"; //install if have !! needed for API requests
+import DownloadButton from "../../components/DownloadButton";
 
 
 const Employees = () => {
@@ -96,14 +97,20 @@ const Employees = () => {
 
         
         <Box m="20px">
-            <Header title="Employees" subtitle="Manage Employees"/>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Header title="Employees" subtitle="View details related to customer employees"/>
+                {/*Employee creation form button + linking */}
+                
+                <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/employees/" 
+                fileName="employees_report.csv"
+                columns={columns} 
+                />
 
-            {/*Employee creation form button + linking */}
-            <Box display="flex" justifyContent="flex-end" mb="20px">
-                <IconButton onClick={() => navigate("/form")}>
-                <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
+                <IconButton onClick={() => navigate("/inventoryform")}>
+                    <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600]}} />
                 </IconButton>
-            </Box>
+              </Box>
 
             {/*Form fields, missing validation method linkings + user auth */}
             <Box
@@ -150,6 +157,5 @@ const Employees = () => {
 }
 
 export default Employees;
-
 
 

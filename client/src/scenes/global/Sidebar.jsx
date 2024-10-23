@@ -217,7 +217,7 @@ return(
 
             <Item
              title="Customer/Visit info"
-             to="/customers"
+             to="/customervisits"
              icon={<TourIcon />}
              selected={selected}
              setSelected={setSelected}

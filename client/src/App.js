@@ -21,6 +21,7 @@ import VendorSelection from "./scenes/vendorsandorders/vendorSelection";
 import Safety from "./scenes/safety";
 import InventoryForm from "./scenes/inventoryform";
 import Rides from "./scenes/rides";
+import CustomerVisitSelection from "./scenes/customervisits/customervisitselection";
 
 
 
@@ -61,6 +62,7 @@ function App() {
           <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
           <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
           <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
+          <Route path="//customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
         </Routes>
 
       </main>

@@ -10,7 +10,7 @@ import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import DownloadButton from "../../components/DownloadButton";
 
 const Customers = () => {
     const theme = useTheme();
@@ -24,9 +24,9 @@ const Customers = () => {
     const columns = [
         { field: "customer_id", headerName: "CustomerID", flex: 0.5 },
         { field: "first_name", headerName: "First Name", flex: 1, cellClassName: "name-column--cell" },
-        { field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell" },
-        { field: "phone_number", headerName: "Phone Number", flex: 1 },
+        { field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell" }, 
         { field: "email", headerName: "Email", flex: 1 },
+        { field: "phone_number", headerName: "Phone Number", flex: 1 },
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
 
@@ -51,10 +51,15 @@ const Customers = () => {
     return(
 
         <Box m="20px">
-            <Header title="Customer" subtitle="View customers and track daily park history"/>
+            
 
             {/*Customer(?) creation form button + linking */}
-            <Box display="flex" justifyContent="flex-end" mb="20px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Header title="Customer" subtitle="View customers and track daily park history"/>
+            <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                fileName="customers_report.csv" 
+                />
                 <IconButton onClick={() => navigate("/form")}>
                 <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
                 </IconButton>
