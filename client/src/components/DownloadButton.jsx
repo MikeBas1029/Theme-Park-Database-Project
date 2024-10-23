@@ -3,18 +3,25 @@ import { IconButton } from "@mui/material";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import axios from 'axios';
 
-const DownloadButton = ({ apiUrl, fileName }) => {
+const DownloadButton = ({ apiUrl, fileName, columns }) => {
     const handleDownload = async () => {
         try {
             const response = await axios.get(apiUrl);
             const data = response.data;
 
-            // Convert data to CSV format
-            const csvContent = "data:text/csv;charset=utf-8,"
-                + "Company Name,Vendor Contact,Phone Number,Email,Address Line 1,Address Line 2,City,Zip Code,Country,Vendor Type,Contract Start Date,Contract End Date,State\n" // Exported table header
-                + data.map(vendor => 
-                    `${vendor.company_name},${vendor.vendor_contact},${vendor.phone_number},${vendor.email},${vendor.address_line1},${vendor.address_line2},${vendor.city},${vendor.zip_code},${vendor.country},${vendor.vendor_type},${vendor.contract_start_date},${vendor.contract_end_date},${vendor.state}`
-                ).join("\n");
+// Check if data is defined and is an array
+if (!Array.isArray(data) || data.length === 0) {
+    console.error("No data available for download.");
+    return; // Exit if there's no data
+}
+
+// Generate CSV headers based on the columns prop
+const csvHeaders = columns.map(col => col.field).join(","); // Extract fields from columns
+const csvContent = "data:text/csv;charset=utf-8,"
+    + csvHeaders + "\n" // CSV header row
+    + data.map(item => 
+        columns.map(col => item[col.field] !== undefined ? item[col.field] : '').join(",") // Extract values for each column
+    ).join("\n");
 
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
