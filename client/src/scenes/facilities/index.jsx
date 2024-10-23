@@ -23,7 +23,7 @@ const Facilities = () => {
 
     return(
         <Box m="20px">
-            <Header title="Park Facilities" subtitle="View park facilities (restrooms, etc)"/>
+            <Header title="Park Facilities💻" subtitle="View park facilities (restrooms, etc)"/>
             <Box
             m="40px 0 0 0"
             height="75vh"

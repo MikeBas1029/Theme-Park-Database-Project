@@ -53,7 +53,7 @@ const Visits = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Header title="Visits" subtitle="View details related to customer visits"/>
+              <Header title="Visits✅" subtitle="View details related to customer visits"/>
                 {/*Employee creation form button + linking */}
                 
                 <DownloadButton 

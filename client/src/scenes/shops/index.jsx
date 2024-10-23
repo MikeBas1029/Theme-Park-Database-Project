@@ -32,7 +32,7 @@ const Shops = () => {
 
     return(
         <Box m="20px">
-            <Header title="Shops" subtitle="View a list of Theme Park Shops"/>
+            <Header title="Shops💻" subtitle="View a list of Theme Park Shops"/>
             <Box
             m="40px 0 0 0"
             height="75vh"

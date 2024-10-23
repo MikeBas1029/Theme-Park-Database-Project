@@ -23,7 +23,7 @@ const Safety = () => {
 
     return(
         <Box m="20px">
-            <Header title="Park Safety" subtitle="View and log park incident reports"/>
+            <Header title="Park Safety💻" subtitle="View and log park incident reports"/>
             <Box
             m="40px 0 0 0"
             height="75vh"

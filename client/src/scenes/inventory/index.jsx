@@ -56,7 +56,7 @@ const Inventory = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Inventory" subtitle="Manage & view Inventory"/>
+                <Header title="Inventory🔜" subtitle="Manage & view Inventory"/>
 
                 <DownloadButton 
                  apiUrl="http://127.0.0.1:8000/api/v1/items/" 
