@@ -1,5 +1,5 @@
 import enum
-from datetime import datetime, timezone
+from datetime import date
 from typing import List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
@@ -37,9 +37,9 @@ class PurchaseOrders(SQLModel, table=True):
     )
 
     # order_date is the date when the purchase order was placed. Default is set to the current UTC time
-    order_date: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),  # Default to the current UTC time
-        sa_column=Column(mysql.DATETIME, nullable=False, comment="Date when the order was placed"),
+    order_date: date = Field(
+        default_factory= date.today,
+        sa_column=Column(mysql.DATE, nullable=False, comment="Date when the order was placed"),
         alias="OrderDate"  # Alias used for the column in queries
     )
 
@@ -48,6 +48,7 @@ class PurchaseOrders(SQLModel, table=True):
         sa_column=Column(
             SAEnum(OrderStatus, values_callable=lambda x: [e.value for e in x]), 
             nullable=False, 
+            default="Pending",
             comment="Status of the purchase order"
         ),
         alias="order_status"  # Alias used for the column in queries
