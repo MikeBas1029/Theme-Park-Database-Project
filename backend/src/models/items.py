@@ -70,8 +70,8 @@ class Items(SQLModel, table=True):
     
     # Foreign key linking the item to a vendor. Each item must be supplied by a specific vendor.
     # The vendor_id is a reference to the VendorID column in the "vendors" table.
-    vendor_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("vendors.vendor_id"), nullable=False, comment="Foreign key linking to the VendorID from the vendors table"),
+    vendor_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("vendors.vendor_id"), nullable=False, comment="Foreign key linking to the VendorID from the vendors table"),
         alias="VendorID"
     )
 

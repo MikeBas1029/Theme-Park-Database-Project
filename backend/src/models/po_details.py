@@ -1,3 +1,5 @@
+import string 
+import secrets
 from typing import TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, CheckConstraint
 import sqlalchemy.dialects.mysql as mysql
@@ -10,9 +12,15 @@ if TYPE_CHECKING:
 class PurchaseOrderDetails(SQLModel, table=True):
     __tablename__ = "orderdetails"  # Name of the table in the database
     
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
     # order_details_id is the primary key for the order details, uniquely identifying each record.
     order_details_id: int = Field(
-        sa_column=Column(mysql.INTEGER, primary_key=True, nullable=False, comment="Unique ID for each order detail"),
+        default_factory=lambda: PurchaseOrderDetails.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), primary_key=True, nullable=False, comment="Unique ID for each order detail"),
         alias="OrderDetailsID"
     )
     
@@ -23,8 +31,8 @@ class PurchaseOrderDetails(SQLModel, table=True):
     )
     
     # supply_id is a foreign key referencing the Supplies table, linking each order detail to a specific supply.
-    supply_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("supplies.supply_id"), nullable=False, comment="ID of the related supply"),
+    supply_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("supplies.supply_id"), nullable=False, comment="ID of the related supply"),
         alias="SupplyID"
     )
     

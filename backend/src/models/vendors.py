@@ -1,5 +1,7 @@
-import phonenumbers
 import enum
+import string
+import secrets
+import phonenumbers
 from datetime import date
 from pydantic import EmailStr, validator
 import sqlalchemy.dialects.mysql as mysql
@@ -68,13 +70,18 @@ class Vendors(SQLModel, table=True):
     
     __tablename__ = "vendors"
     
-    vendor_id: int = Field(
-        default=None,
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
+
+    vendor_id: str = Field(
+        default_factory=lambda: Vendors.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             nullable=False, 
             primary_key=True, 
-            autoincrement=True,
             comment="Unique identifier for the vendor"
         ),
         alias="VendorID"

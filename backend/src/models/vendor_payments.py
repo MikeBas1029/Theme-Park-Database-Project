@@ -42,9 +42,9 @@ class VendorPayments(SQLModel, table=True):
     )
     
     # Foreign key linking to the Vendor receiving the payment
-    vendor_id: int = Field(
+    vendor_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             ForeignKey("vendors.vendor_id"),  
             nullable=False,
             comment="Foreign key linking to the Vendor receiving the payment"

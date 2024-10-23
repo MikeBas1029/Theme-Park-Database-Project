@@ -31,8 +31,8 @@ class PurchaseOrders(SQLModel, table=True):
     )
 
     # vendor_id is a foreign key referencing the Vendors table, linking each purchase order to a specific vendor
-    vendor_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("vendors.vendor_id"), nullable=False, comment="ID of the vendor that created the order"),
+    vendor_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("vendors.vendor_id"), nullable=False, comment="ID of the vendor that created the order"),
         alias="VendorID"  # Alias used for the column in queries
     )
 

@@ -1,3 +1,5 @@
+import string 
+import secrets
 from decimal import Decimal
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, List, TYPE_CHECKING
@@ -13,9 +15,8 @@ class Supplies(SQLModel, table=True):
     vendor, invoice, type, stock level, and price.
 
     Attributes:
-        supply_id (int): Unique identifier for the supply (Primary Key).
+        supply_id (str): Unique identifier for the supply (Primary Key).
         vendor_id (int): Foreign key linking the supply to the vendor providing it.
-        invoice_id (Optional[int]): Foreign key linking the supply to a specific invoice.
         name (str): The name of the supply (e.g., "Widget").
         type (str): The type/category of the supply (e.g., "Hardware").
         on_hand_amount (int): The quantity of the supply currently in stock.
@@ -33,23 +34,27 @@ class Supplies(SQLModel, table=True):
     
     __tablename__ = "supplies"
     
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
     # Primary key for the supply
-    supply_id: int = Field(
-        default=None,
+    supply_id: str = Field(
+        default_factory=lambda: Supplies.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER,  # MySQL integer type
+            mysql.VARCHAR(12),  # MySQL integer type
             primary_key=True,  # Primary key constraint
             nullable=False,  # This column cannot be null
-            autoincrement=True,  # Auto-increment value for new rows
             comment="Unique identifier for each supply item"  # Comment for documentation
         ),
         alias="SupplyID"
     )
     
     # Foreign keys to vendor and invoice tables
-    vendor_id: int = Field(
+    vendor_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER,  # Integer type for vendor ID
+            mysql.VARCHAR(12),  # Integer type for vendor ID
             ForeignKey("vendors.vendor_id"),  # Foreign key reference to the Vendor table
             nullable=False,  # This column cannot be null
             comment="Foreign key linking supply to the vendor providing it"  # Comment
