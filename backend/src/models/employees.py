@@ -37,7 +37,7 @@ class Employees(SQLModel, table=True):
 
     # SSN is a candidate key that uniquely identifies each employee in the system.
     ssn: str = Field( 
-        sa_column=Column(mysql.VARCHAR(9), unique=True, nullable=False, comment="Social Security Number (primary key)"),
+        sa_column=Column(mysql.VARCHAR(11), unique=True, nullable=False, comment="Social Security Number (primary key)"),
         alias="SSN"
     )
     

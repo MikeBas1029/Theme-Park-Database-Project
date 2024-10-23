@@ -176,7 +176,7 @@ return(
 
             <Item
              title="Rides & Attractions"
-             to="https://www.disneyworld.co.uk/attractions/magic-kingdom/#/sort=alpha/"
+             to="/rides"
              icon={<LocalActivityIcon />}
              selected={selected}
              setSelected={setSelected}

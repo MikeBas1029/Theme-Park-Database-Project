@@ -45,7 +45,7 @@ class EmployeeCreateModel(BaseModel):
     email: EmailStr 
     gender: EmployeeGender
     address_line1: str 
-    address_line2: Optional[str] 
+    address_line2: Optional[str | None] = None
     city: str 
     state: str
     zip_code: str

@@ -28,6 +28,13 @@ const LoginForm = ({ onClose }) => {
                     <a href="#">Forgot Password? </a>
                 </div>
 
+
+                <div className="remember-forgot">
+                    <label>
+                        Customer ? <a href="#">Sign Up Here ! </a>
+                    </label>
+                </div>
+
                 <button type="submit">Login</button>
             </form>
         </div>
