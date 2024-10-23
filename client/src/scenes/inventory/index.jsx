@@ -49,19 +49,7 @@ const Inventory = () => {
 
     ]; {/*field: value/data grabbed from  colName: column title in table */}
 
-    //Fetching data from FastAPI(back-end)
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/api/v1/items');
-                console.log(response.data); //log the response data
-                setitemData(response.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []); // Empty dependency array to run once on component mount
+ 
 
     return(
 

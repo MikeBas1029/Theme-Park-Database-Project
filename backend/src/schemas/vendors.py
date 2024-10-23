@@ -19,8 +19,8 @@ class Vendor(BaseModel):
     state: Optional[str]
     zip_code: Optional[str]
     country: str
-    contract_start: Optional[date]
-    contract_end: Optional[date]
+    contract_start: Optional[date | None] = None
+    contract_end: Optional[date | None] = None
     vendor_type: VendorType
 
 class VendorCreateModel(BaseModel):
