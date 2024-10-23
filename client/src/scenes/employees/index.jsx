@@ -136,6 +136,7 @@ const Employees = () => {
                 }}>
 
             <DataGrid 
+            checkboxSelection
             rows={employeeData} 
             columns={columns} 
             components={{Toolbar: GridToolbar}}
