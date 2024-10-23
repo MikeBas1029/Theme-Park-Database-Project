@@ -152,7 +152,7 @@ class Timesheet(SQLModel, table=True):
     created_by: str = Field(
         default=None, 
         sa_column=Column(
-            mysql.VARCHAR(9),
+            mysql.VARCHAR(9), # CHANGE THIS 
             ForeignKey("employees.employee_id"), 
             nullable=False,
             comment="Foreign key to the employee who created the timesheet."

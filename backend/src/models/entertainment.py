@@ -1,4 +1,6 @@
 import enum
+import string 
+import secrets
 from datetime import date, time
 from typing import TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
@@ -17,12 +19,18 @@ class ShowStatus(str, enum.Enum):
 
 class Entertainment(SQLModel, table=True):
     __tablename__ = "entertainment"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # ShowID is the primary key for the entertainment shows table.
     # It uniquely identifies each show in the system.
-    show_id: int = Field(
-        default=None, 
-        sa_column=Column(mysql.INTEGER, nullable=False, primary_key=True, autoincrement=True, comment="Unique identifier for each show (primary key)"),
+    show_id: str = Field(
+        default_factory=lambda: Entertainment.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True, comment="Unique identifier for each show (primary key)"),
         alias="ShowID"
     )
     
@@ -74,6 +82,7 @@ class Entertainment(SQLModel, table=True):
         sa_column=Column(
             SAEnum(ShowStatus, values_callable=lambda x: [e.value for e in x]), 
             nullable=False, 
+            default="Active",
             comment="Status of the show (e.g., ACTIVE, CANCELED, POSTPONED)"
             ),
         alias="Status"

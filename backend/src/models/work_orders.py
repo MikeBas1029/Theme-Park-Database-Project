@@ -68,10 +68,10 @@ class WorkOrders(SQLModel, table=True):
         alias="SectionID"
     )
     
-    ride_id: Optional[int] = Field(
+    ride_id: Optional[str] = Field(
         default=None, 
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             ForeignKey("rides.ride_id"),
             nullable=True,
             comment="Foreign key to the ride being serviced, if applicable."

@@ -1,4 +1,6 @@
 import enum
+import string 
+import secrets
 from typing import Optional, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
@@ -16,12 +18,18 @@ class FoodType(str, enum.Enum):
 
 class FoodItems(SQLModel, table=True):
     __tablename__ = "fooditems"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # FoodID is the primary key for the food items table.
     # It uniquely identifies each food item.
-    food_id: int = Field(
-        default=None, 
-        sa_column=Column(mysql.INTEGER, nullable=False, primary_key=True, autoincrement=True, comment="Unique identifier for each food item (primary key)"),
+    food_id: str = Field(
+        default_factory=lambda: FoodItems.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True, comment="Unique identifier for each food item (primary key)"),
         alias="FoodID"
     )
 

@@ -18,10 +18,10 @@ class CustAuth(SQLModel, table=True):
             primary_key=True, 
             default=uuid.uuid4)
     )
-    customer_id: Optional[int] = Field(
+    customer_id: Optional[str] = Field(
         default=None,
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             ForeignKey("customers.customer_id", ondelete="SET NULL"),
             nullable=True,
             comment="Foreign key to Customers table, some customers may have user accounts"

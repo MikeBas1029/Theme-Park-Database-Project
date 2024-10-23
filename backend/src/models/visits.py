@@ -38,9 +38,9 @@ class Visits(SQLModel, table=True):
         alias="VisitID"
     )
     
-    customer_id: int = Field(
+    customer_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             ForeignKey("customers.customer_id"), 
             nullable=False,
             comment="Foreign key referencing the customer who made the visit"

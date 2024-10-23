@@ -1,3 +1,5 @@
+import string 
+import secrets
 from datetime import date
 from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
@@ -9,18 +11,25 @@ if TYPE_CHECKING:
 
 class GuestServices(SQLModel, table=True):
     __tablename__ = "guestservices"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # ServiceRequestID is the primary key for the guest services table.
     # It uniquely identifies each guest service request.
-    service_request_id: int = Field(
-        sa_column=Column(mysql.INTEGER, primary_key=True, nullable=False, comment="Unique identifier for each guest service request (primary key)"),
+    service_request_id: str = Field(
+        default_factory=lambda: GuestServices.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), primary_key=True, nullable=False, comment="Unique identifier for each guest service request (primary key)"),
         alias="ServiceRequestID"
     )
 
     # CustomerID is a foreign key referencing the Customers table.
     # It associates each service request with a specific customer.
-    customer_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("customers.customer_id"), nullable=False, comment="Foreign key linking to the CustomerID from the customers table"),
+    customer_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("customers.customer_id"), nullable=False, comment="Foreign key linking to the CustomerID from the customers table"),
         alias="CustomerID"
     )
 

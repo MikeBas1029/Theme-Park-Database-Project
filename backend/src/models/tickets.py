@@ -1,3 +1,5 @@
+import string 
+import secrets
 import enum
 from datetime import date
 import sqlalchemy.dialects.mysql as mysql
@@ -60,22 +62,27 @@ class Tickets(SQLModel, table=True):
     """
     
     __tablename__ = "tickets"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
-    ticket_id: int = Field(
+
+    ticket_id: str = Field(
         default=None,
         sa_column=Column(
-            mysql.INTEGER,  
+            mysql.VARCHAR(12),  
             primary_key=True, 
             nullable=False,  
-            autoincrement=True,  
             comment="Unique identifier for each ticket"   
         ),
         alias="TicketID"
     )
     
-    customer_id: int = Field(
+    customer_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER,  
+            mysql.VARCHAR(12),  
             ForeignKey("customers.customer_id"),  
             nullable=False,  
             comment="Foreign key linking the ticket to the customer who purchased it"  

@@ -34,9 +34,9 @@ class VisitTickets(SQLModel, table=True):
         alias="VisitID"
     )
     
-    ticket_id: int = Field(
+    ticket_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             ForeignKey("tickets.ticket_id"), 
             primary_key=True, 
             nullable=False,

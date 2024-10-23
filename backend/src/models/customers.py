@@ -1,3 +1,5 @@
+import string
+import secrets
 from enum import Enum 
 from datetime import date
 from typing import Optional, List, TYPE_CHECKING
@@ -22,11 +24,17 @@ class MembershipType(str, Enum):
 
 class Customers(SQLModel, table=True):
     __tablename__ = "customers"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # customer_id is the primary key for the Customers table, uniquely identifying each customer.
-    customer_id: int = Field(
-        default=None, 
-        sa_column=Column(mysql.INTEGER, nullable=False, primary_key=True, autoincrement=True, comment="Unique ID for each customer"),
+    customer_id: str = Field(
+        default_factory=lambda: GuestServices.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True, comment="Unique ID for each customer"),
         alias="CustomerID"
     )
     

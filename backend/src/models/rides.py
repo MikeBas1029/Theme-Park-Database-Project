@@ -1,3 +1,5 @@
+import string 
+import secrets
 import enum 
 from datetime import date, timedelta
 from typing import List, TYPE_CHECKING, Optional
@@ -22,11 +24,18 @@ class Rides(SQLModel, table=True):
     and associated section and work order.
     """
     __tablename__ = "rides"  # Defines the name of the table in the database
+
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # ride_id is the primary key for the rides table, uniquely identifying each ride.
-    ride_id: int = Field(
-        default=None, 
-        sa_column=Column(mysql.INTEGER, nullable=False, primary_key=True, autoincrement=True),
+    ride_id: str = Field(
+        default_factory=lambda: Rides.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True),
         alias="RideID"
     )
     

@@ -22,14 +22,14 @@ class RideUsage(SQLModel, table=True):
     )
     
     # customer_id references the CustomerID in the customers table, establishing a foreign key relationship.
-    customer_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("customers.customer_id"), nullable=False, comment="Customer ID linked to the customer who used the ride"),
+    customer_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("customers.customer_id"), nullable=False, comment="Customer ID linked to the customer who used the ride"),
         alias="CustomerID"
     )
     
     # ride_id references the RideID in the rides table, establishing a foreign key relationship.
-    ride_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("rides.ride_id"), nullable=False, comment="Ride ID linked to the specific ride used"),
+    ride_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("rides.ride_id"), nullable=False, comment="Ride ID linked to the specific ride used"),
         alias="RideID"
     )
     

@@ -38,9 +38,9 @@ class SalesOrders(SQLModel, table=True):
         alias="TransactionID"
     )
     
-    customer_id: int = Field(
+    customer_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             ForeignKey("customers.customer_id"),  # Foreign key linking to the Customers table
             nullable=False,
             comment="Foreign key linking to Customers",

@@ -30,8 +30,8 @@ class Rentals(SQLModel, table=True):
     )
     
     # customer_id is a foreign key linking to the Customers table. It represents the customer renting the item.
-    customer_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("customers.customer_id"), nullable=False, comment="ID of the customer renting the item, linked to Customers table"),
+    customer_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("customers.customer_id"), nullable=False, comment="ID of the customer renting the item, linked to Customers table"),
         alias="CustomerID",
     )
     
