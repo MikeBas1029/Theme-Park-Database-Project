@@ -21,10 +21,10 @@ class PurchaseOrderItems(SQLModel, table=True):
         alias="PurchaseOrderItems"
     )
 
-    poid: int = Field(
+    poid: str = Field(
         default=None,
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(10),
             ForeignKey("purchaseorders.order_id"),
             nullable=False,
             comment="Foreign key to the Purchase Order table.",

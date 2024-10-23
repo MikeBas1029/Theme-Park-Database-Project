@@ -17,8 +17,8 @@ class PurchaseOrderDetails(SQLModel, table=True):
     )
     
     # order_id is a foreign key referencing the PurchaseOrders table, linking each order detail to a specific order.
-    order_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("purchaseorders.order_id"), nullable=False, comment="ID of the related purchase order"),
+    order_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(10), ForeignKey("purchaseorders.order_id"), nullable=False, comment="ID of the related purchase order"),
         alias="OrderID"
     )
     

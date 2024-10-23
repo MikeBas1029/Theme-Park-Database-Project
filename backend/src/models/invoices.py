@@ -37,15 +37,15 @@ class Invoice(SQLModel, table=True):
     
     # Vendor ID is a foreign key referencing the Vendors table.
     # It indicates which vendor is associated with this invoice.
-    vendor_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("vendors.vendor_id"), nullable=False, comment="Foreign key linking to the VendorID from the vendors table"),
-        alias="VendorID"
-    )
+    # vendor_id: int = Field(
+    #     sa_column=Column(mysql.INTEGER, ForeignKey("vendors.vendor_id"), nullable=False, comment="Foreign key linking to the VendorID from the vendors table"),
+    #     alias="VendorID"
+    # )
 
     # PO (Purchase Order) number is a foreign key linking to the PurchaseOrders table.
     # It shows which purchase order this invoice is associated with.
-    po_number: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("purchaseorders.order_id"), nullable=False, comment="Foreign key linking to the PurchaseOrders table (purchase order number)"), 
+    po_number: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("purchaseorders.order_id"), nullable=False, comment="Foreign key linking to the PurchaseOrders table (purchase order number)"), 
         alias="LineItemID"
     )
 
@@ -82,7 +82,7 @@ class Invoice(SQLModel, table=True):
 
     # Establishes a relationship between the Invoice model and the Vendors model.
     # The "vendor" field is populated with data from the "Vendors" table based on the vendor_id.
-    vendor: "Vendors" = Relationship(back_populates="invoices")
+    # vendor: "Vendors" = Relationship(back_populates="invoices")
     
     # Establishes a relationship between the Invoice model and the PurchaseOrders model.
     # The "purchase_order" field is populated with data from the "PurchaseOrders" table based on the po_number.
@@ -96,6 +96,6 @@ class Invoice(SQLModel, table=True):
     # These indexes improve performance for queries filtering by these columns.
     __table_args__ = (
         Index("idx_invoice_id", "invoice_id"),
-        Index("idx_vendor_id", "vendor_id"),
+        # Index("idx_vendor_id", "vendor_id"),
         Index("idx_purchase_order", "po_number")
     )

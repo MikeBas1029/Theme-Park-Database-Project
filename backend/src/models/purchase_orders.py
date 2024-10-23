@@ -25,8 +25,8 @@ class PurchaseOrders(SQLModel, table=True):
     __tablename__ = "purchaseorders"  # Name of the table in the database
     
     # order_id is the primary key for the purchase orders table, uniquely identifying each order
-    order_id: int = Field(
-        sa_column=Column(mysql.INTEGER, primary_key=True, nullable=False, comment="Unique ID for each purchase order"),
+    order_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), primary_key=True, nullable=False, comment="Unique ID for each purchase order"),
         alias="OrderID"  # Alias used for the column in queries
     )
 

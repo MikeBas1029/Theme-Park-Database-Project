@@ -162,9 +162,9 @@ class Vendors(SQLModel, table=True):
         back_populates="vendor", 
     )
     
-    invoices: List["Invoice"] = Relationship(
-        back_populates="vendor", 
-    )
+    # invoices: List["Invoice"] = Relationship(
+    #     back_populates="vendor", 
+    # )
     
     vendor_payments: List["VendorPayments"] = Relationship(
         back_populates="vendor", 
