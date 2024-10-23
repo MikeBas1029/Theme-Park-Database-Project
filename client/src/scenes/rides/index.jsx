@@ -11,64 +11,49 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 
-const Inventory = () => {
+const Rides = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
-
-    const [itemData, setitemData] = useState([]); {/*State for storing employee data*/}
-    const [loading, setLoading] = useState(true); // Loading state
-
-
-    {/*Fetch item data */}
-    useEffect(() => {
-        const fetchitemData = async () => {
-            try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/items/");
-                console.log("Fetched items:", response.data);
-                setitemData(response.data);
-            } catch (error) {
-                console.error("Error fetching items:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-    
-        fetchitemData();
-        }, []);
+    const [rides, setRides] = useState([]); // State for storing customers data
+    const [loading, setLoading] = useState(true); // State for loading indicator
 
     const columns = [
-        {field: "sku", headerName: "SKU", headerAlign: "center" , align: "center", flex: 0.2},
-        {field: "name", headerName: "Item Name", headerAlign: "center" , align: "center", flex: 0.8}, 
-        {field: "category", headerName: "Category", flex: 0.5},
-        {field: "price", headerName: "Price", type: "number", headerAlign: "left", align: "left", flex: 0.2} ,
-        {field: "cost", headerName: "Unit Cost", type: "number", headerAlign: "left", align: "left", flex: 0.2},
-        {field: "status", headerName: "Status", flex: .3},
-        {field: "vendor_id", headerName: "Vendor(ID)", flex: 0.2},
-
+        {field: "ride_id", headerName: "Ride ID", flex: 0.1},
+        {field: "section_id", headerName: "Section ID", flex: 0.1},
+        {field: "name", headerName: "Name", flex: 0.3, cellClassName: "name-column--cell"},
+        {field: "ride_type", headerName: "Ride Type", flex: 0.1},
+        {field: "last_inspected", headerName: "Last Inspected", flex: 0.1},
+        {field: "height_requirement", headerName: "Height Req.", flex: 0.1},
+        {field: "capacity", headerName: "Capacity", type: "number", align: "left"},
+        {field: "status", headerName: "Status", flex: 0.1}
     ]; {/*field: value/data grabbed from  colName: column title in table */}
 
-    //Fetching data from FastAPI(back-end)
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/api/v1/items');
-                console.log(response.data); //log the response data
-                setitemData(response.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []); // Empty dependency array to run once on component mount
+
+        // Fetch customers from the backend
+        useEffect(() => {
+            const fetchRides = async () => {
+                try {
+                    const response = await axios.get("http://127.0.0.1:8000/api/v1/rides/");
+                    console.log("Fetched rides:", response.data);
+                    setRides(response.data);
+                } catch (error) {
+                    console.error("Error fetching rides:", error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+    
+            fetchRides();
+        }, []);
 
     return(
 
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Inventory" subtitle="Manage & view Inventory"/>
+                <Header title="Rides" subtitle="View rides information and maintenance status"/>
 
                 {/*Employee creation form button + linking */}
                 <IconButton onClick={() => navigate("/inventoryform")}>
@@ -106,10 +91,11 @@ const Inventory = () => {
                 }}>
 
 <DataGrid 
-            rows={itemData} 
+            rows={rides} 
             columns={columns} 
             components={{Toolbar: GridToolbar}}
-            getRowId={(row) => row.sku}/>
+            loading={loading} 
+            getRowId={(row) => row.ride_id}/>
             </Box>
 
 
@@ -117,7 +103,7 @@ const Inventory = () => {
     );
 }
 
-export default Inventory;
+export default Rides;
 
 
 

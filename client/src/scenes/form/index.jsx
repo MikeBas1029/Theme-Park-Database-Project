@@ -62,13 +62,13 @@ const formatDate = (value) => {
     // Remove non-numeric characters
     const cleaned = ('' + value).replace(/\D/g, '');
     //Format as MM/DD/YYYY
-    const match = cleaned.match(/(\d{0,2})(\d{0,2})(\d{0,4})/);
+    const match = cleaned.match(/(\d{0,4})(\d{0,2})(\d{0,2})/);
     if (match) {
         const month = match[1];
         const day = match[2];
         const year = match[3];
         
-        return `${month}${month && day ? '/' : ''}${day}${day && year ? '/' : ''}${year}`;
+        return `${month}${month && day ? '-' : ''}${day}${day && year ? '-' : ''}${year}`;
     }
     return value;
 };
@@ -158,7 +158,7 @@ const Form = () => {
     const handleFormSubmit = async (values) => {
         // Create a request body that matches the expected API schema
         const requestBody = {
-            employee_id: '', // Generate or fetch a unique ID if necessary
+            employee_id: '1114', // Generate or fetch a unique ID if necessary
             ssn: values.ssn,
             first_name: values.first_name,
             last_name: values.last_name,
@@ -166,7 +166,7 @@ const Form = () => {
             phone_number: values.phone_number,
             email: values.email,
             address_line1: values.address_line1,
-            address_line2: values.address_line2,
+            address_line2: values.address_line2 || " ", 
             city: values.city,
             state: values.state,
             zip_code: values.zip_code,
@@ -174,17 +174,41 @@ const Form = () => {
             dob: values.dob, // Ensure this is in 'YYYY-MM-DD' format
             start_date: values.start_date || new Date().toISOString().split('T')[0], // Default to today if not provided
             employee_type: values.employee_type,
-            hourly_wage: values.employee_type === 'Hourly' ? parseFloat(values.hourly_wage.replace(/[^0-9.-]+/g, "")) : 0, // Ensure it's a number
-            salary: values.employee_type === 'Salary' ? parseFloat(values.salary.replace(/[^0-9.-]+/g, "")) : 0, // Ensure it's a number
+            hourly_wage: values.employee_type === 'Hourly' ? parseFloat(values.hourly_wage.replace(/[^0-9.-]+/g, "")) || 0 : 0, // Ensure it's a number
+            salary: values.employee_type === 'Salary' ? parseFloat(values.salary.replace(/[^0-9.-]+/g, "")) || 0 : 0, // Ensure it's a number
             job_function: values.job_function,
+            gender: values.gender,
+            
         };
+        console.log(requestBody.start_date); 
+
+
+    
+        // Check for any missing or incorrect values
+        const missingFields = [];
+        Object.entries(requestBody).forEach(([key, value]) => {
+            if (value === '' || value === undefined) {
+                missingFields.push(key);
+            }
+        });
+    
+        if (missingFields.length > 0) {
+            console.error('Missing fields:', missingFields);
+            alert(`Please fill in the following fields: ${missingFields.join(', ')}`);
+            return; // Stop submission if there are missing fields
+        }
     
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/v1/employees/', requestBody);
+            console.log(Date().toISOString().split('T')[0]); 
             console.log(response.data); // Handle the response as needed
             navigate('/employees'); // Navigate after successful submission
         } catch (error) {
             console.error('Error submitting form:', error); // Handle the error appropriately
+            if (error.response) {
+                console.error('Response data:', error.response.data); // Log the response data
+                alert('Submission failed. Please check the console for more details.'); // Notify user
+            }
         }
     };
 
@@ -285,9 +309,9 @@ const Form = () => {
                             handleChange({ target: { name: 'ssn', value: formattedValue } });
                         }}
                         value={values.ssn}
-                        name="title"
-                        error={!!touched.title && !!errors.title}
-                        helperText={touched.title && errors.title}
+                        name="ssn"
+                        error={!!touched.ssn && !!errors.ssn}
+                        helperText={touched.ssn && errors.ssn}
                         sx={{
                             gridColumn: "span 2"
                         }}/>   

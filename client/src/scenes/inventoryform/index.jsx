@@ -5,23 +5,25 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Header from "../../components/Header";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const initialValues = {
-    itemID: "",
-    itemName: "",
-    vendorID: "",
-    category: "",
+    sku: "",
+    name: "",
+    category: "Merchandise",
     price: "",
-    unitPrice: "",
+    cost: "",
+    status: "Active",
+    vendor_id: "",
 };
 
 const userSchema = yup.object().shape({
-    itemID: yup.string().required("required"),
-    itemName: yup.string().required("required"),
-    vendorID: yup.string().required("required"),
+    sku: yup.string().required("required"),
+    name: yup.string().required("required"),
     category: yup.string().required("required"),
     price: yup.string().required("required"),
-    unitPrice: yup.string().required("required"),
+    cost: yup.string().required("required"),
+    vendor_id: yup.string().required("required"),
 
 })
 
@@ -29,9 +31,48 @@ const Form = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
 
-    const handleFormSubmit = (values) => {
-        console.log(values) /*FORM IS ONLY CONSOLE LOGGING */
-    }
+
+    const handleFormSubmit = async (values) => {
+        // Create a request body that matches the expected API schema
+        const requestBody = {
+            sku: values.sku,
+            name: values.name,
+            category: "Merchandise",
+            price: values.price,
+            cost: values.cost,
+            status: "Active", //set default status of new item to active
+            vendor_id: values.vendor_id,
+
+        };
+
+
+    
+        // Check for any missing or incorrect values
+        const missingFields = [];
+        Object.entries(requestBody).forEach(([key, value]) => {
+            if (value === '' || value === undefined) {
+                missingFields.push(key);
+            }
+        });
+    
+        if (missingFields.length > 0) {
+            console.error('Missing fields:', missingFields);
+            alert(`Please fill in the following fields: ${missingFields.join(', ')}`);
+            return; // Stop submission if there are missing fields
+        }
+    
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/v1/items/', requestBody);
+            console.log(response.data); // Handle the response as needed
+            navigate('/'); // Navigate after successful submission
+        } catch (error) {
+            console.error('Error submitting form:', error); // Handle the error appropriately
+            if (error.response) {
+                console.error('Response data:', error.response.data); // Log the response data
+                alert('Submission failed. Please check the console for more details.'); // Notify user
+            }
+        }
+    };
 
     return(
     
@@ -58,10 +99,10 @@ const Form = () => {
                         label="Item ID"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.firstName}
-                        name="itemID"
-                        error={!!touched.itemID && !!errors.itemID}
-                        helperText={touched.itemID && errors.itemID}
+                        value={values.sku}
+                        name="sku"
+                        error={!!touched.sku && !!errors.sku}
+                        helperText={touched.sku && errors.sku}
                         sx={{
                             gridColumn: "span 2"
                         }}/>
@@ -73,10 +114,10 @@ const Form = () => {
                         label="Vendor ID"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.lastName}
-                        name="vendorID"
-                        error={!!touched.vendorID && !!errors.vendorID}
-                        helperText={touched.vendorID && errors.vendorID}
+                        value={values.vendor_id}
+                        name="vendor_id"
+                        error={!!touched.vendor_id && !!errors.vendor_id}
+                        helperText={touched.vendor_id && errors.vendor_id}
                         sx={{
                             gridColumn: "span 2"
                         }}/>
@@ -92,31 +133,11 @@ const Form = () => {
                                 onChange={handleChange}
                                 error={!!touched.category && !!errors.category}
                             >
-                                <MenuItem value="merchandise">Merchandise</MenuItem>
-                                <MenuItem value="concessions">Concessions</MenuItem>
-                                <MenuItem value="entertainment">Entertainment</MenuItem>
+                                <MenuItem value="Merchandise">Merchandise</MenuItem>
+                                <MenuItem value="Concession">Concessions</MenuItem>
+                                <MenuItem value="Entertainment">Entertainment</MenuItem>
                             </Select>
                             {touched.category && errors.category && (
-                                <div style={{ color: 'red' }}>{errors.category}</div>
-                            )}
-                        </FormControl>
-
-                        <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 2" }}>
-                            <InputLabel id="status-label">Status</InputLabel>
-                            <Select
-                                labelId="status-label"
-                                id="status"
-                                name="Status"
-                                value={values.status}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={!!touched.status && !!errors.status}
-                            >
-                                <MenuItem value="active">Active</MenuItem>
-                                <MenuItem value="discontiued">Discontinued</MenuItem>
-                                <MenuItem value="backorder">Back Ordered</MenuItem>
-                            </Select>
-                            {touched.status && errors.status && (
                                 <div style={{ color: 'red' }}>{errors.category}</div>
                             )}
                         </FormControl>
@@ -125,10 +146,26 @@ const Form = () => {
                         fullWidth
                         variant="filled"
                         type="text"
+                        label="Item Name"
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        value={values.name}
+                        name="name"
+                        error={!!touched.name && !!errors.name}
+                        helperText={touched.name && errors.name}
+                        sx={{
+                            gridColumn: "span 2"
+                        }}/>
+
+
+                        <TextField 
+                        fullWidth
+                        variant="filled"
+                        type="text"
                         label="Price"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.addres1}
+                        value={values.price}
                         name="price"
                         error={!!touched.price && !!errors.price}
                         helperText={touched.price && errors.price}
@@ -143,10 +180,10 @@ const Form = () => {
                         label="Unit Cost"
                         onBlur={handleBlur}
                         onChange={handleChange}
-                        value={values.address2}
-                        name="unitCost"
-                        error={!!touched.unitCost && !!errors.unitCost}
-                        helperText={touched.unitCost && errors.unitCost}
+                        value={values.cost}
+                        name="cost"
+                        error={!!touched.cost && !!errors.cost}
+                        helperText={touched.cost && errors.cost}
                         sx={{
                             gridColumn: "span 2"
                         }}/>
