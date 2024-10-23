@@ -72,7 +72,7 @@ class Invoice(SQLModel, table=True):
 
     payment_status: PaymentStatus = Field(
         sa_column=Column(
-            SAEnum(PaymentStatus),
+            SAEnum(PaymentStatus, values_callable=lambda x: [e.value for e in x]),
             nullable=False,
             comment="The current status of the invoice."
         )
