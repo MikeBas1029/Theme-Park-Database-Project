@@ -53,7 +53,7 @@ const Rides = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Rides" subtitle="View rides information and maintenance status"/>
+                <Header title="Rides💻" subtitle="View rides information and maintenance status"/>
 
                 {/*Employee creation form button + linking */}
                 <IconButton onClick={() => navigate("/inventoryform")}>

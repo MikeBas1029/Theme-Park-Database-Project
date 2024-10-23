@@ -30,7 +30,7 @@ const Payroll = () => {
 
     return(
         <Box m="20px">
-            <Header title="Employee Payroll" subtitle="Record of invoices from vendor orders"/>
+            <Header title="Employee Payroll💻" subtitle="Record of invoices from vendor orders"/>
             <Box
             m="40px 0 0 0"
             height="75vh"

@@ -57,7 +57,7 @@ const Maintenance = () => {
 
     return(
         <Box m="20px">
-            <Header title="Maintenance" subtitle="Keep track of park work orders and maintenance schedules."/>
+            <Header title="Maintenance💻" subtitle="Keep track of park work orders and maintenance schedules."/>
             <Box
             m="40px 0 0 0"
             height="75vh"

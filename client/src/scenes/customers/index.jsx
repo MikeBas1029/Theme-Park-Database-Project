@@ -55,7 +55,7 @@ const Customers = () => {
 
             {/*Customer(?) creation form button + linking */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Customer" subtitle="View customers and track daily park history"/>
+            <Header title="Customer🔜" subtitle="View customers and track daily park history"/>
             <DownloadButton 
                  apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
                 fileName="customers_report.csv" 

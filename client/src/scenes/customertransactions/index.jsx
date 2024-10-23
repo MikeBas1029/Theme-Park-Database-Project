@@ -30,7 +30,7 @@ const Transactions = () => {
 
     return(
         <Box m="20px">
-            <Header title="Customer Transactions" subtitle="Record of customer purchases and returns"/>
+            <Header title="Customer Transactions💻" subtitle="Record of customer purchases and returns"/>
             <Box
             m="40px 0 0 0"
             height="75vh"

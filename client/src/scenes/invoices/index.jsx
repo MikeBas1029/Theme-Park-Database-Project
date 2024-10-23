@@ -57,7 +57,7 @@ const Invoices = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" aligninvoices="center">
-                <Header title="Invoices" subtitle="Track & view vendor invoices"/>
+                <Header title="Invoices💻" subtitle="Track & view vendor invoices"/>
 
 
                 {/*Employee creation form button + linking */}

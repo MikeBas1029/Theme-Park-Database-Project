@@ -62,7 +62,7 @@ const Vendors = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Header title="Vendors" subtitle="View vendor information"/>
+              <Header title="Vendors✅" subtitle="View vendor information"/>
                 {/*Employee creation form button + linking */}
                 
                 <DownloadButton 

@@ -98,7 +98,7 @@ const Employees = () => {
         
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Header title="Employees" subtitle="View details related to customer employees"/>
+              <Header title="Employees✅" subtitle="View details related to customer employees"/>
                 {/*Employee creation form button + linking */}
                 
                 <DownloadButton 
