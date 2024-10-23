@@ -1,10 +1,12 @@
+import string
+import secrets 
 from enum import Enum
 from datetime import date
+from pydantic import EmailStr
+from sqlalchemy import Enum as SAEnum
+import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index
-import sqlalchemy.dialects.mysql as mysql
-from sqlalchemy import Enum as SAEnum
-from pydantic import EmailStr
 
 if TYPE_CHECKING:
     from src.models.departments import Departments
@@ -27,11 +29,17 @@ class EmployeeGender(str, Enum):
 
 class Employees(SQLModel, table=True):
     __tablename__ = "employees"
+
+    @staticmethod
+    def generate_random_id(length=8):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
     # SSN is the primary key for the employees table.
     # It uniquely identifies each employee in the system.
     employee_id: str = Field( 
-        sa_column=Column(mysql.VARCHAR(7), primary_key=True, nullable=False, unique=True, comment="Unique employee id (primary key)"),
+        default_factory=lambda: Employees.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(8), primary_key=True, nullable=False, unique=True, comment="Unique employee id (primary key)"),
         alias="SSN"
     )
 

@@ -1,7 +1,7 @@
 from enum import Enum
 from datetime import date 
 from typing import Optional 
-from pydantic import BaseModel, EmailStr 
+from pydantic import BaseModel, EmailStr, Field
 
 class EmployeeType(str, Enum):
     hourly = "Hourly"
@@ -36,11 +36,10 @@ class Employee(BaseModel):
 
 
 class EmployeeCreateModel(BaseModel):
-    employee_id: str
-    ssn: str 
+    ssn: str = Field(max_length=9)
     first_name: str 
     last_name: str 
-    middle_initial: Optional[str] 
+    middle_initial: Optional[str | None] = None 
     phone_number: str 
     email: EmailStr 
     gender: EmployeeGender
