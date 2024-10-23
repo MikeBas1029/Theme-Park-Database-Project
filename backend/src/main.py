@@ -54,6 +54,7 @@ app.include_router(po_detail_router, prefix=f"{version_prefix}/purchase-order-de
 app.include_router(ride_type_router, prefix=f"{version_prefix}/ride-type", tags=["ride_type"])
 app.include_router(ride_usage_router, prefix=f"{version_prefix}/ride-usage", tags=["ride_usage"])
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])
-app.include_router(section_router, prefix=f"{version_prefix}/section", tags=["section"])
+app.include_router(section_router, prefix=f"{version_prefix}/sections", tags=["section"])
+app.include_router(supplies_router, prefix=f"{version_prefix}/supplies", tags=["supplies"])
 app.include_router(vendor_router, prefix=f"{version_prefix}/vendors", tags=["vendors"])
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
