@@ -13,10 +13,10 @@ class Ride(BaseModel):
     section_id: int
     name: str 
     ride_type: int
-    last_inspected: date | None
+    last_inspected: date 
     height_requirement: int 
     capacity: int 
-    status: RideStatus | int
+    status: RideStatus 
 
 class RideCreateModel(BaseModel):
     section_id: int
@@ -30,7 +30,7 @@ class RideUpdateModel(BaseModel):
     section_id: int
     name: str 
     ride_type: Optional[int]
-    last_inspected: Optional[date | None]
+    last_inspected: Optional[date | None] = None
     height_requirement: Optional[int]
     capacity: Optional[int ]
     status: Optional[RideStatus] 
