@@ -41,9 +41,9 @@ def decode_token(token: str) -> dict:
 
     try:
         token_data = jwt.decode(
-            token=token,
+            jwt=token,
             key=Config.JWT_SECRET,
-            algorithms=Config.JWT_ALGORITHM
+            algorithms=[Config.JWT_ALGORITHM]
         )
 
         return token_data

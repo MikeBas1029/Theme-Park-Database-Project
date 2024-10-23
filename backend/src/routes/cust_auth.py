@@ -1,5 +1,5 @@
 from typing import List
-from datetime import timedelta
+from datetime import timedelta, datetime
 from src.db.database import get_session
 from fastapi.exceptions import HTTPException 
 from fastapi import APIRouter, Depends, status
@@ -8,6 +8,7 @@ from src.services.cust_auth import CustAuthService
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.utils import create_access_token, decode_token, verify_password
 from fastapi.responses import JSONResponse
+from src.security import RefreshTokenBearer
 
 cust_auth_router = APIRouter()
 cust_auth_service = CustAuthService()
@@ -21,7 +22,7 @@ async def get_all_customers(session: AsyncSession = Depends(get_session)):
 
 @cust_auth_router.get("/{cust_email}", response_model=CustAuth) 
 async def get_customer(cust_email: str, session: AsyncSession = Depends(get_session)):
-    customer = await cust_auth_service.get_customer_by_email(cust_email, session)
+    customer = await cust_auth_service.get_user_by_email(cust_email, session)
     
     if customer:
         return customer
@@ -104,3 +105,24 @@ async def login_user(login_data: CustAuthLogin, session: AsyncSession = Depends(
                 }
             )
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid email or password.")
+
+
+@cust_auth_router.get('/refresh_token')
+async def get_new_access_token(
+    token_details: dict = Depends(RefreshTokenBearer())
+):
+    expiry_timestamp = token_details['exp']
+
+    if datetime.fromtimestamp(expiry_timestamp) > datetime.now():
+        new_access_token = create_access_token(
+            user_data=token_details['user']
+        )
+
+        return JSONResponse(content={
+            "access_token": new_access_token
+        })
+
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Invalid or expired token."
+        )
