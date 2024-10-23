@@ -24,8 +24,8 @@ class Rentals(SQLModel, table=True):
     )
     
     # item_id is a foreign key linking to the Items table. It represents the item being rented.
-    item_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("items.sku"), nullable=False, comment="ID of the rented item, linked to Items table"),
+    item_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("items.sku"), nullable=False, comment="ID of the rented item, linked to Items table"),
         alias="ItemID",
     )
     

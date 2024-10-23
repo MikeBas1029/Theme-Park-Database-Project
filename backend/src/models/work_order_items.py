@@ -32,10 +32,10 @@ class WorkOrderItems(SQLModel, table=True):
         alias="WorkOrder"
     )
 
-    po_item_id: Optional[int] = Field(
+    po_item_id: Optional[str] = Field(
         default=None,
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             ForeignKey("purchaseorderitems.id"),
             nullable=False,
             comment="Foreign key to the Purchase Order table.",

@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from src.models.merchandise import Merchandise
     from src.models.rentals import Rentals
     from src.models.sales_order_details import SalesOrderDetail
+    from src.models.purchase_order_items import PurchaseOrderItems
 
 class ItemCategory(str, enum.Enum):
     merch = "Merchandise"
@@ -28,9 +29,9 @@ class Items(SQLModel, table=True):
     
     # SKU (Stock Keeping Unit) serves as the unique identifier for each item.
     # This is the primary key for the table and is automatically incremented.
-    sku: int = Field(
+    sku: str = Field(
         default=None, 
-        sa_column=Column(mysql.INTEGER, nullable=False, primary_key=True, autoincrement=True, comment="Unique identifier for each item (primary key)"),
+        sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True, comment="Unique identifier for each item (primary key)"),
         alias="SKU"
     )
     
@@ -98,6 +99,8 @@ class Items(SQLModel, table=True):
         back_populates="item",
         cascade_delete=True,
     )
+
+    po_item: "PurchaseOrderItems" = Relationship(back_populates="item")
 
     # Table index: Adds an index on the "sku" column to speed up lookups based on SKU.
     # This ensures that queries filtering by SKU will be faster.

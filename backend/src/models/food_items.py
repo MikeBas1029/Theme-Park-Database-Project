@@ -27,8 +27,8 @@ class FoodItems(SQLModel, table=True):
 
     # ItemID is a foreign key referencing the Items table.
     # It links each food item to a specific item in the 'items' table.
-    item_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("items.sku"), nullable=False, comment="Foreign key linking to the ItemID in the items table"),
+    item_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("items.sku"), nullable=False, comment="Foreign key linking to the ItemID in the items table"),
         alias="ItemID"
     )
 

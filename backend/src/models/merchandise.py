@@ -16,8 +16,8 @@ class Merchandise(SQLModel, table=True):
     )
     
     # item_id is a foreign key referencing the SKU of an item in the Items table.
-    item_id: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("items.sku"), nullable=False, comment="Foreign key referencing SKU in the Items table"),
+    item_id: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("items.sku"), nullable=False, comment="Foreign key referencing SKU in the Items table"),
         alias="ItemID"
     )
     

@@ -39,7 +39,12 @@ class Employees(SQLModel, table=True):
     # It uniquely identifies each employee in the system.
     employee_id: str = Field( 
         default_factory=lambda: Employees.generate_random_id(),
-        sa_column=Column(mysql.VARCHAR(8), primary_key=True, nullable=False, unique=True, comment="Unique employee id (primary key)"),
+        sa_column=Column(
+            mysql.VARCHAR(8), 
+            primary_key=True, 
+            nullable=False, 
+            unique=True, 
+            comment="Unique employee id (primary key)"),
         alias="SSN"
     )
 

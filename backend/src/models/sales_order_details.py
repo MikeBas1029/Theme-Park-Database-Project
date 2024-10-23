@@ -53,9 +53,9 @@ class SalesOrderDetail(SQLModel, table=True):
         alias="TransactionID"
     )
 
-    item_id: int = Field(
+    item_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             ForeignKey("items.sku", ondelete="RESTRICT"),  # Foreign key to items table (SKU reference)
             nullable=False,
             comment="Foreign key referencing the item (SKU) in the inventory",

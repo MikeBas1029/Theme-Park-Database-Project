@@ -26,8 +26,8 @@ class BeverageItems(SQLModel, table=True):
     )
     
     # sku is a foreign key referencing the SKU of an item in the Items table.
-    sku: int = Field(
-        sa_column=Column(mysql.INTEGER, ForeignKey("items.sku"), nullable=False, comment="Foreign key referencing SKU in the Items table"),
+    sku: str = Field(
+        sa_column=Column(mysql.VARCHAR(12), ForeignKey("items.sku"), nullable=False, comment="Foreign key referencing SKU in the Items table"),
         alias="SKU"
     )
     
