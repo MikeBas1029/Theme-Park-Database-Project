@@ -15,7 +15,7 @@ from .payment_methods import payment_method_router
 # from .park_facilities import park_facilities_router
 # from .po_details import po_details_router
 from .purchase_orders import purchase_order_router
-# from .purchase_order_items import po_items_router
+from .purchase_order_items import purchase_order_item_router
 # from .rentals import rentals_router
 # from .restaurants import restaurants_router
 from .ride_type import ride_type_router

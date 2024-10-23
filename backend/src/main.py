@@ -49,6 +49,7 @@ app.include_router(item_router, prefix=f"{version_prefix}/items", tags=["items"]
 app.include_router(invoice_router, prefix=f"{version_prefix}/invoices", tags=["invoices"])
 app.include_router(payment_method_router, prefix=f"{version_prefix}/payment-methods", tags=["payment_methods"])
 app.include_router(purchase_order_router, prefix=f"{version_prefix}/purchase-orders", tags=["purchase_orders"])
+app.include_router(purchase_order_item_router, prefix=f"{version_prefix}/purchase-order-items", tags=["purchase_order_items"])
 app.include_router(ride_type_router, prefix=f"{version_prefix}/ride-type", tags=["ride_type"])
 app.include_router(ride_usage_router, prefix=f"{version_prefix}/ride-usage", tags=["ride_usage"])
 app.include_router(ride_router, prefix=f"{version_prefix}/rides", tags=["rides"])

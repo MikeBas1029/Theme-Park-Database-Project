@@ -11,19 +11,19 @@ class BeverageType(str, Enum):
 
 class Beverage(BaseModel):
     bev_id: int 
-    sku: int 
+    sku: str 
     drink_size: str
     beverage_item: BeverageType 
     calories: int
 
 class BeverageCreateModel(BaseModel):
-    sku: int 
+    sku: str 
     drink_size: str
     beverage_item: BeverageType 
 
 
 class BeverageUpdateModel(BaseModel):
-    sku: int 
+    sku: str 
     drink_size: Optional[str]
     beverage_item: Optional[BeverageType]
     calories: Optional[int]

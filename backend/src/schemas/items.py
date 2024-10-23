@@ -14,7 +14,7 @@ class ItemStatus(str, Enum):
     backorder = "Backorder"
 
 class Item(BaseModel):
-    sku: int 
+    sku: str 
     name: str 
     category: ItemCategory
     price: float 
@@ -23,7 +23,7 @@ class Item(BaseModel):
     vendor_id: int
 
 class ItemCreateModel(BaseModel):
-    sku: int 
+    sku: str 
     name: str 
     category: ItemCategory
     price: float 
@@ -32,7 +32,7 @@ class ItemCreateModel(BaseModel):
     vendor_id: int
 
 class ItemUpdateModel(BaseModel):
-    sku: int 
+    sku: str 
     name: str 
     category: Optional[ItemCategory]
     price: Optional[float ]
