@@ -6,7 +6,8 @@ CREATE TRIGGER IF NOT EXISTS birthday_discount_trigger
 AFTER UPDATE ON customers
 FOR EACH ROW
 BEGIN
-    IF NEW.rewards_member = 1 AND 
+    IF NEW.membership_type = 'Platinum' AND 
+       YEAR(NEW.date_of_birth) = YEAR(CURDATE()) AND
        MONTH(NEW.date_of_birth) = MONTH(CURDATE()) AND 
        DAY(NEW.date_of_birth) = DAY(CURDATE()) THEN
         INSERT INTO tickets (customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
