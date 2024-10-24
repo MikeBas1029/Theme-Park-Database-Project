@@ -20,7 +20,7 @@ class Item(BaseModel):
     price: float 
     cost: float 
     status: ItemStatus
-    vendor_id: int
+    vendor_id: str
 
 class ItemCreateModel(BaseModel):
     sku: str 
@@ -29,7 +29,7 @@ class ItemCreateModel(BaseModel):
     price: float 
     cost: float 
     status: Optional[ItemStatus | None] = 'Active'
-    vendor_id: int
+    vendor_id: str
 
 class ItemUpdateModel(BaseModel):
     sku: str 
@@ -38,4 +38,4 @@ class ItemUpdateModel(BaseModel):
     price: Optional[float ]
     cost: Optional[float ]
     status: ItemStatus
-    vendor_id: int
+    vendor_id: str
