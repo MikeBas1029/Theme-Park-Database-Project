@@ -50,6 +50,7 @@ app.include_router(food_item_router, prefix=f"{version_prefix}/food-items", tags
 app.include_router(guest_services_router, prefix=f"{version_prefix}/guest-services", tags=["guest_services"])
 app.include_router(item_router, prefix=f"{version_prefix}/items", tags=["items"])
 app.include_router(invoice_router, prefix=f"{version_prefix}/invoices", tags=["invoices"])
+app.include_router(merchandise_router, prefix=f"{version_prefix}/merchandise", tags=["merchandise"])
 app.include_router(payment_method_router, prefix=f"{version_prefix}/payment-methods", tags=["payment_methods"])
 app.include_router(purchase_order_router, prefix=f"{version_prefix}/purchase-orders", tags=["purchase_orders"])
 app.include_router(purchase_order_item_router, prefix=f"{version_prefix}/purchase-order-items", tags=["purchase_order_items"])
