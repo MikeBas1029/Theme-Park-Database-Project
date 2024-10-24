@@ -44,6 +44,7 @@ app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=[
 app.include_router(cust_auth_router, prefix=f"{version_prefix}/custauth", tags=["cust_auth"])
 app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=["employees"])
 app.include_router(employee_payment_router, prefix=f"{version_prefix}/employee-payments", tags=["employee_payments"])
+app.include_router(entertainment_router, prefix=f"{version_prefix}/entertainment", tags=["entertainment"])
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
 app.include_router(item_router, prefix=f"{version_prefix}/items", tags=["items"])
 app.include_router(invoice_router, prefix=f"{version_prefix}/invoices", tags=["invoices"])
