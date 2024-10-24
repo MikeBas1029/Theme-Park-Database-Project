@@ -12,48 +12,39 @@ import { useEffect, useState } from 'react';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import DownloadButton from "../../components/DownloadButton";
 
-const Vendors = () => {
+const Visits = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
 
-    const [vendorData, setvendorData] = useState([]); {/*State for storing employee data*/}
+    const [visitData, setvisitData] = useState([]); {/*State for storing employee data*/}
     const [loading, setLoading] = useState(true); // Loading state
 
 
     {/*Fetch item data */}
     useEffect(() => {
-        const fetchvendorData = async () => {
+        const fetchvisitData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/vendors/");
-                console.log("Fetched vendors:", response.data);
-                setvendorData(response.data);
+                const response = await axios.get("http://127.0.0.1:8000/api/v1/visits/");
+                console.log("Fetched visits:", response.data);
+                setvisitData(response.data);
             } catch (error) {
-                console.error("Error fetching vendors:", error);
+                console.error("Error fetching visits:", error);
             } finally {
                 setLoading(false);
             }
         };
     
-        fetchvendorData();
+        fetchvisitData();
         }, []);
 
     const columns = [
-        {field: "vendor_id", headerName: "SKU", headerAlign: "center" , align: "center", flex: 0.2},
-        {field: "company_name", headerName: "Item Name", headerAlign: "center" , align: "center", flex: 0.8}, 
-        {field: "vendor_contact", headerName: "Vendor Contact", flex: 0.5},
-        {field: "phone_number", headerName: "Phone Number", type: "number", headerAlign: "left", align: "left", flex: 0.2} ,
-        {field: "email", headerName: "Email", type: "number", headerAlign: "left", align: "left", flex: 0.2},
-        {field: "address_line1", headerName: "Address Line 1", flex: .3},
-        {field: "address_line2", headerName: "Address Line 2", flex: 0.2},
-        {field: "city", headerName: "City", type: "number", headerAlign: "left", align: "left", flex: 0.2} ,
-        {field: "zip_code", headerName: "Zip Code", type: "number", headerAlign: "left", align: "left", flex: 0.2},
-        {field: "country", headerName: "Country", flex: .3},
-        {field: "vendor_type", headerName: "Vendor Type", flex: 0.2},
-        {field: "contract_start_date", headerName: "Contract Start", headerAlign: "left", align: "left", flex: 0.2} ,
-        {field: "contract_end_date", headerName: "Contract End", headerAlign: "left", align: "left", flex: 0.2},
-        {field: "state", headerName: "State", flex: 0.2},
+        {field: "visit_id", headerName: "Visit ID", headerAlign: "center" , align: "center", flex: 0.2},
+        {field: "customer_id", headerName: "Customer ID", headerAlign: "center" , align: "center", flex: 0.2},
+        {field: "visit_date", headerName: "Visit Date", headerAlign: "left", align: "left", flex: 0.2} ,
+        {field: "visit_feedback", headerName: "Visit Feedback", headerAlign: "left", align: "left", flex: 0.2},
+        {field: "visit_rating", headerName: "Visit Rating", flex: 0.2},
 
     ]; {/*field: value/data grabbed from  colName: column title in table */}
 
@@ -62,12 +53,12 @@ const Vendors = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Header title="Vendors✅" subtitle="View vendor information"/>
+              <Header title="Visits✅" subtitle="View details related to customer visits"/>
                 {/*Employee creation form button + linking */}
                 
                 <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/vendors/" 
-                fileName="vendors_report.csv"
+                 apiUrl="http://127.0.0.1:8000/api/v1/visits/" 
+                fileName="visits_report.csv"
                 columns={columns} 
                 />
 
@@ -106,10 +97,10 @@ const Vendors = () => {
                 }}>
 
 <DataGrid 
-            rows={vendorData} 
+            rows={visitData} 
             columns={columns} 
             components={{Toolbar: GridToolbar}}
-            getRowId={(row) => row.vendor_id}/>
+            getRowId={(row) => row.visit_id}/>
             </Box>
 
 
@@ -117,7 +108,8 @@ const Vendors = () => {
     );
 }
 
-export default Vendors;
+export default Visits;
+
 
 
 

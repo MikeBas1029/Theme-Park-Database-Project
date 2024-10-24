@@ -9,7 +9,7 @@ import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import DownloadButton from "../../components/DownloadButton";
 
 const Inventory = () => {
     const theme = useTheme();
@@ -56,7 +56,12 @@ const Inventory = () => {
 
         <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Inventory" subtitle="Manage & view Inventory"/>
+                <Header title="Inventory🔜" subtitle="Manage & view Inventory"/>
+
+                <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/items/" 
+                fileName="items_report.csv" 
+                />
 
                 {/*Employee creation form button + linking */}
                 <IconButton onClick={() => navigate("/inventoryform")}>

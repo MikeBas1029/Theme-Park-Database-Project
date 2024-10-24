@@ -36,7 +36,7 @@ class Employee(BaseModel):
 
 
 class EmployeeCreateModel(BaseModel):
-    ssn: str = Field(max_length=9)
+    ssn: str = Field(max_length=11)
     first_name: str 
     last_name: str 
     middle_initial: Optional[str | None] = None 

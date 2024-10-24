@@ -1,65 +1,105 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme, IconButton} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { sampleInvoices } from "../../data/sampleInvoices";
 import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; // Import the plus icon
 import  Header from "../../components/Header"
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import DownloadButton from "../../components/DownloadButton";
 
 
 const Invoices = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const navigate = useNavigate();
+
+
+    const [invoiceData, setinvoiceData] = useState([]); {/*State for storing employee data*/}
+    const [loading, setLoading] = useState(true); // Loading state
+
+
+    {/*Fetch item data */}
+    useEffect(() => {
+        const fetchinvoiceData = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:8000/api/v1/invoices/");
+                console.log("Fetched invoices:", response.data);
+                setinvoiceData(response.data);
+            } catch (error) {
+                console.error("Error fetching invoices:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchinvoiceData();
+        }, []);
 
     const columns = [
-        {field: "id", headerName: "ID", flex: 0.5}, 
-        {field: "vendorName", headerName: "Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "invoiceNumber", headerName: "Invoice Number"},
-        {field: "amount", headerName: "Price", flex: 1, renderCell: (params) => (
-            <Typography color={colors.greenAccent[500]}>
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
-          </Typography>
-            
+        {field: "invoice_id", headerName: "Invoice", headerAlign: "center" , align: "center", flex: 0.2},
+        {field: "vendor_id", headerName: "Vendor ID", headerAlign: "center" , align: "center", flex: 0.5}, 
+        {field: "po_number", headerName: "Policy Number ?", flex: 0.3},
+        {field: "amount_due", headerName: "Amount Due", type: "number", headerAlign: "left", align: "left", flex: 0.2} ,
+        {field: "issue_date", headerName: "Date Issued", type: "number", headerAlign: "left", align: "left", flex: 0.2},
+        {field: "due_date", headerName: "Payment Due Date", flex: .3},
+        {field: "payment_status", headerName: "Payment Status", flex: 0.2},
 
-        )},
-        {field: "date", headerName: "Data", flex: 1},
-        {field: "status", headerName: "Payment Status", flex: 1},
-        
-        ]; {/*field: value/data grabbed from  colName: column title in table */}
+    ]; {/*field: value/data grabbed from  colName: column title in table */}
+
+ 
 
     return(
+
+
         <Box m="20px">
-            <Header title="Invoices" subtitle="Record of invoices from vendor orders"/>
+              <Box display="flex" justifyContent="space-between" aligninvoices="center">
+                <Header title="Invoices💻" subtitle="Track & view vendor invoices"/>
+
+
+                {/*Employee creation form button + linking */}
+                <IconButton onClick={() => navigate("/invoices")}>
+                    <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
+                </IconButton>
+              </Box>
+            {/*To display inventory*/}
             <Box
-            m="40px 0 0 0"
-            height="75vh"
-            sx={{"& .MuiDataGrid-root": {
-                border: "none"
-                }, 
-                "& .MuiDataGrid-cell": {
-                borderBottom: "none"
-                },
-                "& .name-column--cell": {
-                color: colors.greenAccent[300]
-                },
-                "& .MuiDataGrid-columnHeader": {
-                backgroundColor: colors.blueAccent[700],
-                borderBottom: "none"
-                },
-                "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: colors.primary[400]
-                },
-                "& .MuiDataGrid-footerContainer": {
-                borderTop: "none",
-                backgroundColor: colors.blueAccent[700]
-                },
-                "& .MuicCheckbox-root": {
-                color: `${colors.greenAccent[200]} !important`,
-                },
+                m="10px 0 0 0"
+                height="75vh"
+                sx={{"& .MuiDataGrid-root": {
+                        border: "none"
+                    },
+                    "& .MuiDataGrid-cell": {
+                        borderBottom: "none"
+                    },
+                    "& .name-column--cell": {
+                        color: colors.greenAccent[300]
+                    },
+                    "& .MuiDataGrid-columnHeader": {
+                        backgroundColor: colors.blueAccent[700],
+                        borderBottom: "none"
+                    },
+                    "& .MuiDataGrid-virtualScroller": {
+                        backgroundColor: colors.primary[400]
+                    },
+                    "& .MuiDataGrid-footerContainer": {
+                        borderTop: "none",
+                        backgroundColor: colors.blueAccent[700]
+                    },
+                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                        color: `${colors.greenAccent[100]} !important`,
+                        backgroundColor: colors.blueAccent[700]
+                    },
                 }}>
 
-            <DataGrid checkboxSelection rows={sampleInvoices} columns={columns} components={{Toolbar: GridToolbar}}/>
+<DataGrid 
+            rows={invoiceData} 
+            columns={columns} 
+            components={{Toolbar: GridToolbar}}
+            getRowId={(row) => row.invoice_id}/>
             </Box>
 
 
