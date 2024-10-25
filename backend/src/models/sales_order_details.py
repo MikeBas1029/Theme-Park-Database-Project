@@ -39,25 +39,15 @@ class SalesOrderDetail(SQLModel, table=True):
         return ''.join(secrets.choice(characters) for _ in range(length))
     
     # Primary key
-    detail_id: int = Field(
+    detail_id: str = Field(
         default_factory=lambda: SalesOrderDetail.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             nullable=False,
             primary_key=True,
             comment="Unique identifier for each sales order detail",
         ),
         alias="DetailID"
-    )
-
-    transaction_id: str = Field(
-        sa_column=Column(
-            mysql.VARCHAR(12),
-            ForeignKey("sales_orders.transaction_id", ondelete="CASCADE"),  # Foreign key to sales order table
-            nullable=False,
-            comment="Foreign key referencing the sales order",
-        ),
-        alias="TransactionID"
     )
 
     item_id: str = Field(
@@ -112,7 +102,6 @@ class SalesOrderDetail(SQLModel, table=True):
     __table_args__ = (
         # Indexes for faster query lookups
         Index("idx_detail_id", "detail_id"),  
-        Index("idx_transaction_id", "transaction_id"),  
         Index("idx_item_id", "item_id"),  
         CheckConstraint("quantity > 0", name="chk_so_quantity_positive"),  # Constraint ensuring quantity is positive
         CheckConstraint("unit_price > 0", name="chk_so_unit_price_positive")  # Constraint ensuring unit_price is positive

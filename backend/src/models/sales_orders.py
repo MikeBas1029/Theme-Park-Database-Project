@@ -1,6 +1,6 @@
 import string 
 import secrets
-from datetime import datetime
+from datetime import date
 import sqlalchemy.dialects.mysql as mysql
 from typing import List, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
@@ -34,10 +34,10 @@ class SalesOrders(SQLModel, table=True):
         return ''.join(secrets.choice(characters) for _ in range(length))
     
     # Primary key for the sales order
-    transaction_id: int = Field(
+    transaction_id: str = Field(
         default_factory=lambda: SalesOrders.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             nullable=False,
             primary_key=True,
             comment="Unique identifier for each sales order",
@@ -55,20 +55,28 @@ class SalesOrders(SQLModel, table=True):
         alias="CustomerID"
     )
 
-    order_date: datetime = Field(
+    order_date: date = Field(
         sa_column=Column(
-            mysql.DATETIME,
+            mysql.DATE,
             nullable=False,
             comment="Order timestamp including both date and time"
         ),
         alias="OrderDate"
+    )
+    detail_id: str = Field(
+        sa_column=Column(
+            mysql.VARCHAR(12),
+            ForeignKey("sales_order_details.detail_id"),  # Foreign key to sales order table
+            nullable=False,
+            comment="Foreign key referencing the sales order",
+        ),
+        alias="TransactionID"
     )
     
     # Relationships to other models
     customer: "Customers" = Relationship(back_populates="sales_orders")  # Relationship with the Customers table
     sales_order_details: List["SalesOrderDetail"] = Relationship(
         back_populates="sales_order",  # Relationship with the SalesOrderDetail table
-        cascade_delete=True,  # Cascade delete to remove orphaned sales order details when the sales order is deleted
     )
 
     # Derived property for calculating the total order amount
