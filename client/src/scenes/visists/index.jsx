@@ -9,8 +9,9 @@ import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import DownloadButton from "../../components/DownloadButton";
+import AddButton from "../../components/AddButton";
+import PrintButton from "../../components/PrintButton";
 
 const Visits = () => {
     const theme = useTheme();
@@ -51,20 +52,19 @@ const Visits = () => {
     return(
 
 
-        <Box m="20px">
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Header title="Visits✅" subtitle="View details related to customer visits"/>
-                {/*Employee creation form button + linking */}
-                
-                <DownloadButton 
+        <Box m="20px"> 
+                <Header title="Visits✅" subtitle="View details related to customer visits"/>
+                <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/visits/" 
+                columns={columns} />
+            <DownloadButton 
                  apiUrl="http://127.0.0.1:8000/api/v1/visits/" 
-                fileName="visits_report.csv"
+                fileName="visits_report.csv" 
                 columns={columns} 
                 />
+            <AddButton /> 
+              <Box display="flex" justifyContent="space-between" alignItems="center">
 
-                <IconButton onClick={() => navigate("/inventoryform")}>
-                    <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600]}} />
-                </IconButton>
               </Box>
             {/*To display inventory*/}
             <Box

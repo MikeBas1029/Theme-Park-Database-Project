@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import DownloadButton from "../../components/DownloadButton";
+import AddButton from "../../components/AddButton";
+import PrintButton from "../../components/PrintButton";
 
 const Inventory = () => {
     const theme = useTheme();
@@ -54,19 +56,19 @@ const Inventory = () => {
     return(
 
 
-        <Box m="20px">
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Inventory🔜" subtitle="Manage & view Inventory"/>
-
-                <DownloadButton 
+        <Box m="20px">          
+              <Header title="Inventory🔜" subtitle="Manage & view Inventory"/>
+                <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/items/" 
+                columns={columns} />
+            <DownloadButton 
                  apiUrl="http://127.0.0.1:8000/api/v1/items/" 
                 fileName="items_report.csv" 
+                columns={columns} 
                 />
+            <AddButton />
+              <Box display="flex" justifyContent="space-between" alignItems="center">
 
-                {/*Employee creation form button + linking */}
-                <IconButton onClick={() => navigate("/inventoryform")}>
-                    <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
-                </IconButton>
               </Box>
             {/*To display inventory*/}
             <Box

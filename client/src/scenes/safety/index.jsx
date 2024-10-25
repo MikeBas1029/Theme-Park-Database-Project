@@ -6,6 +6,9 @@ import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
 import { sampleDataVendors } from "../../data/sampleVendorData";
+import AddButton from "../../components/AddButton";
+import DownloadButton from "../../components/DownloadButton";
+import PrintButton from "../../components/PrintButton";
 
 
 const Safety = () => {
@@ -24,6 +27,15 @@ const Safety = () => {
     return(
         <Box m="20px">
             <Header title="Park Safety💻" subtitle="View and log park incident reports"/>
+            <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                columns={columns} />
+            <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                fileName="customers_report.csv" 
+                columns={columns} 
+                />
+            <AddButton /> 
             <Box
             m="40px 0 0 0"
             height="75vh"

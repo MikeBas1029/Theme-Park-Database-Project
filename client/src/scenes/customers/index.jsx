@@ -5,12 +5,13 @@ import {sampleDataRoster} from "../../data/sampleData"
 import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; // Import the plus icon
 import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DownloadButton from "../../components/DownloadButton";
+import PrintButton from "../../components/PrintButton";
+import AddButton from "../../components/AddButton";
 
 const Customers = () => {
     const theme = useTheme();
@@ -61,19 +62,19 @@ const Customers = () => {
     return(
 
         <Box m="20px">
-            
-
-            {/*Customer(?) creation form button + linking */}
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
+            {/* Print | Export | Add  */} 
+             <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
+            <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                columns={columns} />
             <DownloadButton 
                  apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
                 fileName="customers_report.csv" 
                 columns={columns} 
                 />
-                <IconButton onClick={() => navigate("/form")}>
-                <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
-                </IconButton>
+            <AddButton /> 
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+
             </Box>
 
             {/*Form fields, missing validation method linkings + user auth */}

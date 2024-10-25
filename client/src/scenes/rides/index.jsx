@@ -1,14 +1,13 @@
 import { Box, useTheme, IconButton} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"; // Import the plus icon
 import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import DownloadButton from "../../components/DownloadButton";
+import AddButton from "../../components/AddButton";
+import PrintButton from "../../components/PrintButton";
 
 
 const Rides = () => {
@@ -16,7 +15,7 @@ const Rides = () => {
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
 
-    const [rides, setRides] = useState([]); // State for storing customers data
+    const [rides, setRides] = useState([]); // State for storing rides data
     const [loading, setLoading] = useState(true); // State for loading indicator
 
     const columns = [
@@ -31,7 +30,7 @@ const Rides = () => {
     ]; {/*field: value/data grabbed from  colName: column title in table */}
 
 
-        // Fetch customers from the backend
+        // Fetch rides from the backend
         useEffect(() => {
             const fetchRides = async () => {
                 try {
@@ -52,13 +51,18 @@ const Rides = () => {
 
 
         <Box m="20px">
-              <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Rides💻" subtitle="View rides information and maintenance status"/>
+                <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/rides/" 
+                columns={columns} />
+            <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/rides/" 
+                fileName="rides_report.csv" 
+                columns={columns} 
+                />
+            <AddButton /> 
+              <Box display="flex" justifyContent="space-between" alignItems="center">
 
-                {/*Employee creation form button + linking */}
-                <IconButton onClick={() => navigate("/inventoryform")}>
-                    <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
-                </IconButton>
               </Box>
             {/*To display inventory*/}
             <Box
