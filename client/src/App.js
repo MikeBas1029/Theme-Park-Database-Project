@@ -1,4 +1,4 @@
-import {Routes, Route, Link} from "react-router-dom"
+import {Routes, Route, Link, useLocation} from "react-router-dom"
 import { DisplayModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./scenes/global/Navbar";
@@ -35,6 +35,12 @@ function App() {
   {/*diplay state management */}
   const [theme, colorMode] = useMode();
 
+  //keep track of pages for limiting ui
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
+
+
+
 
 
   return ( 
@@ -42,9 +48,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app">
-        <Sidebar />
-       <main className="content">
-        <Navbar />
+      {!isLoginPage && <Sidebar />}
+      <main className="content">
+      {!isLoginPage && <Navbar />}
         <Routes>
           <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
           <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
