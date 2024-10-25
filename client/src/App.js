@@ -24,7 +24,7 @@ import Rides from "./scenes/rides";
 import CustomerVisitSelection from "./scenes/customervisits/customervisitselection";
 import LoginPage from "./scenes/login/loginPage";
 import SignUpPage from "./scenes/login/signupPage";
-
+import CustomerLanding from "./scenes/customerscreens/customerlanding";
 
 
 
@@ -34,7 +34,7 @@ import SignUpPage from "./scenes/login/signupPage";
 function App() {
   
 
-  {/*diplay state management */}
+  /*diplay state management */
   const [theme, colorMode] = useMode();
 
   //keep track of pages for limiting ui
@@ -42,6 +42,7 @@ function App() {
   const isLoginPage = location.pathname === "/login" ;
   const isSignUpPage = location.pathname === "/signup" ;
   const isSignUpPageSub = location.pathname === "/" ;
+  const isCustomerLanding = location.pathname = "/customerlanding"
 
 
 
@@ -77,6 +78,8 @@ function App() {
           <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
           <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
           <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
+          <Route path="/customerlanding" element={<CustomerLanding />} /> {/*Inventory's form page routing */}
+
 
 
         </Routes>
