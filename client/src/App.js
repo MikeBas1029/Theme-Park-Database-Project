@@ -1,6 +1,7 @@
-import {Routes, Route, Link, useLocation} from "react-router-dom"
+import {Routes, Route, Link, useLocation, useNavigate} from "react-router-dom"
 import { DisplayModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import React, { createContext, useContext, useState } from 'react';
 import Navbar from "./scenes/global/Navbar";
 import Sidebar from "./scenes/global/Sidebar";
 //import Rides from "./scenes/Rides";
@@ -24,16 +25,19 @@ import Rides from "./scenes/rides";
 import CustomerVisitSelection from "./scenes/customervisits/customervisitselection";
 import LoginPage from "./scenes/login/loginPage";
 import SignUpPage from "./scenes/login/signupPage";
-import CustomerLanding from "./scenes/customerscreens/customerlanding";
-
+import SidebarCust from "./scenes/global/Sidebar2";
+import CustomerSidebar from "./scenes/customerscreens/customerglobal/CustomerSidebar";
+import CustomerDashboard from "./scenes/customerscreens/customerdashboard";
+import CustomerTickets from "./scenes/customerscreens/customertickets/customerTickets";
 
 
 
 
 
 function App() {
-  
-
+  const navigate = useNavigate();
+  /*user state management */
+  const [userRole, setUserRole] = useState("customer"); 
   /*diplay state management */
   const [theme, colorMode] = useMode();
 
@@ -41,12 +45,25 @@ function App() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login" ;
   const isSignUpPage = location.pathname === "/signup" ;
-  const isSignUpPageSub = location.pathname === "/" ;
-  const isCustomerLanding = location.pathname = "/customerlanding"
+  const isSignUpPageSub = location.pathname === "/sub" ;
 
 
+// Simulated login functions
+const loginAsEmployee = () => {
+  setUserRole('employee')
+  navigate('/');
 
+};
 
+const loginAsCustomer = () => {
+  setUserRole('customer')
+  navigate('/customerhome');
+};
+
+const logout = () => {
+  setUserRole(null)
+  navigate('/login');
+};
 
 
 
@@ -55,11 +72,20 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app">
-      {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Sidebar />}
+
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&  (
+          userRole === 'customer' ? <CustomerSidebar /> : <Sidebar />     
+      )}
       <main className="content">
       {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&<Navbar />}
+            {/* Simulated login buttons */}
+            <div>
+              <button onClick={loginAsEmployee}>Employee view</button>
+              <button onClick={loginAsCustomer}>Customer view</button>
+              <button onClick={logout}>Logout</button>
+            </div>
         <Routes>
-          <Route path="/" element={<SignUpPage />}/> {/* Dashboard routing */}
+          <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
           <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
           <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
           <Route path="/login2" element={<LoginForm />} />   {/*Login page routing */}
@@ -78,18 +104,16 @@ function App() {
           <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
           <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
           <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
-          <Route path="/customerlanding" element={<CustomerLanding />} /> {/*Inventory's form page routing */}
-
-
-
+          <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
+          <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}
         </Routes>
-
-
       </main>
       </div>
     </ThemeProvider>
   </DisplayModeContext.Provider>
   );
 }
+
+
 
 export default App;
