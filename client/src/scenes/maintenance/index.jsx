@@ -8,6 +8,9 @@ import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import axios from "axios";
+import DownloadButton from "../../components/DownloadButton";
+import AddButton from "../../components/AddButton";
+import PrintButton from "../../components/PrintButton";
 
 
 const Maintenance = () => {
@@ -58,6 +61,15 @@ const Maintenance = () => {
     return(
         <Box m="20px">
             <Header title="Maintenance💻" subtitle="Keep track of park work orders and maintenance schedules."/>
+            <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                columns={columns} />
+            <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                fileName="customers_report.csv" 
+                columns={columns} 
+                />
+            <AddButton />
             <Box
             m="40px 0 0 0"
             height="75vh"

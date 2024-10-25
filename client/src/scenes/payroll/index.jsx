@@ -2,10 +2,10 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { sampleInvoices } from "../../data/sampleInvoices";
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
+import DownloadButton from "../../components/DownloadButton";
+import AddButton from "../../components/AddButton";
+import PrintButton from "../../components/PrintButton";
 
 
 const Payroll = () => {
@@ -31,6 +31,15 @@ const Payroll = () => {
     return(
         <Box m="20px">
             <Header title="Employee Payroll💻" subtitle="Record of invoices from vendor orders"/>
+            <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                columns={columns} />
+            <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                fileName="customers_report.csv" 
+                columns={columns} 
+                />
+            <AddButton /> 
             <Box
             m="40px 0 0 0"
             height="75vh"

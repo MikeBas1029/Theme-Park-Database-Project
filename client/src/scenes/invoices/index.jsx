@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import DownloadButton from "../../components/DownloadButton";
+import AddButton from "../../components/AddButton";
+import PrintButton from "../../components/PrintButton";
 
 
 const Invoices = () => {
@@ -55,15 +57,23 @@ const Invoices = () => {
     return(
 
 
-        <Box m="20px">
-              <Box display="flex" justifyContent="space-between" aligninvoices="center">
+        <Box m="20px"> 
                 <Header title="Invoices💻" subtitle="Track & view vendor invoices"/>
 
 
-                {/*Employee creation form button + linking */}
-                <IconButton onClick={() => navigate("/invoices")}>
-                    <AddCircleOutlineIcon sx={{ fontSize: "30px", color: colors.greenAccent[600] }} />
-                </IconButton>
+                <PrintButton
+                apiUrl="http://127.0.0.1:8000/api/v1/invoices/" 
+                columns={columns} />
+            <DownloadButton 
+                 apiUrl="http://127.0.0.1:8000/api/v1/invoices/" 
+                fileName="invoices_report.csv" 
+                columns={columns} 
+                />
+            <AddButton />
+              <Box display="flex" justifyContent="space-between" aligninvoices="center">
+
+
+
               </Box>
             {/*To display inventory*/}
             <Box

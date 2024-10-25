@@ -117,7 +117,7 @@ return(
                  alt="profile-photo"
                  width="100px"
                  height="100px"
-                 src={`../../assets/user.png`}
+                 src={`../../assets/user2.jpeg`}
                  style={{ cursor: "pointer", borderRadius: "50%" }}
                />
              </Box>
@@ -128,7 +128,7 @@ return(
                  fontWeight="bold"
                  sx={{ m: "10px 0 0 0" }}
                >
-                 Mmokut Umoh
+                 Sasha 'Gar
                </Typography>
                <Typography variant="h5" color={colors.greenAccent[500]}>
                  Manager | Ride Department
