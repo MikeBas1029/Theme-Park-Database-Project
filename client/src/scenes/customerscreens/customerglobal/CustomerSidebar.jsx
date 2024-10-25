@@ -1,10 +1,9 @@
 import {useState} from "react";
 import { ProSidebar, Menu, MenuItem} from "react-pro-sidebar";
-
 import {Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import "react-pro-sidebar/dist/css/styles.css"; /*CSS file not included potentiall breaks sidebar ??*/
-import {tokens} from "../../theme";
+import { tokens } from "../../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
@@ -46,7 +45,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   };
 
 
-const Sidebar = () => {
+const CustomerSidebar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isClosed, setIsClosed] = useState(false); {/*sidebar status */}
@@ -99,9 +98,6 @@ return(
                alignItems="center"
                ml="15px"
              >
-               <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN PORTAL
-               </Typography>
                <IconButton onClick={() => setIsClosed(!isClosed)}>
                  <MenuOutlinedIcon />
                </IconButton>
@@ -117,7 +113,7 @@ return(
                  alt="profile-photo"
                  width="100px"
                  height="100px"
-                 src={`../../assets/user.png`}
+                 src={`../../assets/user2.jpeg`}
                  style={{ cursor: "pointer", borderRadius: "50%" }}
                />
              </Box>
@@ -128,10 +124,10 @@ return(
                  fontWeight="bold"
                  sx={{ m: "10px 0 0 0" }}
                >
-                 Shasta Cou
+                 Sasha 'Gar
                </Typography>
                <Typography variant="h5" color={colors.greenAccent[500]}>
-                 Root Admin | Human Resources
+                 GOLD Member
                </Typography>
              </Box>
            </Box>
@@ -140,8 +136,8 @@ return(
 
          <Box paddingLeft={isClosed ? undefined : "10%"}>
            <Item
-             title="Dashboard Home"
-             to="/"
+             title="Home"
+             to="/customerhome"
              icon={<HomeOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -159,36 +155,28 @@ return(
              )}
 
             <Item
-             title="Shops & Inventory"
-             to="/supplies"
+             title=" My Tickets"
+             to="/customertickets"
              icon={<InventoryIcon />}
              selected={selected}
              setSelected={setSelected}
            />
 
             <Item
-             title="Orders & Vendors"
-             to="/vendorsandorders"
+             title="Rides & Attractions"
+             to="/parkrides"
              icon={<ContactsOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
            />
 
             <Item
-             title="Rides & Attractions"
-             to="/rides"
+             title="Events"
+             to="/customerevents"
              icon={<LocalActivityIcon />}
              selected={selected}
              setSelected={setSelected}
            />
-            <Item
-             title="Park Safety"
-             to="/safety"
-             icon={<SecurityIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-
              {!isClosed &&(
            <Typography
              variant="h4"
@@ -199,38 +187,37 @@ return(
            </Typography>
                  )}
 
-           <Item
-             title="Manage Staff"
-             to="/employees"
-             icon={<PeopleOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-
-           <Item
-             title="Maintenance"
-             to="/maintenance"
-             icon={<HandymanIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-
             <Item
-             title="Customer/Visit info"
-             to="/customervisits"
-             icon={<TourIcon />}
+             title="Map"
+             to="/parkmap"
+             icon={<PeopleOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
            />
 
             <Item
              title="Facilities"
-             to="/facilities"
+             to="/parkfacilities"
              icon={<AccessibilityNewIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           /> 
+
+           <Item
+             title="Dining"
+             to="/parkdining"
+             icon={<TourIcon />}
              selected={selected}
              setSelected={setSelected}
            />
 
+           <Item
+             title="Shopping"
+             to="/parkshops"
+             icon={<HandymanIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
              {!isClosed &&(
            <Typography
              variant="h4"
@@ -241,24 +228,24 @@ return(
            </Typography>
                  )}
              <Item
-             title="Insights"
-             to="/insights"
+             title="FAQS"
+             to="/faqs"
              icon={<InsightsIcon />}
              selected={selected}
              setSelected={setSelected}
              />
 
             <Item
-             title="Transactions"
-             to="/transactions"
+             title="Help Center"
+             to="/helpcenter"
              icon={<ReceiptOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
            />
 
            <Item
-             title="Tikcets might merge w/ visits, need new tab here"
-             to="/tickets"
+             title="Feedback"
+             to="/feedback"
              icon={<TimelineOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -270,4 +257,4 @@ return(
     );
 }
 
-export default Sidebar; 
+export default CustomerSidebar; 

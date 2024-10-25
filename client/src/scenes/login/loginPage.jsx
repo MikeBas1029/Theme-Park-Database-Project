@@ -35,7 +35,7 @@ export default function LoginPage() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login successful:', data);
-                navigate('/');
+                navigate('/customerhome');
             } else {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
