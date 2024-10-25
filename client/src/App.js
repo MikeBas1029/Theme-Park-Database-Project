@@ -1,4 +1,4 @@
-import {Routes, Route, Link} from "react-router-dom"
+import {Routes, Route, Link, useLocation} from "react-router-dom"
 import { DisplayModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navbar from "./scenes/global/Navbar";
@@ -6,7 +6,7 @@ import Sidebar from "./scenes/global/Sidebar";
 //import Rides from "./scenes/Rides";
 //import Calendar from "./scenes/Calendar";
 import Dashboard from "./scenes/dashboard";
-import LoginForm from "./scenes/login/LoginForm"
+import LoginForm from "./scenes/login2/LoginForm"
 import Employees from "./scenes/employees";
 import Vendors from "./scenes/vendors";
 import TransactionSelection from "./scenes/transactions/transactionSelection";
@@ -22,6 +22,8 @@ import Safety from "./scenes/safety";
 import InventoryForm from "./scenes/inventoryform";
 import Rides from "./scenes/rides";
 import CustomerVisitSelection from "./scenes/customervisits/customervisitselection";
+import LoginPage from "./scenes/login/loginPage";
+import SignUpPage from "./scenes/login/signupPage";
 
 
 
@@ -35,6 +37,16 @@ function App() {
   {/*diplay state management */}
   const [theme, colorMode] = useMode();
 
+  //keep track of pages for limiting ui
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login" ;
+  const isSignUpPage = location.pathname === "/signup" ;
+  const isSignUpPageSub = location.pathname === "/" ;
+
+
+
+
+
 
 
   return ( 
@@ -42,14 +54,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app">
-        <Sidebar />
-       <main className="content">
-        <Navbar />
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Sidebar />}
+      <main className="content">
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&<Navbar />}
         <Routes>
-          <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
+          <Route path="/" element={<SignUpPage />}/> {/* Dashboard routing */}
           <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
           <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
-          <Route path="/login" element={<LoginForm />} />   {/*Login page routing */}
+          <Route path="/login2" element={<LoginForm />} />   {/*Login page routing */}
           <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
           <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
           <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
@@ -62,8 +74,13 @@ function App() {
           <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
           <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
           <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
-          <Route path="//customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
+          <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
+          <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
+          <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
+
+
         </Routes>
+
 
       </main>
       </div>
