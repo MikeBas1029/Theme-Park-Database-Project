@@ -22,7 +22,8 @@ import Safety from "./scenes/safety";
 import InventoryForm from "./scenes/inventoryform";
 import Rides from "./scenes/rides";
 import CustomerVisitSelection from "./scenes/customervisits/customervisitselection";
-import LoginPage from "./scenes/login";
+import LoginPage from "./scenes/login/loginPage";
+import SignUpPage from "./scenes/login/signupPage";
 
 
 
@@ -38,7 +39,11 @@ function App() {
 
   //keep track of pages for limiting ui
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
+  const isLoginPage = location.pathname === "/login" ;
+  const isSignUpPage = location.pathname === "/signup" ;
+  const isSignUpPageSub = location.pathname === "/" ;
+
+
 
 
 
@@ -49,11 +54,11 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="app">
-      {!isLoginPage && <Sidebar />}
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Sidebar />}
       <main className="content">
-      {!isLoginPage && <Navbar />}
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&<Navbar />}
         <Routes>
-          <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
+          <Route path="/" element={<SignUpPage />}/> {/* Dashboard routing */}
           <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
           <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
           <Route path="/login2" element={<LoginForm />} />   {/*Login page routing */}
@@ -71,6 +76,8 @@ function App() {
           <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
           <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
           <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
+          <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
+
 
         </Routes>
 

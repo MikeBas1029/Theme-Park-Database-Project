@@ -8,8 +8,51 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockIcon from '@mui/icons-material/Lock';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
+
+
+    //Get cust credentials
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    //Handle cust login authentication
+    const handleLogin = async (e) => {
+        console.log({ email, password });
+        e.preventDefault();
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/v1/custauth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login successful:', data);
+                navigate('/');
+            } else {
+                const errorData = await response.json();
+                console.error('Login failed with status:', response.status);
+                console.error('Error details:', errorData);//see specifcc errors
+                //console.error('Error message:', errorData.message || 'Unknown error'); //view error message if necesary
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
+            alert('An error occurred while logging in. Please try again later.');
+        }
+    };
+
+
+
+
+
+
     return (
         <Box 
             sx={{
@@ -39,7 +82,7 @@ export default function LoginPage() {
                     Customer Login
                 </Typography>
 
-                <form action="">
+                <form onSubmit={handleLogin}>
                     <Box sx={{ mb: 2 }}>
                         <TextField
                             type="email"
@@ -47,6 +90,8 @@ export default function LoginPage() {
                             required
                             fullWidth
                             variant="outlined"
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -63,12 +108,17 @@ export default function LoginPage() {
                             required
                             fullWidth
                             variant="outlined"
+                            value={password} //Bind to typing state
+                            onChange={(e) => setPassword(e.target.value)} //update as typed
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <LockIcon />
                                     </InputAdornment>
-                                ),
+                                ), 
+                                inputProps: {
+                                    minLength: 8, //Force min length requirement
+                                },
                             }}
                             sx={{ mb: 2 }}
                         />
@@ -84,11 +134,16 @@ export default function LoginPage() {
 
                     <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
                     <Typography variant="h4" gutterBottom >
+                    Don't have an account? <Link to="/signup">Sign up</Link>
+                    </ Typography >
+                    </Box>
+                    <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
+                    <Typography variant="h4" gutterBottom >
                             <a href="#">Employee Sign in</a>
                     </ Typography >
                     </Box>
 
-                    <Button type="submit" variant="contained" fullWidth  sx={{marginBottom: '10px', marginTop: '10px'}}>
+                    <Button type="submit" variant="contained" fullWidth >
                         Login
                     </Button>
                 </form>
