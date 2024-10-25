@@ -1,3 +1,5 @@
+import string 
+import secrets
 from datetime import time
 from pydantic import model_validator
 import sqlalchemy.dialects.mysql as mysql
@@ -16,9 +18,17 @@ class Restaurants(SQLModel, table=True):
     """
     __tablename__ = "restaurants"  # Defines the name of the table in the database
     
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
+
+
     # restaurant_id is the primary key for the restaurants table. This uniquely identifies each restaurant.
     restaurant_id: int = Field(
-        sa_column=Column(mysql.INTEGER, primary_key=True, nullable=False, comment="Unique restaurant ID"),
+        default_factory=lambda: Restaurants.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), primary_key=True, nullable=False, comment="Unique restaurant ID"),
         alias="RestaurantID"
     )
     
