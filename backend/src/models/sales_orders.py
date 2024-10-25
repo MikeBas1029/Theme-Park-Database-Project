@@ -1,3 +1,5 @@
+import string 
+import secrets
 from datetime import datetime
 import sqlalchemy.dialects.mysql as mysql
 from typing import List, TYPE_CHECKING
@@ -26,11 +28,16 @@ class SalesOrders(SQLModel, table=True):
     
     __tablename__ = "sales_orders"
 
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
     # Primary key for the sales order
     transaction_id: int = Field(
+        default_factory=lambda: SalesOrders.generate_random_id(),
         sa_column=Column(
             mysql.INTEGER,
-            autoincrement=True,
             nullable=False,
             primary_key=True,
             comment="Unique identifier for each sales order",

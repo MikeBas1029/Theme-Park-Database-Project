@@ -1,3 +1,5 @@
+import string 
+import secrets
 from typing import TYPE_CHECKING
 import sqlalchemy.dialects.mysql as mysql
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, CheckConstraint
@@ -30,12 +32,17 @@ class SalesOrderDetail(SQLModel, table=True):
     """
     
     __tablename__ = "sales_order_details"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
     # Primary key
     detail_id: int = Field(
+        default_factory=lambda: SalesOrderDetail.generate_random_id(),
         sa_column=Column(
             mysql.INTEGER,
-            autoincrement=True,
             nullable=False,
             primary_key=True,
             comment="Unique identifier for each sales order detail",
@@ -43,9 +50,9 @@ class SalesOrderDetail(SQLModel, table=True):
         alias="DetailID"
     )
 
-    transaction_id: int = Field(
+    transaction_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             ForeignKey("sales_orders.transaction_id", ondelete="CASCADE"),  # Foreign key to sales order table
             nullable=False,
             comment="Foreign key referencing the sales order",
