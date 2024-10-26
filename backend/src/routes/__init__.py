@@ -6,6 +6,7 @@ from .departments import department_router
 from .employee_payments import employee_payment_router
 from .employees import employee_router 
 from .emp_auth import emp_auth_router
+from .emp_notifications import emp_notification_router
 from .entertainment import entertainment_router
 from .food_items import food_item_router
 from .guest_services import guest_services_router
