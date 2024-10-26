@@ -70,7 +70,7 @@ class Tickets(SQLModel, table=True):
     
 
     ticket_id: str = Field(
-        default=None,
+        default_factory=lambda: Tickets.generate_random_id(),
         sa_column=Column(
             mysql.VARCHAR(12),  
             primary_key=True, 
