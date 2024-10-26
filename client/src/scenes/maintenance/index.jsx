@@ -26,7 +26,7 @@ const Maintenance = () => {
     useEffect(() => {
         const fetchworkOrderInfo = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/"); //missing table but link should be working
+                const response = await axios.get("http://127.0.0.1:8000/api/v1/work-orders/"); //missing table but link should be working
                 console.log("Fetched employees:", response.data);
                 setworkOrderInfo(response.data);
             } catch (error) {
@@ -62,10 +62,10 @@ const Maintenance = () => {
         <Box m="20px">
             <Header title="Maintenance💻" subtitle="Keep track of park work orders and maintenance schedules."/>
             <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                apiUrl="http://127.0.0.1:8000/api/v1/work-orders/" 
                 columns={columns} />
             <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                 apiUrl="http://127.0.0.1:8000/api/v1/work-orders/" 
                 fileName="customers_report.csv" 
                 columns={columns} 
                 />
