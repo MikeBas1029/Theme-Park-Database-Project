@@ -32,7 +32,7 @@ from .vendors import vendor_router
 from .vendor_payments import vendor_payment_router
 from .visits import visit_router
 from .visit_tickets import visit_ticket_router
-# from .work_orders import work_order_router
-# from .work_order_items import wo_items_router
+from .work_orders import work_order_router
+from .work_order_items import work_order_item_router
 from .items import item_router
 

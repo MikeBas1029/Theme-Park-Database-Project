@@ -72,3 +72,5 @@ app.include_router(vendor_router, prefix=f"{version_prefix}/vendors", tags=["ven
 app.include_router(vendor_payment_router, prefix=f"{version_prefix}/vendor-payments", tags=["vendor payments"])
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
 app.include_router(visit_ticket_router, prefix=f"{version_prefix}/visit-ticket", tags=["visit ticket"])
+app.include_router(work_order_router, prefix=f"{version_prefix}/work-orders", tags=["work orders"])
+app.include_router(work_order_item_router, prefix=f"{version_prefix}/work-order-items", tags=["work order items"])
