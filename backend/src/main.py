@@ -71,3 +71,4 @@ app.include_router(timesheet_router, prefix=f"{version_prefix}/timesheets", tags
 app.include_router(vendor_router, prefix=f"{version_prefix}/vendors", tags=["vendors"])
 app.include_router(vendor_payment_router, prefix=f"{version_prefix}/vendor-payments", tags=["vendor payments"])
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
+app.include_router(visit_ticket_router, prefix=f"{version_prefix}/visit-ticket", tags=["visit ticket"])
