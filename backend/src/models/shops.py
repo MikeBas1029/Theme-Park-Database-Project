@@ -1,3 +1,5 @@
+import string 
+import secrets
 import sqlalchemy.dialects.mysql as mysql
 from typing import TYPE_CHECKING
 from datetime import time, datetime, timedelta
@@ -32,12 +34,18 @@ class Shops(SQLModel, table=True):
     """
     
     __tablename__ = "shops"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # Primary key for the shop
-    shop_id: int = Field(
+    shop_id: str = Field(
+        default_factory=lambda: Shops.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
-            autoincrement=True,  # Auto-increment for unique shop ID
+            mysql.VARCHAR(12), 
             primary_key=True, 
             nullable=False,
             comment="Unique identifier for each shop in the park"
