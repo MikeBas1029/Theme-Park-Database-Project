@@ -1,7 +1,6 @@
 from .beverage_items import BeverageItems
 from .cust_auth import CustAuth
 from .customers import Customers
-from .department_roles import DepartmentRoles
 from .departments import Departments
 from .employee_payments import EmployeePayments
 from .employees import Employees 
