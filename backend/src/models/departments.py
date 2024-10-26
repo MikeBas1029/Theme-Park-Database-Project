@@ -6,7 +6,6 @@ import sqlalchemy.dialects.mysql as mysql
 if TYPE_CHECKING:
     from src.models.employees import Employees
     from src.models.sections import Section
-    from src.models.department_roles import DepartmentRoles
 
 class Departments(SQLModel, table=True):
     __tablename__ = "departments"
@@ -51,7 +50,6 @@ class Departments(SQLModel, table=True):
     # A department can have multiple sections, represented as a list of `Section` objects.
     sections: List["Section"] = Relationship(back_populates="department")
 
-    department_roles: List["DepartmentRoles"] = Relationship(back_populates="department") 
 
     # Table index: Adds an index on the department_id field.
     # This index improves performance for queries filtering by the department_id.
