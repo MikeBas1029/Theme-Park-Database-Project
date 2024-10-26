@@ -3,7 +3,7 @@ from datetime import date
 from pydantic import BaseModel
 
 class Visit(BaseModel):
-    visit_id: int 
+    visit_id: str 
     customer_id: int
     visit_date: date
     visit_feedback: Optional[str]

@@ -1,3 +1,5 @@
+import string
+import secrets
 from datetime import date
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING
@@ -25,14 +27,18 @@ class Visits(SQLModel, table=True):
     """
 
     __tablename__ = "visits"
-
-    visit_id: int = Field(
-        default=None,
+    
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
+    visit_id: str = Field(
+        default_factory=lambda: Visits.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             nullable=False, 
             primary_key=True, 
-            autoincrement=True,
             comment="The unique identifier for the visit"
         ),
         alias="VisitID"

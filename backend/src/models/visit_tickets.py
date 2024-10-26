@@ -1,3 +1,5 @@
+import string
+import secrets
 from sqlmodel import SQLModel, Field, Relationship, Column, ForeignKey
 import sqlalchemy.dialects.mysql as mysql
 from typing import TYPE_CHECKING
@@ -22,14 +24,29 @@ class VisitTickets(SQLModel, table=True):
     """
 
     __tablename__ = "visit_tickets"
-
-    visit_id: int = Field(
+    
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
+    visit_ticket_id: str = Field(
+        default_factory=lambda: VisitTickets.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
-            ForeignKey("visits.visit_id"), 
+            mysql.VARCHAR(12), 
             primary_key=True, 
             nullable=False,
             comment="The unique identifier for the visit"
+        ),
+        alias="VisitID"
+    )
+    
+    visit_id: str = Field(
+        sa_column=Column(
+            mysql.VARCHAR(12), 
+            ForeignKey("visits.visit_id"), 
+            nullable=False,
+            comment="Foreign key for the visit"
         ),
         alias="VisitID"
     )
