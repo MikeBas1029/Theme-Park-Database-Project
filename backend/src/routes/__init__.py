@@ -26,7 +26,7 @@ from .sales_order_details import sales_order_detail_router
 from .shops import shop_router
 from .sections import section_router
 from .supplies import supplies_router
-# from .tickets import tickets_router
+from .tickets import ticket_router
 # from .timesheet import timesheet_router
 from .vendors import vendor_router
 # from .vendor_payments import vend_payments_router

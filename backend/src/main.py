@@ -66,5 +66,6 @@ app.include_router(sales_order_detail_router, prefix=f"{version_prefix}/sales-or
 app.include_router(section_router, prefix=f"{version_prefix}/sections", tags=["section"])
 app.include_router(shop_router, prefix=f"{version_prefix}/shops", tags=["shops"])
 app.include_router(supplies_router, prefix=f"{version_prefix}/supplies", tags=["supplies"])
+app.include_router(ticket_router, prefix=f"{version_prefix}/tickets", tags=["tickets"])
 app.include_router(vendor_router, prefix=f"{version_prefix}/vendors", tags=["vendors"])
 app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visits"])
