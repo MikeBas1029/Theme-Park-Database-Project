@@ -1,3 +1,5 @@
+import string 
+import secrets
 from datetime import date
 import sqlalchemy.dialects.mysql as mysql
 from typing import TYPE_CHECKING
@@ -29,11 +31,18 @@ class VendorPayments(SQLModel, table=True):
     """
     
     __tablename__ = "vendor_payments"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # Primary key for the vendor payment
-    vendor_payment_id: int = Field(
+    vendor_payment_id: str = Field(
+        default_factory=lambda: VendorPayments.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             primary_key=True, 
             nullable=False,
             comment="Unique identifier for each vendor payment"
@@ -65,13 +74,13 @@ class VendorPayments(SQLModel, table=True):
     
     # Date when the payment was made
     payment_date: date = Field(
-        sa_column=Column(mysql.DATE, nullable=True, comment="Date when the payment was made"), 
+        sa_column=Column(mysql.DATE, nullable=False, comment="Date when the payment was made"), 
         alias="PaymentDate"
     )
     
     # The amount of money paid to the vendor
     payment_amount: float = Field(
-        sa_column=Column(mysql.DECIMAL(7, 2), nullable=True, comment="Amount paid to the vendor"), 
+        sa_column=Column(mysql.DECIMAL(7, 2), nullable=False, comment="Amount paid to the vendor"), 
         alias="PaymentAmount"
     )
     
@@ -80,7 +89,7 @@ class VendorPayments(SQLModel, table=True):
         sa_column=Column(
             mysql.INTEGER, 
             ForeignKey("paymentmethods.payment_method_id"),
-            nullable=True,
+            nullable=False,
             comment="Foreign key linking to the payment method used"
         ),
         alias="PaymentMethodID"
