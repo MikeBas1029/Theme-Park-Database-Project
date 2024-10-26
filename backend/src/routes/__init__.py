@@ -29,7 +29,7 @@ from .supplies import supplies_router
 from .tickets import ticket_router
 from .timesheet import timesheet_router
 from .vendors import vendor_router
-# from .vendor_payments import vend_payments_router
+from .vendor_payments import vendor_payment_router
 from .visits import visit_router
 # from .visit_tickets import visit_tickets_router
 # from .work_orders import work_order_router
