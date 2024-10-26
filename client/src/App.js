@@ -29,6 +29,7 @@ import SidebarCust from "./scenes/global/Sidebar2";
 import CustomerSidebar from "./scenes/customerscreens/customerglobal/CustomerSidebar";
 import CustomerDashboard from "./scenes/customerscreens/customerdashboard";
 import CustomerTickets from "./scenes/customerscreens/customertickets/customerTickets";
+import CustomerAppBar from "./scenes/customerscreens/customerglobal/CustomerAppBar";
 
 
 
@@ -37,7 +38,7 @@ import CustomerTickets from "./scenes/customerscreens/customertickets/customerTi
 function App() {
   const navigate = useNavigate();
   /*user state management */
-  const [userRole, setUserRole] = useState("customer"); 
+  const [userRole, setUserRole] = useState("employee"); 
   /*diplay state management */
   const [theme, colorMode] = useMode();
 
@@ -74,10 +75,10 @@ const logout = () => {
       <div className="app">
 
       {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&  (
-          userRole === 'customer' ? <CustomerSidebar /> : <Sidebar />     
-      )}
+                userRole === 'employee' && <Sidebar /> 
+          )}
       <main className="content">
-      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&<Navbar />}
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Navbar userRole={userRole}  />}
             {/* Simulated login buttons */}
             <div>
               <button onClick={loginAsEmployee}>Employee view</button>

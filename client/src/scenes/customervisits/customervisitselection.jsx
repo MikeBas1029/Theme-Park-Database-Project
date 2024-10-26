@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import Vendors from "../vendors";
 import Customers from "../customers";
 import Visits from "../visists";
+import Tickets from "../tickets/Tickets";
 
 
 const CustomerVisitSelection = () => {
@@ -16,7 +17,7 @@ const CustomerVisitSelection = () => {
 
   {/*Table/Tab state management */}
     const [activeTab, setActiveTab] = useState('Customers');
-    const tabs = ['Customers', 'Visits'];   // Page table tabs
+    const tabs = ['Customers', 'Visits', 'Tickets'];   // Page table tabs
     // Function to render the correct table component
     const renderTable = () => {
       switch (activeTab) {
@@ -24,6 +25,8 @@ const CustomerVisitSelection = () => {
           return <Customers />
         case 'Visits':
           return <Visits />
+        case 'Tickets':
+          return <Tickets />
         default:
           return null;
       }
