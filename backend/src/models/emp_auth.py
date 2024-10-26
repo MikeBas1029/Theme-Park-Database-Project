@@ -50,6 +50,7 @@ class EmpAuth(SQLModel, table=True):
     password_hash: str = Field(
         sa_column=Column(mysql.VARCHAR(60), nullable=False), exclude=True
     )
+    password_on_create: Optional[str] 
     created_at: datetime = Field(sa_column=Column(mysql.TIMESTAMP, default=datetime.now))
     update_at: datetime = Field(sa_column=Column(mysql.TIMESTAMP, default=datetime.now))
 
