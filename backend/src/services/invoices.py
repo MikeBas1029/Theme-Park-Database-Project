@@ -6,7 +6,7 @@ from src.schemas.invoices import InvoiceCreateModel, InvoiceUpdateModel
 
 class InvoiceService:
     async def get_all_invoices(self, session: AsyncSession):
-        query = select(Invoice).order_by(Invoice.invoice_date)
+        query = select(Invoice).order_by(Invoice.due_date)
 
         result = await session.exec(query)
 
