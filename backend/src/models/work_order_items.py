@@ -1,3 +1,5 @@
+import string 
+import secrets
 import sqlalchemy.dialects.mysql as mysql
 from typing import List, TYPE_CHECKING, Optional
 from sqlmodel import SQLModel, Field, Column, ForeignKey, Relationship
@@ -9,11 +11,16 @@ if TYPE_CHECKING:
 class WorkOrderItems(SQLModel, table=True):
     __tablename__ = "workorderitems"
 
-    id: int = Field(
-        default=None,
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
+    
+
+    id: str = Field(
+        default_factory=lambda: WorkOrderItems.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER,
-            autoincrement=True,
+            mysql.VARCHAR(12),
             primary_key=True,
             nullable=False,
             comment="Unique identifier for items needed to be purchased for Work Orders."
@@ -21,10 +28,9 @@ class WorkOrderItems(SQLModel, table=True):
         alias="WorkOrderItems"
     )
 
-    woid: int = Field(
-        default=None, 
+    woid: str = Field(
         sa_column=Column(
-            mysql.INTEGER,
+            mysql.VARCHAR(12),
             ForeignKey("workorder.woid"),
             nullable=False,
             comment="Foreign key to the Work Orders table",

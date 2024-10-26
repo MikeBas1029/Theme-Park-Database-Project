@@ -1,5 +1,7 @@
 import enum
-from datetime import datetime, timezone
+import string 
+import secrets
+from datetime import date, datetime, timezone
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
@@ -44,14 +46,19 @@ class WorkOrders(SQLModel, table=True):
         status (str): The current status of the work order (e.g., pending, completed).
     """
     __tablename__ = "workorder"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
-    woid: int = Field(
-        default=None, 
+
+    woid: str = Field(
+        default_factory=lambda: WorkOrders.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             nullable=False, 
             primary_key=True, 
-            autoincrement=True,
             comment="The unique identifier for the work order."
         ),
         alias="WOID"
@@ -90,10 +97,10 @@ class WorkOrders(SQLModel, table=True):
         alias="InvoiceID"
     )
     
-    maintenance_date: datetime = Field(
+    maintenance_date: date = Field(
         default=None, 
         sa_column=Column(
-            mysql.TIMESTAMP(), 
+            mysql.DATE, 
             nullable=False,
             comment="The date when maintenance is scheduled or completed."
         ),
