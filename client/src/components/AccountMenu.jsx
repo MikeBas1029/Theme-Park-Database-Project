@@ -14,7 +14,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import {Link, useNavigate} from 'react-router-dom';
 
-export default function AccountMenu() {
+export default function AccountMenu({ userRole }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -32,6 +32,9 @@ export default function AccountMenu() {
     navigate('/login');
   };
 
+  const avatarSrc = userRole === 'employee' ? '../../assets/user.png' : '../../assets/user2.jpeg'; // Replace with your actual paths
+
+
   return (
     <React.Fragment>
 
@@ -45,8 +48,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            {/*<Avatar sx={{ width: 32, height: 32 }}>M</Avatar>*/ /*for pfp use later*/}
-            <PersonOutlinedIcon />
+            <Avatar src={avatarSrc} alt="Profile Picture" />
           </IconButton>
         </Tooltip>
       </Box>
@@ -91,7 +93,8 @@ export default function AccountMenu() {
         {/*Profile Settings Tab*/}
 
         <MenuItem onClick={handleClose}>
-          <Avatar /> Mmokut Umoh
+        <Avatar src={avatarSrc} alt="Profile Picture" />
+         Mmokut Umoh
         </MenuItem>
 
         <Divider />
