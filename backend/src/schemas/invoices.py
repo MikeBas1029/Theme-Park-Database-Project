@@ -16,25 +16,22 @@ class PaymentStatus(str, Enum):
     void = "void" # never processed
 
 class Invoice(BaseModel):
-    invoice_id: int 
-    vendor_id: int 
-    po_number: int 
+    invoice_id: str 
+    po_number: str 
     amount_due: float 
     issue_date: date
     due_date: Optional[date]
     payment_status: PaymentStatus 
 
 class InvoiceCreateModel(BaseModel):
-    vendor_id: int 
-    po_number: int 
+    po_number: str 
     amount_due: float 
     issue_date: date
     due_date: Optional[date | None] = None
     payment_status: PaymentStatus 
 
 class InvoiceUpdateModel(BaseModel):
-    vendor_id: int 
-    po_number: int 
+    po_number: str 
     amount_due: Optional[float]
     issue_date: Optional[date | None] = None
     due_date: Optional[date | None] = None

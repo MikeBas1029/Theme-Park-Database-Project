@@ -53,9 +53,9 @@ class VendorPayments(SQLModel, table=True):
     )
 
     # Foreign key linking to the Invoice being paid
-    invoice_id: int = Field(
+    invoice_id: str = Field(
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             ForeignKey("invoice.invoice_id"),
             nullable=False,
             comment="Foreign key linking to the associated invoice"

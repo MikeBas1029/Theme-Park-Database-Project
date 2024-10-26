@@ -79,10 +79,10 @@ class WorkOrders(SQLModel, table=True):
         alias="RideID"
     )
     
-    invoice_id: Optional[int] = Field(
+    invoice_id: Optional[str] = Field(
         default=None, 
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             ForeignKey("invoice.invoice_id"),
             nullable=True,
             comment="Foreign key to an invoice related to the work order."

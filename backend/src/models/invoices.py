@@ -1,4 +1,6 @@
 import enum
+import string 
+import secrets
 from datetime import date, datetime
 from typing import Optional, TYPE_CHECKING, List
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
@@ -26,12 +28,18 @@ class PaymentStatus(str, enum.Enum):
 
 class Invoice(SQLModel, table=True):
     __tablename__ = "invoice"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
+
     # Invoice ID is the primary key for the invoice table. 
     # It is an auto-incrementing integer that uniquely identifies each invoice.
-    invoice_id: int = Field(
-        default=None, 
-        sa_column=Column(mysql.INTEGER, nullable=False, primary_key=True, autoincrement=True, comment="Unique identifier for each invoice (primary key)"),
+    invoice_id: str = Field(
+        default_factory=lambda: Invoice.generate_random_id(),
+        sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True, comment="Unique identifier for each invoice (primary key)"),
         alias="InvoiceID"
     )
     
