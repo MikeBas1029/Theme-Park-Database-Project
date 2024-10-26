@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from src.models.work_orders import WorkOrders
     from src.models.shops import Shops
     from src.models.emp_auth import EmpAuth
+    from src.models.emp_notifications import EmployeeNotifications
 
 class EmployeeType(str, Enum):
     hourly = "Hourly"
@@ -184,6 +185,9 @@ class Employees(SQLModel, table=True):
     managed_restaurants: Optional["Restaurants"] = Relationship(back_populates="manager")
 
     emp_auth: Optional["EmpAuth"] = Relationship(back_populates="employee")
+
+    emp_notification: List["EmployeeNotifications"] = Relationship(back_populates="employee")
+
 
     # Table index: Adds an index on the SSN field.
     # This index improves performance for queries filtering by SSN.
