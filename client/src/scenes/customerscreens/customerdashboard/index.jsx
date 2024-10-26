@@ -3,13 +3,13 @@ import Header from "../../../components/Header";
 
 
 
-const CustomerLanding = () => {
+const CustomerDashboard = () => {
     return <Box m="20px"> 
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Home" subtitle="Customer landing page " />
+                <Header title="DASHBOARD" subtitle="Customer Dashboard " />
             </Box>
            </Box>
     
     }
     
-    export default CustomerLanding; 
+    export default CustomerDashboard; 
