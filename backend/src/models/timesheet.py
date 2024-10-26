@@ -1,8 +1,9 @@
 import enum
-from datetime import timezone, datetime
+import string 
+import secrets
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, TYPE_CHECKING
-from datetime import date, time, timedelta
+from datetime import date, time, timedelta, timezone, datetime
 from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey, func
 from sqlalchemy import Enum as SAEnum
 
@@ -45,10 +46,17 @@ class Timesheet(SQLModel, table=True):
     """
 
     __tablename__ = "timesheet"
+
+    @staticmethod
+    def generate_random_id(length=12):
+        characters = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(characters) for _ in range(length))
     
-    shift_id: int = Field(
+
+    shift_id: str = Field(
+        default_factory=lambda: Timesheet.generate_random_id(),
         sa_column=Column(
-            mysql.INTEGER, 
+            mysql.VARCHAR(12), 
             primary_key=True, 
             nullable=False,
             comment="Unique identifier for the shift."
@@ -123,16 +131,17 @@ class Timesheet(SQLModel, table=True):
         sa_column=Column(
             SAEnum(TimesheetStatus, values_callable=lambda x: [e.value for e in x]), 
             nullable=False,
+            default=TimesheetStatus.PENDING,
             comment="The current status of the timesheet (Pending, Approved, etc.)."
         ), 
         alias="Status"
     )
 
     created_on: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(
             mysql.DATETIME, 
             nullable=False,
+            server_default=func.now(),
             comment="The timestamp when the timesheet was created."
         ),
         alias="CreatedOn"
