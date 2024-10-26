@@ -42,6 +42,7 @@ app.add_middleware(
 app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["beverage"])
 app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=["customers"])
 app.include_router(cust_auth_router, prefix=f"{version_prefix}/custauth", tags=["cust_auth"])
+app.include_router(cust_notification_router, prefix=f"{version_prefix}/cust-notifs", tags=["customer notification"])
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
 app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=["employees"])
 app.include_router(emp_auth_router, prefix=f"{version_prefix}/emp-auth", tags=["emp_auth"])

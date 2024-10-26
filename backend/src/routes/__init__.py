@@ -1,6 +1,7 @@
 from .beverage_items import beverage_router
 from .customers import customer_router
 from .cust_auth import cust_auth_router
+from .cust_notifications import cust_notification_router
 from .departments import department_router
 from .employee_payments import employee_payment_router
 from .employees import employee_router 
