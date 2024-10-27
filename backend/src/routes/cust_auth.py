@@ -8,26 +8,27 @@ from src.services.cust_auth import CustAuthService
 from sqlmodel.ext.asyncio.session import AsyncSession
 from src.utils import create_access_token, decode_token, verify_password
 from fastapi.responses import JSONResponse
-from src.security import RefreshTokenBearer
+from src.security import RefreshTokenBearer, AccessTokenBearer, TokenBlocklistService
+from src.security import get_current_user
 
 cust_auth_router = APIRouter()
 cust_auth_service = CustAuthService()
 REFRESH_TOKEN_EXPIRY = 2
 
-@cust_auth_router.get("/", response_model=List[CustAuth])
-async def get_all_customers(session: AsyncSession = Depends(get_session)):
-    customers = await cust_auth_service.get_all_customers(session)
-    return customers
+# @cust_auth_router.get("/", response_model=List[CustAuth])
+# async def get_all_customers(session: AsyncSession = Depends(get_session)):
+#     customers = await cust_auth_service.get_all_customers(session)
+#     return customers
 
 
-@cust_auth_router.get("/{cust_email}", response_model=CustAuth) 
-async def get_customer(cust_email: str, session: AsyncSession = Depends(get_session)):
-    customer = await cust_auth_service.get_user_by_email(cust_email, session)
+# @cust_auth_router.get("/{cust_email}", response_model=CustAuth) 
+# async def get_customer(cust_email: str, session: AsyncSession = Depends(get_session)):
+#     customer = await cust_auth_service.get_user_by_email(cust_email, session)
     
-    if customer:
-        return customer
-    else:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Customer with email {cust_email} not found.") 
+#     if customer:
+#         return customer
+#     else:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Customer with email {cust_email} not found.") 
 
 
 @cust_auth_router.post(
@@ -99,7 +100,7 @@ async def login_user(login_data: CustAuthLogin, session: AsyncSession = Depends(
                     "access_token": access_token,
                     "refresh_token": refresh_token,
                     "user": {
-                        "user": user.email,
+                        "email": user.email,
                         "uid": str(user.uid)
                     }
                 }
@@ -107,7 +108,7 @@ async def login_user(login_data: CustAuthLogin, session: AsyncSession = Depends(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid email or password.")
 
 
-@cust_auth_router.get('/refresh_token')
+@cust_auth_router.get('/refresh-token')
 async def get_new_access_token(
     token_details: dict = Depends(RefreshTokenBearer())
 ):
@@ -126,3 +127,24 @@ async def get_new_access_token(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="Invalid or expired token."
         )
+
+
+@cust_auth_router.get('/current-user')
+async def get_current_user(user = Depends(get_current_user)):
+    return user
+
+@cust_auth_router.get('/logout')
+async def revoke_token(
+    token_details: dict = Depends(AccessTokenBearer()),
+    session: AsyncSession = Depends(get_session) 
+):
+    jti = token_details['jti']
+    await TokenBlocklistService.add_jti_to_blocklist(jti, session)
+
+    return JSONResponse(
+        content={
+            "message": "Logged out successfully."
+        },
+        status_code=status.HTTP_200_OK
+    )
+

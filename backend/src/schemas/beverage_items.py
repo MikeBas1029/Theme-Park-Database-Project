@@ -14,12 +14,13 @@ class Beverage(BaseModel):
     sku: str 
     drink_size: str
     beverage_item: BeverageType 
-    calories: int
+    calories: Optional[int]
 
 class BeverageCreateModel(BaseModel):
     sku: str 
     drink_size: str
     beverage_item: BeverageType 
+    calories: Optional[int | None] = None
 
 
 class BeverageUpdateModel(BaseModel):

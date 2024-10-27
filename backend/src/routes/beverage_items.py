@@ -13,11 +13,12 @@ beverage_service = BeverageService()
 access_token_bearer = AccessTokenBearer()
 
 
-@beverage_router.get("/", response_model=List[Beverage])
+@beverage_router.get("/", response_model=List[Beverage], dependencies=[Depends(AccessTokenBearer())])
 async def get_all_beverages(
-    session: AsyncSession = Depends(get_session), 
-    user_details=Depends(access_token_bearer)
+    session: AsyncSession = Depends(get_session)
+    # _ : dict =Depends(access_token_bearer)
 ):
+    # print(user_details)
     beverages = await beverage_service.get_all_beverages(session)
     return beverages
 
@@ -25,8 +26,8 @@ async def get_all_beverages(
 @beverage_router.get("/{bev_id}", response_model=Beverage) 
 async def get_beverage(
     bev_id: str, 
-    session: AsyncSession = Depends(get_session),
-    user_details=Depends(access_token_bearer)    
+    session: AsyncSession = Depends(get_session)
+    # user_details=Depends(access_token_bearer)    
 ):
     beverage = await beverage_service.get_beverage_by_id(bev_id, session)
     
@@ -44,8 +45,8 @@ async def get_beverage(
 )
 async def create_a_beverage(
     bev_data: BeverageCreateModel,
-    session: AsyncSession = Depends(get_session),
-    user_details=Depends(access_token_bearer)
+    session: AsyncSession = Depends(get_session)
+    # user_details=Depends(access_token_bearer)
 
 ) -> dict:
     try:
