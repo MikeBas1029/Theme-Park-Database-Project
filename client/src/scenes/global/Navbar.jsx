@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import ProfileDropdown from "../../components/ProfileDropdown";
 import AccountMenu from "../../components/AccountMenu";
 import { Link } from "react-router-dom";
+import NotificationMenu from "./NotificationMenu";
 
 
 
@@ -68,7 +69,7 @@ const Navbar = ({userRole} ) => {
             </IconButton>
         </Box> 
 
-        {userRole === 'customer' ? (
+        {userRole === 'customer' && (
             <Box display="flex">
             {/* Customer navbar*/}
             <Item title="Home" to="/customerhome" icon={<HomeOutlinedIcon />} />
@@ -84,28 +85,28 @@ const Navbar = ({userRole} ) => {
             {/* <Item title="Feedback" to="/feedback" icon={<TimelineOutlinedIcon />} />*/}
              </Box>
 
-      ) : (
-        <Box display="flex">
-        {/* Employee navbar*/}
-            {/*Icons */}
-            <IconButton onClick={colorMode.toggleDisplayMode}>
-                {theme.palette.mode === 'dark' ? (
-                    <DarkModeOutlinedIcon />) : (
-                <LightModeOutlinedIcon /> )}
-            </IconButton>
-
-            <IconButton>
-                <CalendarTodayOutlinedIcon />
-            </IconButton>
-
-            <IconButton>
-                <NotificationsOutlinedIcon />
-            </IconButton>
-            
-        </Box>
-        
       )}
-            <AccountMenu userRole={userRole} />
+ 
+
+        
+      <Box display="flex">
+        <IconButton onClick={colorMode.toggleDisplayMode}>
+            {theme.palette.mode === 'dark' ? (
+                        <DarkModeOutlinedIcon />) : (
+            <LightModeOutlinedIcon /> )}
+        </IconButton>
+        {userRole !== 'customer' && (
+        <IconButton>
+            <CalendarTodayOutlinedIcon />
+        </IconButton>
+        )}
+        <IconButton>
+            <NotificationMenu />
+        </IconButton>
+        <AccountMenu userRole={userRole} />
+
+      </Box>
+
 
 
     </Box>
