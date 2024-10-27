@@ -56,19 +56,20 @@ const Inventory = () => {
     return(
 
 
-        <Box m="20px">          
-              <Header title="Inventory🔜" subtitle="Manage & view Inventory"/>
-                <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/items/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/items/" 
-                fileName="items_report.csv" 
-                columns={columns} 
-                />
-            <AddButton />
+        <Box m="20px">
               <Box display="flex" justifyContent="space-between" alignItems="center">
-
+                  <Header title="Inventory🔜" subtitle="Manage & view Inventory"/>
+                  <Box display="flex" alignItems="center">
+                      <PrintButton
+                          apiUrl="http://127.0.0.1:8000/api/v1/items/"
+                          columns={columns} />
+                      <DownloadButton
+                          apiUrl="http://127.0.0.1:8000/api/v1/items/"
+                          fileName="items_report.csv"
+                          columns={columns}
+                      />
+                      <AddButton navigateTo="/inventoryform"/>
+                  </Box>
               </Box>
             {/*To display inventory*/}
             <Box

@@ -51,19 +51,19 @@ const Rides = () => {
 
 
         <Box m="20px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Rides💻" subtitle="View rides information and maintenance status"/>
-                <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/rides/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/rides/" 
-                fileName="rides_report.csv" 
-                columns={columns} 
-                />
-            <AddButton /> 
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-
-              </Box>
+                <Box display="flex" alignItems="center">
+                    <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/rides/" columns={columns} />
+                    <DownloadButton
+                        apiUrl="http://127.0.0.1:8000/api/v1/rides/"
+                        fileName="rides_report.csv"
+                        columns={columns}
+                        />
+                    {/*Need to add a ride form*/}
+                    <AddButton navigateTo="/rideform"/>
+                </Box>
+            </Box>
             {/*To display inventory*/}
             <Box
                 m="10px 0 0 0"

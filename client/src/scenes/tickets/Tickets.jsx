@@ -58,20 +58,19 @@ const Tickets = () => {
     return(
 
 
-        <Box m="20px"> 
+        <Box m="20px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Tickets✅" subtitle="View details related to customer tickets"/>
-                <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/tickets/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/tickets/" 
-                fileName="tickets_report.csv" 
-                columns={columns} 
-                />
-            <AddButton /> 
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-
-              </Box>
+                <Box display="flex" alignItems="center">
+                    <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/tickets/" columns={columns} />
+                    <DownloadButton
+                         apiUrl="http://127.0.0.1:8000/api/v1/tickets/"
+                        fileName="tickets_report.csv"
+                        columns={columns}
+                        />
+                    <AddButton />
+                </Box>
+          </Box>
             {/*To display inventory*/}
             <Box
                 m="10px 0 0 0"

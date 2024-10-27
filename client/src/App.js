@@ -1,6 +1,6 @@
 import {Routes, Route, Link, useLocation, useNavigate} from "react-router-dom"
 import { DisplayModeContext, useMode } from "./theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Box, Button} from "@mui/material";
 import React, { createContext, useContext, useState } from 'react';
 import Navbar from "./scenes/global/Navbar";
 import Sidebar from "./scenes/global/Sidebar";
@@ -74,40 +74,47 @@ const logout = () => {
       <CssBaseline />
       <div className="app">
 
-      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&  (
-                userRole === 'employee' && <Sidebar /> 
-          )}
+      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&  (userRole === 'employee' && <Sidebar />)}
       <main className="content">
-      {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Navbar userRole={userRole}  />}
-            {/* Simulated login buttons */}
-            <div>
-              <button onClick={loginAsEmployee}>Employee view</button>
-              <button onClick={loginAsCustomer}>Customer view</button>
-              <button onClick={logout}>Logout</button>
-            </div>
-        <Routes>
-          <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
-          <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
-          <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
-          <Route path="/login2" element={<LoginForm />} />   {/*Login page routing */}
-          <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
-          <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
-          <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
-          <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
-          <Route path="/maintenance" element={<Maintenance />} />   {/*Maintenance page routing */}
-          <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
-          <Route path="/customers" element={<Customers />} />   {/*Customers page routing */}
-          <Route path="/facilities" element={<Facilities />} />   {/*Facilities page routing */}
-          <Route path="/vendorsandorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
-          <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
-          <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
-          <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
-          <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
-          <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
-          <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
-          <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
-          <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}
-        </Routes>
+        {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Navbar userRole={userRole}  />}
+              {/* Simulated login buttons */}
+          <Box m="20px" display="flex" justifyContent="flex-start">
+              <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
+                <Button variant="contained" onClick={loginAsEmployee} sx={{ mx: 1 }}>
+                  Employee View
+                </Button>
+                <Button variant="contained" onClick={loginAsCustomer} sx={{ mx: 1 }}>
+                  Customer View
+                </Button>
+                <Button variant="contained" onClick={logout} sx={{ mx: 1 }}>
+                  Logout
+                </Button>
+              </Box>
+          </Box>
+
+          <Routes>
+            <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
+            <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
+            <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
+            <Route path="/login2" element={<LoginForm />} />   {/*Login page routing */}
+            <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
+            <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
+            <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
+            <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
+            <Route path="/maintenance" element={<Maintenance />} />   {/*Maintenance page routing */}
+            <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
+            <Route path="/customers" element={<Customers />} />   {/*Customers page routing */}
+            <Route path="/facilities" element={<Facilities />} />   {/*Facilities page routing */}
+            <Route path="/vendorsandorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
+            <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
+            <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
+            <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
+            <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
+            <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
+            <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
+            <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
+            <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}
+          </Routes>
       </main>
       </div>
     </ThemeProvider>
