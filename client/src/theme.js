@@ -138,7 +138,7 @@ export const themeSettings = (mode) => {
                         default: colors.primary[500],
                     } 
                 } : {
-                    primary: {main: colors.primary[500], },
+                    primary: {main: colors.primary[400], },
                     secondary: {main: colors.greenAccent[500]},
                     neutral: {
                         dark: colors.grey[700],
@@ -146,7 +146,7 @@ export const themeSettings = (mode) => {
                         light: colors.grey[100]
                     },
                     background: {
-                        default: "#fcfcfc",
+                        default: colors.grey[900], //changed color from #fcfcfc
                     } 
 
                 }),
@@ -202,4 +202,3 @@ export const useMode = () => {
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
     return [theme, colorMode];
 };
-

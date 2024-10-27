@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import ProfileDropdown from "../../components/ProfileDropdown";
 import AccountMenu from "../../components/AccountMenu";
 import { Link } from "react-router-dom";
+import NotificationMenu from "./NotificationMenu";
 
 
 
@@ -68,8 +69,8 @@ const Navbar = ({userRole} ) => {
             </IconButton>
         </Box> 
 
-        {userRole === 'customer' ? (
-            <Box display="flex" ml="auto">
+        {userRole === 'customer' && (
+            <Box display="flex">
             {/* Customer navbar*/}
             <Item title="Home" to="/customerhome" icon={<HomeOutlinedIcon />} />
             <Item title="My Tickets" to="/customertickets" icon={<LocalActivityIcon />} />
@@ -84,26 +85,28 @@ const Navbar = ({userRole} ) => {
             {/* <Item title="Feedback" to="/feedback" icon={<TimelineOutlinedIcon />} />*/}
              </Box>
 
-      ) : (
-        <Box display="flex" ml="auto">
-        {/* Employee navbar*/}
-            {/*Icons */}
-            <IconButton onClick={colorMode.toggleDisplayMode} sx={{ ml: 1 }}>
-                {theme.palette.mode === 'dark' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
-            </IconButton>
-
-            <IconButton sx={{ ml: 1 }}>
-                <CalendarTodayOutlinedIcon />
-            </IconButton>
-
-            <IconButton sx={{ ml: 1 }}>
-                <NotificationsOutlinedIcon />
-            </IconButton>
-            
-        </Box>
-        
       )}
-            <AccountMenu userRole={userRole} />
+ 
+
+        
+      <Box display="flex">
+        <IconButton onClick={colorMode.toggleDisplayMode}>
+            {theme.palette.mode === 'dark' ? (
+                        <DarkModeOutlinedIcon />) : (
+            <LightModeOutlinedIcon /> )}
+        </IconButton>
+        {userRole !== 'customer' && (
+        <IconButton>
+            <CalendarTodayOutlinedIcon />
+        </IconButton>
+        )}
+        <IconButton>
+            <NotificationMenu />
+        </IconButton>
+        <AccountMenu userRole={userRole} />
+
+      </Box>
+
 
 
     </Box>
