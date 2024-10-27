@@ -62,19 +62,18 @@ const Customers = () => {
     return(
 
         <Box m="20px">
-            {/* Print | Export | Add  */} 
-             <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
-            <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                fileName="customers_report.csv" 
-                columns={columns} 
-                />
-            <AddButton /> 
+            {/* Print | Export | Add  */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-
+                <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
+                    <Box display="flex" alignItems="center">
+                        <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/customers/" columns={columns} />
+                        <DownloadButton
+                            apiUrl="http://127.0.0.1:8000/api/v1/customers/"
+                            fileName="customers_report.csv"
+                            columns={columns}
+                            />
+                        <AddButton />
+                    </Box>
             </Box>
 
             {/*Form fields, missing validation method linkings + user auth */}

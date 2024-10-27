@@ -17,13 +17,20 @@ const Transactions = () => {
 
     const columns = [
         {field: "id", headerName: "ID", flex: 0.5}, 
-        {field: "vendorName", headerName: "Name", flex: 1, cellClassName: "name-column--cell"}, 
+        {field: "vendorName", headerName: "Name", flex: 1, cellClassName: "name-column--cell"},
         {field: "invoiceNumber", headerName: "Invoice Number"},
         {field: "amount", headerName: "Price", flex: 1, renderCell: (params) => (
-            <Typography color={colors.greenAccent[500]}>
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
-          </Typography>
-            
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center', // Vertically center the content
+                    height: '100%', // Full height of the cell
+                }}
+            >
+                <Typography color={colors.greenAccent[500]}>
+                {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
+              </Typography>
+            </Box>
 
         )},
         {field: "date", headerName: "Data", flex: 1},
@@ -33,16 +40,20 @@ const Transactions = () => {
 
     return(
         <Box m="20px">
-            <Header title="Customer Transactions💻" subtitle="Record of customer purchases and returns"/>
-            <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                fileName="customers_report.csv" 
-                columns={columns} 
-                />
-            <AddButton /> 
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Header title="Customer Transactions💻" subtitle="Record of customer purchases and returns"/>
+                <Box display="flex" alignItems="center">
+                    <PrintButton
+                        apiUrl="http://127.0.0.1:8000/api/v1/customers/"
+                        columns={columns} />
+                    <DownloadButton
+                         apiUrl="http://127.0.0.1:8000/api/v1/customers/"
+                        fileName="customers_report.csv"
+                        columns={columns}
+                        />
+                    <AddButton />
+                </Box>
+            </Box>
             <Box
             m="40px 0 0 0"
             height="75vh"

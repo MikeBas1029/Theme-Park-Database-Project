@@ -69,7 +69,7 @@ const Navbar = ({userRole} ) => {
         </Box> 
 
         {userRole === 'customer' ? (
-            <Box display="flex">
+            <Box display="flex" ml="auto">
             {/* Customer navbar*/}
             <Item title="Home" to="/customerhome" icon={<HomeOutlinedIcon />} />
             <Item title="My Tickets" to="/customertickets" icon={<LocalActivityIcon />} />
@@ -85,20 +85,18 @@ const Navbar = ({userRole} ) => {
              </Box>
 
       ) : (
-        <Box display="flex">
+        <Box display="flex" ml="auto">
         {/* Employee navbar*/}
             {/*Icons */}
-            <IconButton onClick={colorMode.toggleDisplayMode}>
-                {theme.palette.mode === 'dark' ? (
-                    <DarkModeOutlinedIcon />) : (
-                <LightModeOutlinedIcon /> )}
+            <IconButton onClick={colorMode.toggleDisplayMode} sx={{ ml: 1 }}>
+                {theme.palette.mode === 'dark' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
             </IconButton>
 
-            <IconButton>
+            <IconButton sx={{ ml: 1 }}>
                 <CalendarTodayOutlinedIcon />
             </IconButton>
 
-            <IconButton>
+            <IconButton sx={{ ml: 1 }}>
                 <NotificationsOutlinedIcon />
             </IconButton>
             

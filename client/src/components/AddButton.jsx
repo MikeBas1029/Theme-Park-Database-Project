@@ -3,16 +3,16 @@ import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom'; // Ensure you have react-router-dom installed
 
-const AddButton = () => {
+const AddButton = ({ navigateTo = "/form" }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate("/form");
+        navigate(navigateTo);
     };
 
     return (
         <IconButton onClick={handleClick}>
-            <AddCircleOutlineIcon sx={{ fontSize: "30px" }} /> {/* You can adjust the color as needed */}
+            <AddCircleOutlineIcon sx={{ fontSize: "30px" }} />
         </IconButton>
     );
 };
