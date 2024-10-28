@@ -20,12 +20,11 @@ const Orders = () => {
     const navigate = useNavigate();
 
     const columns = [
-        {field: "id", headerName: "ID"}, 
-        {field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "city", headerName: "City", headerAlign: "left", align: "left"},
-        {field: "phone", headerName: "Phone Number", flex: 1},
-        {field: "email", headerName: "Email", flex: 1},
-        {field: "vendingType", headerName: "Supply Type"},
+        {field: "id", headerName: "ID", flex: 1}, 
+        {field: "order_id", headerName: "Order ID", flex: 1}, 
+        {field: "supply_id", headerName: "Supply ID", flex: 1},
+        {field: "quantity", headerName: "Quantity", flex: 1},
+        {field: "unit_price", headerName: "Unit Price", flex: 1}
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
     return(
