@@ -1,25 +1,44 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { sampleInvoices } from "../../data/sampleInvoices";
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
 import PrintButton from "../../components/PrintButton";
 import AddButton from "../../components/AddButton";
 import DownloadButton from "../../components/DownloadButton";
+import { useEffect, useState } from "react";
+import axios  from "axios"; //install if have !! needed for API requests
+
 
 
 const Shops = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     
+    const [ShopsData, setShopsData] = useState([]); {/*State for storing employee data*/}
+    const [loading, setLoading] = useState(true); // Loading state
+
+    {/*Fetch shop data from endpoints when table is pulled*/}
+useEffect(() => {
+    const fetchShopsData = async () => {
+        try {
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/");
+            console.log("Fetched shop:", response.data);
+            setShopsData(response.data);
+        } catch (error) {
+            console.error("Error fetching shop:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchShopsData();
+    }, []);
+
+
 
     const columns = [
-        {field: "id", headerName: "ShopID", flex: 1}, 
-        {field: "name", headerName: "Shop Name", flex: 1, cellClassName: "name-column--cell"}, 
+        {field: "shop_id", headerName: "ShopID", flex: 1}, 
+        {field: "shop_name", headerName: "Shop Name", flex: 1, cellClassName: "name-column--cell"}, 
         {field: "address", headerName: "Address",flex: 1},
         {field: "park_section_id", headerName: "Park Section ID", flex: 1},
         {field: "manager_id", headerName: "Manager ID", flex: 1},
@@ -73,7 +92,14 @@ const Shops = () => {
                 },
                 }}>
 
-            <DataGrid checkboxSelection rows={columns} columns={columns} components={{Toolbar: GridToolbar}}/>
+            <DataGrid 
+                    checkboxSelection
+                    rows={ShopsData}
+                    columns={columns} // Use the columns based on the toggle
+                    components={{ Toolbar: GridToolbar }}
+                    loading={loading}
+                    getRowId={(row) => row.shop_id}/>
+
             </Box>
 
 
