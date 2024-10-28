@@ -58,11 +58,11 @@ const Visits = () => {
                 <Box display="flex" alignItems="center">
                     <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/" columns={columns} />
                     <DownloadButton
-                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/"
                         fileName="visits_report.csv"
                         columns={columns}
                         />
-                    <AddButton />
+                    <AddButton navigateTo={'/visitform'} />
                 </Box>
             </Box>
             {/*To display inventory*/}

@@ -54,7 +54,7 @@ useEffect(() => {
                         columns={columns}
                     />
                     {/*Need to create a order form*/}
-                    <AddButton navigateTo="orderform"/>
+                    <AddButton navigateTo="/orderform"/>
                 </Box>
             </Box>
             <Box

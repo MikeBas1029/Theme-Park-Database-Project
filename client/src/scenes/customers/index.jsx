@@ -72,7 +72,7 @@ const Customers = () => {
                             fileName="customers_report.csv"
                             columns={columns}
                             />
-                        <AddButton />
+                        <AddButton navigateTo={'/customerform'} />
                     </Box>
             </Box>
 

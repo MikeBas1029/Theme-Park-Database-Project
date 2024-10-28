@@ -35,7 +35,7 @@ const Facilities = () => {
                 fileName="customers_report.csv" 
                 columns={columns} 
                 />
-            <AddButton /> 
+            <AddButton navigateTo={'/facilitiesform'} /> 
             <Box
             m="40px 0 0 0"
             height="75vh"

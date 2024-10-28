@@ -62,7 +62,7 @@ const Form = () => {
         }
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/v1/items/', requestBody);
+            const response = await axios.post('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/items/', requestBody);
             console.log(response.data); // Handle the response as needed
             navigate('/'); // Navigate after successful submission
         } catch (error) {
