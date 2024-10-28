@@ -63,7 +63,7 @@ const Invoices = () => {
                 <Box display="flex" alignItems="center">
                     <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/invoices/" columns={columns} />
                     <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/invoices/" fileName="invoices_report.csv" columns={columns} />
-                    <AddButton />
+                    <AddButton navigateTo={'/invoiceform'}/>
                 </Box>
             </Box>
             {/*To display inventory*/}

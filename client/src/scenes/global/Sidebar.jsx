@@ -162,7 +162,7 @@ return(
 
             <Item
              title="Orders & Vendors"
-             to="/vendorsandorders"
+             to="/vendorsorders"
              icon={<ContactsOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}

@@ -68,7 +68,7 @@ const Tickets = () => {
                         fileName="tickets_report.csv"
                         columns={columns}
                         />
-                    <AddButton />
+                    <AddButton navigateTo={'/ticketform'} />
                 </Box>
           </Box>
             {/*To display inventory*/}

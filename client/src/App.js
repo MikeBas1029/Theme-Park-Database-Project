@@ -31,6 +31,11 @@ import CustomerTickets from "./scenes/customerscreens/customertickets/customerTi
 import CustomerAppBar from "./scenes/customerscreens/customerglobal/CustomerAppBar";
 import Tickets from "./scenes/tickets/Tickets";
 import VisitForm from "./scenes/form/visitsform";
+import RideForm from "./scenes/form/rideform";
+import OrderForm from "./scenes/form/orderform";
+import SafetyForm from "./scenes/form/safetyform";
+import MaintenanceForm from "./scenes/form/maintenanceform";
+import FacilitiesForm from "./scenes/form/facilitiesform";
 
 
 
@@ -101,12 +106,17 @@ const logout = () => {
             <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
             <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}
+            <Route path="/orderform" element={<OrderForm />} />   {/*Employee creation form routing */}
+            <Route path="/safetyform" element={<SafetyForm />} />   {/*Login page routing */}
+            <Route path="/maintenanceform" element={<MaintenanceForm />} />   {/*Employee creation form routing */}
+            <Route path="/facilitiesform" element={<FacilitiesForm />} />   {/*Login page routing */}
+            <Route path="/ridesform" element={<RideForm />} />   {/*Wrong route for error dimmissal ! change to no s */}
             <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
             <Route path="/maintenance" element={<Maintenance />} />   {/*Maintenance page routing */}
             <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
             <Route path="/customers" element={<Customers />} />   {/*Customers page routing */}
             <Route path="/facilities" element={<Facilities />} />   {/*Facilities page routing */}
-            <Route path="/vendorsandorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
+            <Route path="/vendorsorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
             <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
             <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
             <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
