@@ -1,26 +1,41 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { Box, useTheme } from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
-import { sampleDataVendors } from "../../data/sampleVendorData";
-import AddButton from "../../components/AddButton";
 import PrintButton from "../../components/PrintButton";
+import AddButton from "../../components/AddButton";
 import DownloadButton from "../../components/DownloadButton";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import IconButton from "@mui/material/IconButton";
-import {useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios  from "axios"; //install if have !! needed for API requests
 
 
 const Orders = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
+    
+    const [ordersData, setOrdersData] = useState([]); {/*State for storing employee data*/}
+    const [loading, setLoading] = useState(true); // Loading state
+
+    {/*Fetch order data from endpoints when table is pulled*/}
+useEffect(() => {
+    const fetchOrdersData = async () => {
+        try {
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/purchase-order-details/");
+            console.log("Fetched shop:", response.data);
+            setOrdersData(response.data);
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchOrdersData();
+    }, []);
+
 
     const columns = [
-        {field: "id", headerName: "ID", flex: 1}, 
+        {field: "order_details_id", headerName: "ID", flex: 1}, 
         {field: "order_id", headerName: "Order ID", flex: 1}, 
         {field: "supply_id", headerName: "Supply ID", flex: 1},
         {field: "quantity", headerName: "Quantity", flex: 1},
@@ -67,8 +82,13 @@ const Orders = () => {
                 },
                 }}>
 
-                <DataGrid rows={sampleDataVendors} columns={columns}
-                />
+                <DataGrid 
+                checkboxSelection
+                rows={ordersData}
+                columns={columns} // Use the columns based on the toggle
+                components={{ Toolbar: GridToolbar }}
+                loading={loading}
+                getRowId={(row) => row.order_details_id}/>
             </Box>
 
 
