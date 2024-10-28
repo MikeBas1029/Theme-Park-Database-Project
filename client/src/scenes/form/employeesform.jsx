@@ -137,6 +137,8 @@ const userSchema = yup.object().shape({
             .typeError("Salary must be a number"),
         otherwise: yup.number().nullable(),
     }),*/
+    hourly_wage: yup.number().nullable(),
+    salary: yup.number().nullable(),
     job_function: yup.string().required("Job function is required"),
     gender: yup.string(),
 
@@ -150,7 +152,7 @@ const userSchema = yup.object().shape({
 
 
 
-const Form = () => {
+const EmployeeForm = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
 
@@ -181,7 +183,7 @@ const Form = () => {
             gender: values.gender,
             
         };
-        console.log(requestBody.start_date); 
+        console.log(requestBody); 
 
 
     
@@ -200,9 +202,9 @@ const Form = () => {
         }
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/v1/employees/', requestBody);
+            const response = await axios.post('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/', requestBody);
             console.log(Date().toISOString().split('T')[0]); 
-            console.log(response.data); // Handle the response as needed
+            console.log('Response data:', response.data); // Handle the response as needed
             navigate('/employees'); // Navigate after successful submission
         } catch (error) {
             console.error('Error submitting form:', error); // Handle the error appropriately
@@ -568,4 +570,4 @@ const Form = () => {
     )
 }
 
-export default Form;
+export default EmployeeForm;

@@ -34,11 +34,11 @@ const Shops = () => {
                 <Header title="Shops💻" subtitle="View a list of Theme Park Shops"/>
                 <Box display="flex" alignItems="center">
                     <PrintButton
-                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
                         columns={columns} />
                     <DownloadButton
-                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
-                        fileName="customers_report.csv"
+                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
+                        fileName="shops_report.csv"
                         columns={columns}
                         />
                     <AddButton />
@@ -73,7 +73,7 @@ const Shops = () => {
                 },
                 }}>
 
-            <DataGrid checkboxSelection rows={sampleShops} columns={columns} components={{Toolbar: GridToolbar}}/>
+            <DataGrid checkboxSelection rows={columns} columns={columns} components={{Toolbar: GridToolbar}}/>
             </Box>
 
 

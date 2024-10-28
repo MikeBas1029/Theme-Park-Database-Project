@@ -11,7 +11,7 @@ import Employees from "./scenes/employees";
 import Vendors from "./scenes/vendors";
 import TransactionSelection from "./scenes/transactions/transactionSelection";
 import Invoices from "./scenes/invoices";
-import Form from "./scenes/form";
+import EmployeeForm from "./scenes/form/employeesform";
 import Maintenance from "./scenes/maintenance";
 import Shops from "./scenes/shops";
 import Supplies from "./scenes/supplies";
@@ -19,7 +19,7 @@ import Customers from "./scenes/customers";
 import Facilities from "./scenes/facilities";
 import VendorSelection from "./scenes/vendorsandorders/vendorSelection";
 import Safety from "./scenes/safety";
-import InventoryForm from "./scenes/inventoryform";
+import InventoryForm from "./scenes/inventoryform/inventoryform";
 import Rides from "./scenes/rides";
 import CustomerVisitSelection from "./scenes/customervisits/customervisitselection";
 import LoginPage from "./scenes/login/loginPage";
@@ -30,7 +30,7 @@ import CustomerDashboard from "./scenes/customerscreens/customerdashboard";
 import CustomerTickets from "./scenes/customerscreens/customertickets/customerTickets";
 import CustomerAppBar from "./scenes/customerscreens/customerglobal/CustomerAppBar";
 import Tickets from "./scenes/tickets/Tickets";
-
+import VisitForm from "./scenes/form/visitsform";
 
 
 
@@ -99,7 +99,8 @@ const logout = () => {
             <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
             <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
             <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
-            <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
+            <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
+            <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}
             <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
             <Route path="/maintenance" element={<Maintenance />} />   {/*Maintenance page routing */}
             <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
