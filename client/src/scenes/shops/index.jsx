@@ -41,7 +41,7 @@ const Shops = () => {
                         fileName="shops_report.csv"
                         columns={columns}
                         />
-                    <AddButton />
+                    <AddButton navigateTo={'/shopform'} />
                 </Box>
             </Box>
 

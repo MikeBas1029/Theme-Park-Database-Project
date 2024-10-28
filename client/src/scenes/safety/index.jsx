@@ -35,7 +35,7 @@ const Safety = () => {
                 fileName="customers_report.csv" 
                 columns={columns} 
                 />
-            <AddButton /> 
+            <AddButton navigateTo={'/safetyform'}/> 
             <Box
             m="40px 0 0 0"
             height="75vh"
