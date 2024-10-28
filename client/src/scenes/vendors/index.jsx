@@ -24,7 +24,7 @@ const Vendors = () => {
     useEffect(() => {
         const fetchVendorData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/vendors/");
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/vendors/");
                 console.log("Fetched vendors:", response.data);
                 setVendorData(response.data);
             } catch (error) {
@@ -58,9 +58,9 @@ const Vendors = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Vendors✅" subtitle="View vendor information" />
                 <Box display="flex" alignItems="center">
-                    <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/vendors/" columns={columns} />
+                    <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/vendors/" columns={columns} />
                     <DownloadButton
-                        apiUrl="http://127.0.0.1:8000/api/v1/vendors/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/vendors/"
                         fileName="vendors_report.csv"
                         columns={columns}
                     />

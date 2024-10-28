@@ -3,7 +3,7 @@ import { Box, IconButton, useTheme } from '@mui/material';
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { DisplayModeContext, tokens } from '../../theme';
 
-const NotificationMenu = ({ endpoint, buttonStyle, dropdownStyle, itemStyle }) => {
+const NotificationMenu = ({ userRole, userId, buttonStyle, dropdownStyle, itemStyle }) => {
     const [notifications, setNotifications] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const theme = useTheme();
@@ -12,6 +12,9 @@ const NotificationMenu = ({ endpoint, buttonStyle, dropdownStyle, itemStyle }) =
 
     useEffect(() => {
         const fetchNotifications = async () => {
+            const endpoint = userRole === 'customer'
+            ? `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-notifs/${userId}`
+            : `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-notifs/${userId}`;
             try {
                 const response = await fetch(endpoint);
                 const data = await response.json();
@@ -22,7 +25,7 @@ const NotificationMenu = ({ endpoint, buttonStyle, dropdownStyle, itemStyle }) =
         };
 
         fetchNotifications();
-    }, [endpoint]);
+    }, [userRole, userId]);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);

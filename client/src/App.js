@@ -4,7 +4,6 @@ import { CssBaseline, ThemeProvider, Box, Button} from "@mui/material";
 import React, { createContext, useContext, useState } from 'react';
 import Navbar from "./scenes/global/Navbar";
 import Sidebar from "./scenes/global/Sidebar";
-//import Rides from "./scenes/Rides";
 //import Calendar from "./scenes/Calendar";
 import Dashboard from "./scenes/dashboard";
 import LoginForm from "./scenes/login2/LoginForm"
@@ -30,6 +29,7 @@ import CustomerSidebar from "./scenes/customerscreens/customerglobal/CustomerSid
 import CustomerDashboard from "./scenes/customerscreens/customerdashboard";
 import CustomerTickets from "./scenes/customerscreens/customertickets/customerTickets";
 import CustomerAppBar from "./scenes/customerscreens/customerglobal/CustomerAppBar";
+import Tickets from "./scenes/tickets/Tickets";
 
 
 
@@ -114,6 +114,8 @@ const logout = () => {
             <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
             <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}
+            <Route path="/tickets" element={<Tickets />} /> {/*Inventory's form page routing */}
+
           </Routes>
       </main>
       </div>
