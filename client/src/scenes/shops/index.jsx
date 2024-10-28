@@ -22,11 +22,17 @@ const Shops = () => {
         {field: "vendorName", headerName: "Store Name", flex: 1, cellClassName: "name-column--cell"}, 
         {field: "invoiceNumber", headerName: "Invoice Number"},
         {field: "amount", headerName: "Price", flex: 1, renderCell: (params) => (
-            <Typography color={colors.greenAccent[500]}>
-            {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
-          </Typography>
-            
-
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        height: '100%',
+                    }}
+                >
+                    <Typography color={colors.greenAccent[500]}>
+                        {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
+                    </Typography>
+                </Box>
         )},
         {field: "date", headerName: "Data", flex: 1},
         {field: "status", headerName: "Payment Status", flex: 1},
@@ -35,18 +41,23 @@ const Shops = () => {
 
     return(
         <Box m="20px">
-            <Header title="Shops💻" subtitle="View a list of Theme Park Shops"/>
-            <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                fileName="customers_report.csv" 
-                columns={columns} 
-                />
-            <AddButton /> 
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Header title="Shops💻" subtitle="View a list of Theme Park Shops"/>
+                <Box display="flex" alignItems="center">
+                    <PrintButton
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
+                        columns={columns} />
+                    <DownloadButton
+                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
+                        fileName="customers_report.csv"
+                        columns={columns}
+                        />
+                    <AddButton />
+                </Box>
+            </Box>
+
             <Box
-            m="40px 0 0 0"
+            m="10px 0 0 0"
             height="75vh"
             sx={{"& .MuiDataGrid-root": {
                 border: "none"

@@ -9,11 +9,15 @@ import { sampleDataVendors } from "../../data/sampleVendorData";
 import AddButton from "../../components/AddButton";
 import PrintButton from "../../components/PrintButton";
 import DownloadButton from "../../components/DownloadButton";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import IconButton from "@mui/material/IconButton";
+import {useNavigate} from "react-router-dom";
 
 
 const Orders = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const navigate = useNavigate();
 
     const columns = [
         {field: "id", headerName: "ID"}, 
@@ -26,18 +30,21 @@ const Orders = () => {
 
     return(
         <Box m="20px">
-            <Header title="Order Information💻" subtitle="View order information"/>
-            <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
-                fileName="customers_report.csv" 
-                columns={columns} 
-                />
-            <AddButton /> 
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Header title="Order Information💻" subtitle="View order information"/>
+                <Box display="flex" alignItems="center">
+                    <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/customers/" columns={columns} />
+                    <DownloadButton
+                        apiUrl="http://127.0.0.1:8000/api/v1/orders/"
+                        fileName="orders_report.csv"
+                        columns={columns}
+                    />
+                    {/*Need to create a order form*/}
+                    <AddButton navigateTo="orderform"/>
+                </Box>
+            </Box>
             <Box
-            m="40px 0 0 0"
+            m="10px 0 0 0"
             height="75vh"
             sx={{"& .MuiDataGrid-root": {
                 border: "none"

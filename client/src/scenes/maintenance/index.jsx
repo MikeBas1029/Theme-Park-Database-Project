@@ -26,11 +26,11 @@ const Maintenance = () => {
     useEffect(() => {
         const fetchworkOrderInfo = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/work-orders/"); //missing table but link should be working
-                console.log("Fetched employees:", response.data);
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/work-orders/"); //missing table but link should be working
+                console.log("Fetched work-orders:", response.data);
                 setworkOrderInfo(response.data);
             } catch (error) {
-                console.error("Error fetching employees:", error);
+                console.error("Error fetching work-orders:", error);
             } finally {
                 setLoading(false);
             }
@@ -60,16 +60,20 @@ const Maintenance = () => {
 
     return(
         <Box m="20px">
-            <Header title="Maintenance💻" subtitle="Keep track of park work orders and maintenance schedules."/>
-            <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/work-orders/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/work-orders/" 
-                fileName="customers_report.csv" 
-                columns={columns} 
-                />
-            <AddButton />
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Header title="Maintenance💻" subtitle="Keep track of park work orders and maintenance schedules."/>
+                <Box display="flex" alignItems="center">
+                    <PrintButton
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/work-orders/"
+                        columns={columns} />
+                    <DownloadButton
+                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/work-orders/"
+                        fileName="customers_report.csv"
+                        columns={columns}
+                        />
+                    <AddButton navigateTo="/maintenanceform"/>
+                </Box>
+            </Box>
             <Box
             m="40px 0 0 0"
             height="75vh"

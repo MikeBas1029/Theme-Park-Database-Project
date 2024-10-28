@@ -28,7 +28,7 @@ const Invoices = () => {
     useEffect(() => {
         const fetchinvoiceData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/invoices/");
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/invoices/");
                 console.log("Fetched invoices:", response.data);
                 setinvoiceData(response.data);
             } catch (error) {
@@ -57,24 +57,15 @@ const Invoices = () => {
     return(
 
 
-        <Box m="20px"> 
+        <Box m="20px">
+            <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Invoices💻" subtitle="Track & view vendor invoices"/>
-
-
-                <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/invoices/" 
-                columns={columns} />
-            <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/invoices/" 
-                fileName="invoices_report.csv" 
-                columns={columns} 
-                />
-            <AddButton />
-              <Box display="flex" justifyContent="space-between" aligninvoices="center">
-
-
-
-              </Box>
+                <Box display="flex" alignItems="center">
+                    <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/invoices/" columns={columns} />
+                    <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/invoices/" fileName="invoices_report.csv" columns={columns} />
+                    <AddButton />
+                </Box>
+            </Box>
             {/*To display inventory*/}
             <Box
                 m="10px 0 0 0"
