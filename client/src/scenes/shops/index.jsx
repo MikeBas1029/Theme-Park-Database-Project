@@ -18,24 +18,13 @@ const Shops = () => {
     
 
     const columns = [
-        {field: "id", headerName: "ShopID", flex: 0.5}, 
-        {field: "vendorName", headerName: "Store Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "invoiceNumber", headerName: "Invoice Number"},
-        {field: "amount", headerName: "Price", flex: 1, renderCell: (params) => (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        height: '100%',
-                    }}
-                >
-                    <Typography color={colors.greenAccent[500]}>
-                        {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
-                    </Typography>
-                </Box>
-        )},
-        {field: "date", headerName: "Data", flex: 1},
-        {field: "status", headerName: "Payment Status", flex: 1},
+        {field: "id", headerName: "ShopID", flex: 1}, 
+        {field: "name", headerName: "Shop Name", flex: 1, cellClassName: "name-column--cell"}, 
+        {field: "address", headerName: "Address",flex: 1},
+        {field: "park_section_id", headerName: "Park Section ID", flex: 1},
+        {field: "manager_id", headerName: "Manager ID", flex: 1},
+        {field: "opening_time", headerName: "Opening Time", flex: 1},
+        {field: "closing_time", headerName: "Closing Time", flex: 1},
         
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
@@ -84,7 +73,7 @@ const Shops = () => {
                 },
                 }}>
 
-            <DataGrid checkboxSelection rows={sampleInvoices} columns={columns} components={{Toolbar: GridToolbar}}/>
+            <DataGrid checkboxSelection rows={sampleShops} columns={columns} components={{Toolbar: GridToolbar}}/>
             </Box>
 
 
