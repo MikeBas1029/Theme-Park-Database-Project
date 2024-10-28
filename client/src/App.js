@@ -44,7 +44,7 @@ function App() {
 
   //keep track of pages for limiting ui
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login" ;
+  const isLoginPage = location.pathname === "/emplogin" ;
   const isSignUpPage = location.pathname === "/signup" ;
   const isSignUpPageSub = location.pathname === "/sub" ;
 
@@ -63,7 +63,7 @@ const loginAsCustomer = () => {
 
 const logout = () => {
   setUserRole(null)
-  navigate('/login');
+  navigate('/emplogin');
 };
 
 
@@ -96,7 +96,7 @@ const logout = () => {
             <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
             <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
             <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
-            <Route path="/login2" element={<LoginForm />} />   {/*Login page routing */}
+            <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
             <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
             <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
             <Route path="/form" element={<Form />} />   {/*Employee creation form routing */}
@@ -110,7 +110,7 @@ const logout = () => {
             <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
             <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
             <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
-            <Route path="/login" element={<LoginPage />} /> {/*Inventory's form page routing */}
+            <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
             <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
             <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}

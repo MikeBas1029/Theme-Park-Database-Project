@@ -24,7 +24,7 @@ export default function LoginPage() {
         console.log({ email, password });
         e.preventDefault();
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/v1/custauth/login', {
+            const response = await fetch('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/cust-auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ export default function LoginPage() {
                     </Box>
                     <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
                     <Typography variant="h4" gutterBottom >
-                            <a href="#">Employee Sign in</a>
+                        <Link to="/emplogin">Employee ? Sign in Here</Link>
                     </ Typography >
                     </Box>
 
