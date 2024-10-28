@@ -34,7 +34,7 @@ const Rides = () => {
         useEffect(() => {
             const fetchRides = async () => {
                 try {
-                    const response = await axios.get("http://127.0.0.1:8000/api/v1/rides/");
+                    const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/rides/");
                     console.log("Fetched rides:", response.data);
                     setRides(response.data);
                 } catch (error) {
@@ -54,9 +54,9 @@ const Rides = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Rides💻" subtitle="View rides information and maintenance status"/>
                 <Box display="flex" alignItems="center">
-                    <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/rides/" columns={columns} />
+                    <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/rides/" columns={columns} />
                     <DownloadButton
-                        apiUrl="http://127.0.0.1:8000/api/v1/rides/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/rides/"
                         fileName="rides_report.csv"
                         columns={columns}
                         />

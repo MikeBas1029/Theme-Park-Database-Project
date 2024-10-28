@@ -28,10 +28,10 @@ const Safety = () => {
         <Box m="20px">
             <Header title="Park Safety💻" subtitle="View and log park incident reports"/>
             <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" 
                 columns={columns} />
             <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                 apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" 
                 fileName="customers_report.csv" 
                 columns={columns} 
                 />

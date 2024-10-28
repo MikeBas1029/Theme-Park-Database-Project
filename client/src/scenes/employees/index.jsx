@@ -105,8 +105,8 @@ const columnsToShow = showFullColumns ? allColumns : shortColumns;
         <Box display="flex" justifyContent="space-between" alignItems="center">
             <Header title="Employeess✅" subtitle="Marhaban, kayfa halak"/>
             <Box display="flex" alignItems="center">
-                <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/employees/" columns={columnsToShow} />
-                <DownloadButton apiUrl="http://127.0.0.1:8000/api/v1/employees/" fileName="employees_report.csv" columns={columnsToShow} />
+                <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" columns={columnsToShow} />
+                <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" fileName="employees_report.csv" columns={columnsToShow} />
                 <AddButton />
             </Box>
         </Box>

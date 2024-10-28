@@ -28,10 +28,10 @@ const Facilities = () => {
         <Box m="20px">
             <Header title="Park Facilities💻" subtitle="View park facilities (restrooms, etc)"/>
             <PrintButton
-                apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/facilities/" 
                 columns={columns} />
             <DownloadButton 
-                 apiUrl="http://127.0.0.1:8000/api/v1/customers/" 
+                 apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/facilities/" 
                 fileName="customers_report.csv" 
                 columns={columns} 
                 />
