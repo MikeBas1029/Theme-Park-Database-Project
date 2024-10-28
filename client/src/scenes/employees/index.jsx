@@ -28,7 +28,7 @@ const [showFullColumns, setShowFullColumns] = useState(true);
 useEffect(() => {
     const fetchEmployeeData = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/v1/employees/");
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/");
             console.log("Fetched employees:", response.data);
             setEmployeeData(response.data);
         } catch (error) {

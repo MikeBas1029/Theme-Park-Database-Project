@@ -45,7 +45,7 @@ const Customers = () => {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/customers/");
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/");
                 console.log("Fetched customers:", response.data);
                 setCustomers(response.data);
             } catch (error) {
@@ -66,9 +66,9 @@ const Customers = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
                     <Box display="flex" alignItems="center">
-                        <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/customers/" columns={columns} />
+                        <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/" columns={columns} />
                         <DownloadButton
-                            apiUrl="http://127.0.0.1:8000/api/v1/customers/"
+                            apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
                             fileName="customers_report.csv"
                             columns={columns}
                             />
