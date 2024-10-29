@@ -49,7 +49,8 @@ function App() {
 
   //keep track of pages for limiting ui
   const location = useLocation();
-  const isLoginPage = location.pathname === "/emplogin" ;
+  const isCustLogin = location.pathname === "/custlogin" ;
+  const isEmpLogin = location.pathname === "/emplogin" ;
   const isSignUpPage = location.pathname === "/signup" ;
   const isSignUpPageSub = location.pathname === "/sub" ;
 
@@ -79,9 +80,9 @@ const logout = () => {
       <CssBaseline />
       <div className="app">
 
-      {!isLoginPage && !isSignUpPage && !isSignUpPageSub &&  (userRole === 'employee' && <Sidebar />)}
+      {!isCustLogin && !isSignUpPage && !isEmpLogin &&  (userRole === 'employee' && <Sidebar />)}
       <main className="content">
-        {!isLoginPage && !isSignUpPage && !isSignUpPageSub && <Navbar userRole={userRole}  />}
+        {!isCustLogin && !isSignUpPage && !isEmpLogin && <Navbar userRole={userRole}  />}
               {/* Simulated login buttons */}
           <Box m="20px" display="flex" justifyContent="flex-start">
               <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
