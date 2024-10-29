@@ -57,10 +57,17 @@ function App() {
 
 // Simulated login functions
 const loginAsEmployee = () => {
-  setUserRole('employee')
-  navigate('/');
+  const hardcodedPassword = 'tooShortToRide'; // Replace with your actual hardcoded password
+  const userInput = prompt('Please enter the permission password:');
 
+  if (userInput === hardcodedPassword) {
+      setUserRole('employee');
+      navigate('/');
+  } else {
+      alert('Incorrect password. Access denied.');
+  }
 };
+
 
 const loginAsCustomer = () => {
   setUserRole('customer')
@@ -86,12 +93,15 @@ const logout = () => {
               {/* Simulated login buttons */}
           <Box m="20px" display="flex" justifyContent="flex-start">
               <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
-                <Button variant="contained" onClick={loginAsEmployee} sx={{ mx: 1 }}>
-                  Employee View
-                </Button>
+              {userRole === 'employee' ? (
                 <Button variant="contained" onClick={loginAsCustomer} sx={{ mx: 1 }}>
-                  Customer View
+                    Customer View
                 </Button>
+            ) : userRole === 'customer' ? (
+                <Button variant="contained" onClick={loginAsEmployee} sx={{ mx: 1 }}>
+                    Employee View
+                </Button>
+            ) : null}
                 <Button variant="contained" onClick={logout} sx={{ mx: 1 }}>
                   Logout
                 </Button>

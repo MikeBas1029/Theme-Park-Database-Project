@@ -13,11 +13,16 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import {Link, useNavigate} from 'react-router-dom';
+import { useUser } from './context/UserContext';
 
 export default function AccountMenu({ userRole }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+
+
+  const { user, logout} = useUser(); //Get the user context
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,8 +35,9 @@ export default function AccountMenu({ userRole }) {
   const handleLogout = () => {
     handleClose();
     userRole === 'employee' ? navigate('/emplogin') : navigate('/custlogin');
-
+    logout();
   }
+
 
   const avatarSrc = userRole === 'employee' ? '../../assets/user.png' : '../../assets/user2.jpeg'; // Replace with your actual paths
 
@@ -95,7 +101,7 @@ export default function AccountMenu({ userRole }) {
 
         <MenuItem onClick={handleClose}>
         <Avatar src={avatarSrc} alt="Profile Picture" />
-         Mmokut Umoh
+        {user ? `${user.uid}` : 'Guest'} {/* Display user's email and uid or 'Guest' */}
         </MenuItem>
 
         <Divider />

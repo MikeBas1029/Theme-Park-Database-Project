@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -8,16 +8,19 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockIcon from '@mui/icons-material/Lock';
 import InputAdornment from '@mui/material/InputAdornment';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../../components/context/UserContext';
 
 export default function LoginPage() {
 
 
     //Get cust credentials
     const navigate = useNavigate();
+    const { login } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
 
     //Handle cust login authentication
     const handleLogin = async (e) => {
@@ -32,19 +35,36 @@ export default function LoginPage() {
                 body: JSON.stringify({ email, password }),
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful:', data);
-                navigate('/customerhome');
-            } else {
+
+
+
+              if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
                 console.error('Error details:', errorData);//see specifcc errors
-                //console.error('Error message:', errorData.message || 'Unknown error'); //view error message if necesary
+                setErrorMessage('Invalid email or password');
+                return;
             }
+          
+            const data = await response.json();
+            if (data && data.user) {
+                login(data.user); // Set user data in global context
+                localStorage.setItem('access_token', data.access_token); // Store token for authenticated requests
+                localStorage.setItem('refresh_token', data.refresh_token); // Optionally store the refresh token if needed
+                console.log('Login successful:', data.user);
+                setErrorMessage(''); // Clear any previous error message
+                navigate('/customerhome');
+            } else {
+                setErrorMessage('No user data in response'); // Clear any previous error message
+                console.error('No user data in response');
+            }
+
+            
+
         } catch (error) {
             console.error('Login failed:', error);
             alert('An error occurred while logging in. Please try again later.');
+            setErrorMessage('Something went wrong. Please try again later.');
         }
     };
 
@@ -147,6 +167,7 @@ export default function LoginPage() {
                         Login
                     </Button>
                 </form>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
             </Box>
         </Box>
     );

@@ -14,7 +14,7 @@ import AddButton from "../../components/AddButton";
 import PrintButton from "../../components/PrintButton";
 
 
-const Employees = () => {
+const Employees = ({ userRole }) => {
 const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
@@ -98,6 +98,14 @@ const shortColumns = [
 ];
 
 const columnsToShow = showFullColumns ? allColumns : shortColumns;
+
+if (userRole !== 'employee') {
+    return (
+        <Box m="20px">
+            <Header title="Access Denied" subtitle="You do not have permission to view this page." />
+        </Box>
+    );
+}
 
     return (
         <Box m="20px">

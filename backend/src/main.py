@@ -30,14 +30,14 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# # Add CORS middleware
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],  # Add your frontend URL here
-#     allow_credentials=True,
-#     allow_methods=["*"],  # Allows all HTTP methods
-#     allow_headers=["*"],  # Allows all headers
-# )
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Add your frontend URL here
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 app.include_router(beverage_router, prefix=f"{version_prefix}/beverage", tags=["beverage"])
 app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=["customers"])
