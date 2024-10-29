@@ -36,7 +36,7 @@ export default function SignUpPage() {
         console.log({ username, email, first_name, last_name, password });
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/v1/custauth/signup', {
+            const response = await fetch('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/cust-auth/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
