@@ -29,8 +29,9 @@ export default function AccountMenu({ userRole }) {
 
   const handleLogout = () => {
     handleClose();
-    navigate('/custlogin');
-  };
+    userRole === 'employee' ? navigate('/emplogin') : navigate('/custlogin');
+
+  }
 
   const avatarSrc = userRole === 'employee' ? '../../assets/user.png' : '../../assets/user2.jpeg'; // Replace with your actual paths
 
