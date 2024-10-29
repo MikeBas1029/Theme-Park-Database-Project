@@ -36,6 +36,7 @@ import OrderForm from "./scenes/form/orderform";
 import SafetyForm from "./scenes/form/safetyform";
 import MaintenanceForm from "./scenes/form/maintenanceform";
 import FacilitiesForm from "./scenes/form/facilitiesform";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
@@ -57,10 +58,17 @@ function App() {
 
 // Simulated login functions
 const loginAsEmployee = () => {
-  setUserRole('employee')
-  navigate('/');
+  const hardcodedPassword = 'tooShortToRide'; // Replace with your actual hardcoded password
+  const userInput = prompt('Please enter the permission password:');
 
+  if (userInput === hardcodedPassword) {
+      setUserRole('employee');
+      navigate('/');
+  } else {
+      alert('Incorrect password. Access denied.');
+  }
 };
+
 
 const loginAsCustomer = () => {
   setUserRole('customer')
@@ -86,12 +94,15 @@ const logout = () => {
               {/* Simulated login buttons */}
           <Box m="20px" display="flex" justifyContent="flex-start">
               <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
-                <Button variant="contained" onClick={loginAsEmployee} sx={{ mx: 1 }}>
-                  Employee View
-                </Button>
+              {userRole === 'employee' ? (
                 <Button variant="contained" onClick={loginAsCustomer} sx={{ mx: 1 }}>
-                  Customer View
+                    Customer View
                 </Button>
+            ) : userRole === 'customer' ? (
+                <Button variant="contained" onClick={loginAsEmployee} sx={{ mx: 1 }}>
+                    Employee View
+                </Button>
+            ) : null}
                 <Button variant="contained" onClick={logout} sx={{ mx: 1 }}>
                   Logout
                 </Button>
@@ -99,8 +110,22 @@ const logout = () => {
           </Box>
 
           <Routes>
-            <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
-            <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
+          <Route 
+                path="/" 
+                element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } 
+            /> {/* Dashboard routing */}
+            <Route 
+                path="/employees" 
+                element={
+                    <ProtectedRoute>
+                        <Employees />
+                    </ProtectedRoute>
+                } 
+            />   {/*Employee page routing */}
             <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
             <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
             <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}

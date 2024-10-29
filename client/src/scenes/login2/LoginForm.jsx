@@ -40,7 +40,7 @@ export default function LoginForm() {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
                 console.error('Error details:', errorData);//see specifcc errors
-                //console.error('Error message:', errorData.message || 'Unknown error'); //view error message if necesary
+                alert('Error message:', errorData.message || 'Unknown error'); //view error
             }
         } catch (error) {
             console.error('Login failed:', error);
