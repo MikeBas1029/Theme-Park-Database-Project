@@ -36,6 +36,7 @@ import OrderForm from "./scenes/form/orderform";
 import SafetyForm from "./scenes/form/safetyform";
 import MaintenanceForm from "./scenes/form/maintenanceform";
 import FacilitiesForm from "./scenes/form/facilitiesform";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
@@ -109,8 +110,22 @@ const logout = () => {
           </Box>
 
           <Routes>
-            <Route path="/" element={<Dashboard />}/> {/* Dashboard routing */}
-            <Route path="/employees" element={<Employees />} />   {/*Employee page routing */}
+          <Route 
+                path="/" 
+                element={
+                    <ProtectedRoute>
+                        <Dashboard />
+                    </ProtectedRoute>
+                } 
+            /> {/* Dashboard routing */}
+            <Route 
+                path="/employees" 
+                element={
+                    <ProtectedRoute>
+                        <Employees />
+                    </ProtectedRoute>
+                } 
+            />   {/*Employee page routing */}
             <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
             <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
             <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
