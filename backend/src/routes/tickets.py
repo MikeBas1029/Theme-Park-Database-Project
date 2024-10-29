@@ -17,7 +17,7 @@ async def get_all_tickets(session: AsyncSession = Depends(get_session)):
     return tickets
 
 
-@ticket_router.get("/{ticket_id}", response_model=TicketOutputModel) 
+@ticket_router.get("/ticket/{ticket_id}", response_model=TicketOutputModel) 
 async def get_ticket(ticket_id: str, session: AsyncSession = Depends(get_session)):
     ticket = await ticket_service.get_ticket_by_id(ticket_id, session)
     
@@ -26,6 +26,12 @@ async def get_ticket(ticket_id: str, session: AsyncSession = Depends(get_session
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Ticket with ticket_id {ticket_id} not found.") 
 
+
+@ticket_router.get("/user/{user_id}", response_model=List[TicketOutputModel]) 
+async def get_ticket(user_id: str, session: AsyncSession = Depends(get_session)):
+    tickets = await ticket_service.get_ticket_by_user_id(user_id, session)
+    
+    return tickets
 
 
 @ticket_router.post(

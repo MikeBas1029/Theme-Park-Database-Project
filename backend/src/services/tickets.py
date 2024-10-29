@@ -21,6 +21,15 @@ class TicketService:
 
         return ticket if ticket is not None else None 
     
+    async def get_ticket_by_user_id(self, user_id: str, session: AsyncSession) -> list:
+        query = select(Tickets).where(Tickets.customer_id == user_id)
+
+        result = await session.exec(query)
+
+        tickets = result.all()
+
+        return tickets
+    
     async def ticket_exists(self, ticket_id: str, session: AsyncSession):
         query = select(Tickets).where(Tickets.ticket_id == ticket_id)
 
