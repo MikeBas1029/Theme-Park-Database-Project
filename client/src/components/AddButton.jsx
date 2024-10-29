@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useNavigate } from 'react-router-dom'; // Ensure you have react-router-dom installed
 
-const AddButton = ({ navigateTo = "/form" }) => {
+const AddButton = ({ navigateTo}) => {
     const navigate = useNavigate();
 
     const handleClick = () => {

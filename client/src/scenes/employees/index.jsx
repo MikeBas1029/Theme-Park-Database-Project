@@ -28,7 +28,7 @@ const [showFullColumns, setShowFullColumns] = useState(true);
 useEffect(() => {
     const fetchEmployeeData = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:8000/api/v1/employees/");
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/");
             console.log("Fetched employees:", response.data);
             setEmployeeData(response.data);
         } catch (error) {
@@ -107,7 +107,7 @@ const columnsToShow = showFullColumns ? allColumns : shortColumns;
             <Box display="flex" alignItems="center">
                 <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" columns={columnsToShow} />
                 <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" fileName="employees_report.csv" columns={columnsToShow} />
-                <AddButton />
+                <AddButton navigateTo={'/employeeform'}/>
             </Box>
         </Box>
 

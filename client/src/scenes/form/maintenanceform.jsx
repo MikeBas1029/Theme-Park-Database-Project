@@ -137,6 +137,8 @@ const userSchema = yup.object().shape({
             .typeError("Salary must be a number"),
         otherwise: yup.number().nullable(),
     }),*/
+    hourly_wage: yup.number().nullable(),
+    salary: yup.number().nullable(),
     job_function: yup.string().required("Job function is required"),
     gender: yup.string(),
 
@@ -150,7 +152,7 @@ const userSchema = yup.object().shape({
 
 
 
-const Form = () => {
+const MaintenanceForm = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
 
@@ -181,7 +183,7 @@ const Form = () => {
             gender: values.gender,
             
         };
-        console.log(requestBody.start_date); 
+        console.log(requestBody); 
 
 
     
@@ -200,10 +202,10 @@ const Form = () => {
         }
     
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/v1/employees/', requestBody);
+            const response = await axios.post('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/', requestBody);
             console.log(Date().toISOString().split('T')[0]); 
-            console.log(response.data); // Handle the response as needed
-            navigate('/employees'); // Navigate after successful submission
+            console.log('Response data:', response.data); // Handle the response as needed
+            navigate('/visits'); // Navigate after successful submission
         } catch (error) {
             console.error('Error submitting form:', error); // Handle the error appropriately
             if (error.response) {
@@ -216,11 +218,11 @@ const Form = () => {
     return(
     
     <Box  m="20px">
-        <IconButton onClick={() => navigate('/employees')}>
+        <IconButton onClick={() => navigate('/maintenance')}>
             <ArrowBackIcon sx={{ fontSize: "30px", color: "grey" }} />
         </IconButton>
 
-        <Header title="ADD NEW EMPLOYEE" subtitle="Add a profile for a NEW employee" />
+        <Header title="START WORK ORDER" subtitle="Start a maintenance or work order request. (Must be approved by dept. or admin(s))" />
         <Formik 
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -558,7 +560,7 @@ const Form = () => {
                     </Box>
                     <Box display="flex" justifyContent="end" mt="20px">
                         <Button type="submit" color="secondary" variant="contained">
-                            Create Employee Profile
+                            Add Review
                         </Button>
                     </Box>
                 </form>
@@ -568,4 +570,4 @@ const Form = () => {
     )
 }
 
-export default Form;
+export default MaintenanceForm;

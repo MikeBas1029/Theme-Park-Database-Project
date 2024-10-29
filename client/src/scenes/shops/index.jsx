@@ -1,41 +1,49 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { sampleInvoices } from "../../data/sampleInvoices";
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
 import PrintButton from "../../components/PrintButton";
 import AddButton from "../../components/AddButton";
 import DownloadButton from "../../components/DownloadButton";
+import { useEffect, useState } from "react";
+import axios  from "axios"; //install if have !! needed for API requests
+
 
 
 const Shops = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     
+    const [ShopsData, setShopsData] = useState([]); {/*State for storing employee data*/}
+    const [loading, setLoading] = useState(true); // Loading state
+
+    {/*Fetch shop data from endpoints when table is pulled*/}
+useEffect(() => {
+    const fetchShopsData = async () => {
+        try {
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/");
+            console.log("Fetched shop:", response.data);
+            setShopsData(response.data);
+        } catch (error) {
+            console.error("Error fetching shop:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    fetchShopsData();
+    }, []);
+
+
 
     const columns = [
-        {field: "id", headerName: "ShopID", flex: 0.5}, 
-        {field: "vendorName", headerName: "Store Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "invoiceNumber", headerName: "Invoice Number"},
-        {field: "amount", headerName: "Price", flex: 1, renderCell: (params) => (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        height: '100%',
-                    }}
-                >
-                    <Typography color={colors.greenAccent[500]}>
-                        {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(params.value)}
-                    </Typography>
-                </Box>
-        )},
-        {field: "date", headerName: "Data", flex: 1},
-        {field: "status", headerName: "Payment Status", flex: 1},
+        {field: "shop_id", headerName: "ShopID", flex: 1}, 
+        {field: "shop_name", headerName: "Shop Name", flex: 1, cellClassName: "name-column--cell"}, 
+        {field: "address", headerName: "Address",flex: 1},
+        {field: "park_section_id", headerName: "Park Section ID", flex: 1},
+        {field: "manager_id", headerName: "Manager ID", flex: 1},
+        {field: "opening_time", headerName: "Opening Time", flex: 1},
+        {field: "closing_time", headerName: "Closing Time", flex: 1},
         
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
@@ -45,14 +53,14 @@ const Shops = () => {
                 <Header title="Shops💻" subtitle="View a list of Theme Park Shops"/>
                 <Box display="flex" alignItems="center">
                     <PrintButton
-                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
                         columns={columns} />
                     <DownloadButton
-                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
-                        fileName="customers_report.csv"
+                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
+                        fileName="shops_report.csv"
                         columns={columns}
                         />
-                    <AddButton />
+                    <AddButton navigateTo={'/shopform'} />
                 </Box>
             </Box>
 
@@ -84,7 +92,14 @@ const Shops = () => {
                 },
                 }}>
 
-            <DataGrid checkboxSelection rows={sampleInvoices} columns={columns} components={{Toolbar: GridToolbar}}/>
+            <DataGrid 
+                    checkboxSelection
+                    rows={ShopsData}
+                    columns={columns} // Use the columns based on the toggle
+                    components={{ Toolbar: GridToolbar }}
+                    loading={loading}
+                    getRowId={(row) => row.shop_id}/>
+
             </Box>
 
 

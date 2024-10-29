@@ -27,7 +27,7 @@ const Visits = () => {
     useEffect(() => {
         const fetchvisitData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/v1/visits/");
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/");
                 console.log("Fetched visits:", response.data);
                 setvisitData(response.data);
             } catch (error) {
@@ -56,13 +56,13 @@ const Visits = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Visits✅" subtitle="View details related to customer visits"/>
                 <Box display="flex" alignItems="center">
-                    <PrintButton apiUrl="http://127.0.0.1:8000/api/v1/visits/" columns={columns} />
+                    <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/" columns={columns} />
                     <DownloadButton
-                         apiUrl="http://127.0.0.1:8000/api/v1/visits/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/visits/"
                         fileName="visits_report.csv"
                         columns={columns}
                         />
-                    <AddButton />
+                    <AddButton navigateTo={'/visitform'} />
                 </Box>
             </Box>
             {/*To display inventory*/}
