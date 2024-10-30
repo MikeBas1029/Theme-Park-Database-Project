@@ -38,7 +38,7 @@ const Item = ({ title, to, icon }) => {
 };
 
 
-const Navbar = ({userRole} ) => {
+const Navbar = ({userType} ) => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode); 
@@ -69,7 +69,7 @@ const Navbar = ({userRole} ) => {
             </IconButton>
         </Box> 
 
-        {userRole === 'customer' && (
+        {userType === 'customer' && (
             <Box display="flex">
             {/* Customer navbar*/}
             <Item title="Home" to="/customerhome" icon={<HomeOutlinedIcon />} />
@@ -95,7 +95,7 @@ const Navbar = ({userRole} ) => {
                         <DarkModeOutlinedIcon />) : (
             <LightModeOutlinedIcon /> )}
         </IconButton>
-        {userRole !== 'customer' && (
+        {userType !== 'customer' && (
         <IconButton>
             <CalendarTodayOutlinedIcon />
         </IconButton>
@@ -103,7 +103,7 @@ const Navbar = ({userRole} ) => {
         <IconButton>
             <NotificationMenu />
         </IconButton>
-        <AccountMenu userRole={userRole} />
+        <AccountMenu userType={userType} />
 
       </Box>
 

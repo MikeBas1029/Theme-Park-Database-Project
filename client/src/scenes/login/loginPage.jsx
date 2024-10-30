@@ -66,7 +66,7 @@ export default function LoginPage() {
                         email,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                    });
+                    }, 'customer');
 
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
