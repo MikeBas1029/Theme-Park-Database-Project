@@ -7,6 +7,8 @@ import AddButton from "../../components/AddButton";
 import DownloadButton from "../../components/DownloadButton";
 import { useEffect, useState } from "react";
 import axios  from "axios"; //install if have !! needed for API requests
+import EditButton from "../../components/EditButton";
+import DeleteButton from "../../components/DeleteButton";
 
 
 
@@ -16,6 +18,9 @@ const Shops = () => {
     
     const [ShopsData, setShopsData] = useState([]); {/*State for storing employee data*/}
     const [loading, setLoading] = useState(true); // Loading state
+    const [selectedShop, setSelectedShop] = useState(null); // State for currently selected shop
+
+    
 
     {/*Fetch shop data from endpoints when table is pulled*/}
 useEffect(() => {
@@ -33,6 +38,16 @@ useEffect(() => {
 
     fetchShopsData();
     }, []);
+
+    const handleRowSelection = (selectionModel) => {
+        console.log("Selection Model Changed:", selectionModel); // Debugging line
+        if (selectionModel.length > 0) {
+            setSelectedShop(selectionModel[0]);
+        } else {
+            setSelectedShop(null);
+        }
+    };
+
 
 
 
@@ -60,6 +75,14 @@ useEffect(() => {
                         fileName="shops_report.csv"
                         columns={columns}
                         />
+                        <EditButton
+                        navigateTo={`/`} // Pass selectedShop ID to the EditButton
+                        disabled={!selectedShop} // Disable if no shop is selected
+                        sx={{
+                            color: selectedShop ? colors.primary.main : colors.grey[500], // Change icon color based on selection
+                        }}
+                    />
+                    <DeleteButton />
                     <AddButton navigateTo={'/shopform'} />
                 </Box>
             </Box>
@@ -93,16 +116,16 @@ useEffect(() => {
                 }}>
 
             <DataGrid 
-                    checkboxSelection
+                    checkboxSelection={true}
                     rows={ShopsData}
                     columns={columns} // Use the columns based on the toggle
                     components={{ Toolbar: GridToolbar }}
                     loading={loading}
-                    getRowId={(row) => row.shop_id}/>
+                    getRowId={(row) => row.shop_id}
+                    onSelectionModelChange={handleRowSelection} // Ensure this is set
+                    />
 
             </Box>
-
-
         </Box>
     );
 }

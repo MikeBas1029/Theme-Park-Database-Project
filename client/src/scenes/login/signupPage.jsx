@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockIcon from '@mui/icons-material/Lock';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 export default function SignUpPage() {
@@ -159,6 +159,11 @@ export default function SignUpPage() {
                             error={!passwordsMatch}
                             helperText={!passwordsMatch ? 'Passwords do not match.' : ''}
                         />
+                    </Box>
+                    <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
+                        <Typography variant="h4" gutterBottom >
+                        Already a Customer ? <Link to="/custlogin" > Login Here</Link>
+                        </ Typography >
                     </Box>
                     <Button type="submit" variant="contained" fullWidth>
                         Sign Up

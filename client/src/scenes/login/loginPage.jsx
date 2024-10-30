@@ -154,12 +154,13 @@ export default function LoginPage() {
 
                     <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
                     <Typography variant="h4" gutterBottom >
-                    Don't have an account? <Link to="/signup">Sign up</Link>
+                    Don't have an account ? <Link to="/signup" sx={{ textDecoration: 'none', color: 'inherit' }}>Sign up</Link>
                     </ Typography >
                     </Box>
                     <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
                     <Typography variant="h4" gutterBottom >
-                        <Link to="/emplogin">Employee ? Sign in Here</Link>
+                    Employee ?
+                        <Link to="/emplogin "> Sign in Here</Link>
                     </ Typography >
                     </Box>
 
