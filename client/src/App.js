@@ -39,6 +39,7 @@ import FacilitiesForm from "./scenes/form/facilitiesform";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NewCustForm from "./scenes/form/newcustomerform";
 import { useUser } from "./components/context/UserContext";
+import MapPage from "./scenes/map";
 
 
 
@@ -157,6 +158,8 @@ const logout = () => {
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
             <Route path="/customertickets" element={<CustomerTickets  />} /> {/*Inventory's form page routing */}
             <Route path="/tickets" element={<Tickets />} /> {/*Inventory's form page routing */}
+            <Route path="/parkmap" element={<MapPage />} /> {/*Inventory's form page routing */}
+
 
           </Routes>
       </main>

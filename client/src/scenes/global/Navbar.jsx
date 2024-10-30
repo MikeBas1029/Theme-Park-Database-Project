@@ -13,16 +13,19 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InventoryIcon from '@mui/icons-material/Inventory';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined';
+import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
-import HandymanIcon from '@mui/icons-material/Handyman';
 import TourIcon from '@mui/icons-material/Tour';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import AttractionsOutlinedIcon from '@mui/icons-material/AttractionsOutlined';
 
 import { useNavigate } from "react-router-dom";
 import ProfileDropdown from "../../components/ProfileDropdown";
 import AccountMenu from "../../components/AccountMenu";
 import { Link } from "react-router-dom";
 import NotificationMenu from "./NotificationMenu";
+import DropdownMenu from "../../components/DropdownMenu";
 
 
 
@@ -36,6 +39,8 @@ const Item = ({ title, to, icon }) => {
         </Link>
     );
 };
+
+
 
 
 const Navbar = ({userType} ) => {
@@ -73,13 +78,31 @@ const Navbar = ({userType} ) => {
             <Box display="flex">
             {/* Customer navbar*/}
             <Item title="Home" to="/customerhome" icon={<HomeOutlinedIcon />} />
-            <Item title="My Tickets" to="/customertickets" icon={<LocalActivityIcon />} />
-            <Item title="Rides & Attractions" to="/parkrides" icon={<ContactsOutlinedIcon />} />
-            <Item title="Events" to="/customerevents" icon={<LocalActivityIcon />} />
-            <Item title="Map" to="/parkmap" icon={<PeopleOutlinedIcon />} />
-            <Item title="Facilities" to="/parkfacilities" icon={<AccessibilityNewIcon />} />
-            <Item title="Dining" to="/parkdining" icon={<TourIcon />} />
-            <Item title="Shopping" to="/parkshops" icon={<HandymanIcon />} />
+            <DropdownMenu 
+                title="Tickets" menuItems={[
+                {label: 'My Tickets', path: '/customertickets' },
+                {label: 'Purchase Tickets', path: '/purchaseTickets' },
+                ]} 
+                icon={<LocalActivityIcon />} 
+            />            
+            <Item title="Map" to="/parkmap" icon={<MapOutlinedIcon />} />
+            <DropdownMenu 
+                title="Amusement" menuItems={[
+                {label: 'Rides', path: '/customerrides' },
+                {label: 'Attractions', path: '/customerattractions' },
+                {label: 'Events', path: '/customerevents' },
+                ]} 
+                icon={<AttractionsOutlinedIcon />} 
+            />
+            <DropdownMenu 
+                title="Services" menuItems={[
+                {label: 'Dining', path: '/customerdining' },
+                {label: 'Facilities', path: '/customerfacilities' },
+                {label: 'Shopping', path: '/customershops' },
+                ]} 
+                icon={<StoreOutlinedIcon />} 
+            />
+
             {/* <Item title="FAQS" to="/faqs" icon={<InsightsIcon />} />*/}
            {/*  <Item title="Help Center" to="/helpcenter" icon={<ReceiptOutlinedIcon />} />*/}
             {/* <Item title="Feedback" to="/feedback" icon={<TimelineOutlinedIcon />} />*/}
