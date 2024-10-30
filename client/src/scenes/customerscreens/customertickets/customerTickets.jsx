@@ -15,7 +15,7 @@ const CustomerTickets = ({customer_id}) => {
       if (!user) return; // If no user, don't fetch
 
       try {
-        const response = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/tickets/user/${customer_id}`);
+        const response = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/tickets/`);
         const data = await response.json();
         console.log(data); // Log the fetched data
         setTickets(Array.isArray(data) ? data : []);

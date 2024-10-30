@@ -103,7 +103,6 @@ export default function AccountMenu({ userRole }) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {/*Profile Settings Tab*/}
-
         <MenuItem onClick={handleClose}>
         <Avatar src={avatarSrc} alt="Profile Picture" />
         {user ? `${user.first_name} ${user.last_name}` : 'Guest'} {/* Display user's email and uid or 'Guest' */}
@@ -118,7 +117,7 @@ export default function AccountMenu({ userRole }) {
           Profile
         </MenuItem>
 
-        <MenuItem target={handleClose}>
+        <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>

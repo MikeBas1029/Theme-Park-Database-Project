@@ -47,7 +47,13 @@ export default function SignUpPage() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Sign-up successful:', data);
-                navigate('/customerhome'); //Send user to correct page after suc. signup
+
+
+                // Step 2: Prepare to create customer details
+                const userId = data.user.id; 
+            
+
+                navigate('/customerhome'); //Send user to completion page after successful signup
             } else {
                 const errorData = await response.json();
                 console.error('Sign-up failed with status:', response.status);

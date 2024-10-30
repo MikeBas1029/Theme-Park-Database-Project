@@ -37,6 +37,7 @@ import SafetyForm from "./scenes/form/safetyform";
 import MaintenanceForm from "./scenes/form/maintenanceform";
 import FacilitiesForm from "./scenes/form/facilitiesform";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NewCustForm from "./scenes/form/newcustomerform";
 
 
 
