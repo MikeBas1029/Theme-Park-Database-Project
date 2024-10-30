@@ -41,6 +41,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
+
 function App() {
   const navigate = useNavigate();
   /*user state management */
@@ -150,7 +151,7 @@ const logout = () => {
             <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
             <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
-            <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}
+            <Route path="/customertickets" element={<CustomerTickets  />} /> {/*Inventory's form page routing */}
             <Route path="/tickets" element={<Tickets />} /> {/*Inventory's form page routing */}
 
           </Routes>

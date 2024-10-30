@@ -34,8 +34,13 @@ export default function AccountMenu({ userRole }) {
 
   const handleLogout = () => {
     handleClose();
+        // Clear user data and tokens from local storage
+    localStorage.removeItem('user_data');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     userRole === 'employee' ? navigate('/emplogin') : navigate('/custlogin');
     logout();
+
   }
 
 
@@ -101,7 +106,7 @@ export default function AccountMenu({ userRole }) {
 
         <MenuItem onClick={handleClose}>
         <Avatar src={avatarSrc} alt="Profile Picture" />
-        {user ? `${user.uid}` : 'Guest'} {/* Display user's email and uid or 'Guest' */}
+        {user ? `${user.first_name} ${user.last_name}` : 'Guest'} {/* Display user's email and uid or 'Guest' */}
         </MenuItem>
 
         <Divider />

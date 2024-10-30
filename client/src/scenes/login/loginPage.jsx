@@ -36,9 +36,7 @@ export default function LoginPage() {
             });
 
 
-
-
-              if (!response.ok) {
+            if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
                 console.error('Error details:', errorData);//see specifcc errors
@@ -46,11 +44,32 @@ export default function LoginPage() {
                 return;
             }
           
+            
             const data = await response.json();
             if (data && data.user) {
-                login(data.user); // Set user data in global context
-                localStorage.setItem('access_token', data.access_token); // Store token for authenticated requests
-                localStorage.setItem('refresh_token', data.refresh_token); // Optionally store the refresh token if needed
+            // Fetch user details using the email
+            const userResponse = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/users?email=${email}`);
+            const userData = await userResponse.json();
+
+
+            login({
+                uid: data.user.uid, // Assuming this comes from the login response
+                email: data.user.email,
+                customer_id: userData.customer_id,
+                first_name: userData.first_name, 
+                last_name: userData.last_name, 
+            }); // Set user data in global context
+
+
+                localStorage.setItem('access_token', data.access_token); // Store access token for authenticated requests
+                localStorage.setItem('refresh_token', data.refresh_token); // Store refresh token if needed
+                localStorage.setItem('user_data', JSON.stringify({        // Store user data in local storage
+                    uid: data.user.uid,
+                    email: data.user.email,
+                    customerId: userData.customer_id
+
+                }));
+
                 console.log('Login successful:', data.user);
                 setErrorMessage(''); // Clear any previous error message
                 navigate('/customerhome');
@@ -58,9 +77,6 @@ export default function LoginPage() {
                 setErrorMessage('No user data in response'); // Clear any previous error message
                 console.error('No user data in response');
             }
-
-            
-
         } catch (error) {
             console.error('Login failed:', error);
             alert('An error occurred while logging in. Please try again later.');
