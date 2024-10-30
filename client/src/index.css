@@ -41,3 +41,8 @@ background: #e0e0e0;
 ::-webkit-scrollbar-track:hover {
   background: #555;
 }
+
+.no-link-style {
+  text-decoration: none;
+  color: inherit; /* or specify a color */
+}
