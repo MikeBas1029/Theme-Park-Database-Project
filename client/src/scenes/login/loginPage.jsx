@@ -35,32 +35,60 @@ export default function LoginPage() {
                 body: JSON.stringify({ email, password }),
             });
 
-
-
-
-              if (!response.ok) {
+            if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
-                console.error('Error details:', errorData);//see specifcc errors
+                console.error('Error details:', errorData);
                 setErrorMessage('Invalid email or password');
                 return;
             }
-          
+
             const data = await response.json();
             if (data && data.user) {
-                login(data.user); // Set user data in global context
-                localStorage.setItem('access_token', data.access_token); // Store token for authenticated requests
-                localStorage.setItem('refresh_token', data.refresh_token); // Optionally store the refresh token if needed
-                console.log('Login successful:', data.user);
-                setErrorMessage(''); // Clear any previous error message
-                navigate('/customerhome');
+                const { uid, email } = data.user;
+
+                const userResponse = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/${email}`);     // Fetch user details using the email
+
+                if (!userResponse.ok) {
+                    setErrorMessage('Failed to fetch user details');
+                    console.error('Failed to fetch user details:', userResponse.status);
+                    return;
+                }
+
+                const userData = await userResponse.json();
+                console.log('User Response:', userResponse); //sign in details
+                console.log('User Data:', userData); //user details
+
+                // Check if userData contains name (user is in customers)
+                if (userData && userData.first_name && userData.last_name) {
+                    login({
+                        uid,
+                        email,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                    });
+
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                    localStorage.setItem('user_data', JSON.stringify({
+                        uid,
+                        email,
+                        customerId: userData.customer_id,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                    }));
+
+                    console.log('Login successful:', data.user);
+                    setErrorMessage('');
+                    navigate('/customerhome');
+                } else {
+                    setErrorMessage('User details not found');
+                    console.error('User details not found');
+                }
             } else {
-                setErrorMessage('No user data in response'); // Clear any previous error message
+                setErrorMessage('No user data in response');
                 console.error('No user data in response');
             }
-
-            
-
         } catch (error) {
             console.error('Login failed:', error);
             alert('An error occurred while logging in. Please try again later.');

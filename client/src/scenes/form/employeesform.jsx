@@ -323,7 +323,7 @@ const EmployeeForm = () => {
 
 
 
-{/*      save for style refernce                   <TextField 
+                 <TextField 
                         fullWidth
                         variant="filled"
                         type="text"
@@ -341,7 +341,7 @@ const EmployeeForm = () => {
                         sx={{
                             gridColumn: "span 1"
                         }}/>
-*/}
+
 
                         <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
                             <InputLabel>Gender</InputLabel>

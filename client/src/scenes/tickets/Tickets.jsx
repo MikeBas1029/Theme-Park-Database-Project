@@ -62,9 +62,9 @@ const Tickets = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Header title="Tickets✅" subtitle="View details related to customer tickets"/>
                 <Box display="flex" alignItems="center">
-                    <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" columns={columns} />
+                    <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/tickets/" columns={columns} />
                     <DownloadButton
-                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/"
+                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/tickets/"
                         fileName="tickets_report.csv"
                         columns={columns}
                         />

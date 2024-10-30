@@ -37,6 +37,8 @@ import SafetyForm from "./scenes/form/safetyform";
 import MaintenanceForm from "./scenes/form/maintenanceform";
 import FacilitiesForm from "./scenes/form/facilitiesform";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NewCustForm from "./scenes/form/newcustomerform";
+
 
 
 
@@ -150,7 +152,7 @@ const logout = () => {
             <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
             <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
-            <Route path="/customertickets" element={<CustomerTickets />} /> {/*Inventory's form page routing */}
+            <Route path="/customertickets" element={<CustomerTickets  />} /> {/*Inventory's form page routing */}
             <Route path="/tickets" element={<Tickets />} /> {/*Inventory's form page routing */}
 
           </Routes>
