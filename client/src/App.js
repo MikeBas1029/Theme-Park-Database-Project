@@ -38,6 +38,8 @@ import MaintenanceForm from "./scenes/form/maintenanceform";
 import FacilitiesForm from "./scenes/form/facilitiesform";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NewCustForm from "./scenes/form/newcustomerform";
+import { useUser } from "./components/context/UserContext";
+import MapPage from "./scenes/map";
 
 
 
@@ -45,8 +47,13 @@ import NewCustForm from "./scenes/form/newcustomerform";
 
 function App() {
   const navigate = useNavigate();
+
   /*user state management */
-  const [userRole, setUserRole] = useState("employee"); 
+  //const [userRole, setUserRole] = useState("employee"); 
+  const [userType, setUserType] = useState("employee"); 
+  const { user } = useUser();
+
+
   /*diplay state management */
   const [theme, colorMode] = useMode();
 
@@ -60,11 +67,11 @@ function App() {
 
 // Simulated login functions
 const loginAsEmployee = () => {
-  const hardcodedPassword = 'tooShortToRide'; // Replace with your actual hardcoded password
+  const hardcodedPassword = 'tooShortToRide'; 
   const userInput = prompt('Please enter the permission password:');
 
   if (userInput === hardcodedPassword) {
-      setUserRole('employee');
+      setUserType('employee');
       navigate('/');
   } else {
       alert('Incorrect password. Access denied.');
@@ -73,12 +80,12 @@ const loginAsEmployee = () => {
 
 
 const loginAsCustomer = () => {
-  setUserRole('customer')
+  setUserType('customer')
   navigate('/customerhome');
 };
 
 const logout = () => {
-  setUserRole(null)
+  setUserType(null)
   navigate('/emplogin');
 };
 
@@ -90,24 +97,21 @@ const logout = () => {
       <CssBaseline />
       <div className="app">
 
-      {!isCustLogin && !isSignUpPage && !isEmpLogin &&  (userRole === 'employee' && <Sidebar />)}
+      {!isCustLogin && !isSignUpPage && !isEmpLogin &&  (user && userType === 'employee' && <Sidebar />)}
       <main className="content">
-        {!isCustLogin && !isSignUpPage && !isEmpLogin && <Navbar userRole={userRole}  />}
+        {!isCustLogin && !isSignUpPage && !isEmpLogin && <Navbar userType={userType}  />}
               {/* Simulated login buttons */}
           <Box m="20px" display="flex" justifyContent="flex-start">
               <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center">
-              {userRole === 'employee' ? (
+              {user && userType === 'employee' ? (
                 <Button variant="contained" onClick={loginAsCustomer} sx={{ mx: 1 }}>
                     Customer View
                 </Button>
-            ) : userRole === 'customer' ? (
+            ) : user && userType === 'customer' ? (
                 <Button variant="contained" onClick={loginAsEmployee} sx={{ mx: 1 }}>
                     Employee View
                 </Button>
             ) : null}
-                <Button variant="contained" onClick={logout} sx={{ mx: 1 }}>
-                  Logout
-                </Button>
               </Box>
           </Box>
 
@@ -154,6 +158,8 @@ const logout = () => {
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
             <Route path="/customertickets" element={<CustomerTickets  />} /> {/*Inventory's form page routing */}
             <Route path="/tickets" element={<Tickets />} /> {/*Inventory's form page routing */}
+            <Route path="/parkmap" element={<MapPage />} /> {/*Inventory's form page routing */}
+
 
           </Routes>
       </main>

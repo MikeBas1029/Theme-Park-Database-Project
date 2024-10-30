@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Typography, Modal } from '@mui/material';
-import { useUser } from '../../../components/context/UserContext'; // Ensure you have the user context to access user data
+import Header from '../../../components/Header';
+import { useUser } from '../../../components/context/UserContext'; 
 
 
-const CustomerTickets = ({customer_id}) => {
+const CustomerTickets = () => {
   const { user } = useUser(); // Get the logged-in user's info
+  
+  const customer_id = user.customer_id; // grab customer_id from user context
   const [tickets, setTickets] = useState([]);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,9 +18,10 @@ const CustomerTickets = ({customer_id}) => {
       if (!user) return; // If no user, don't fetch
 
       try {
-        const response = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/tickets/`);
+        const response = await fetch(`http://127.0.0.1:8000/api/v1/tickets/user/${customer_id}`);   //     https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees//api/v1/tickets/user/${customer_id}  //for live backend api 
         const data = await response.json();
-        console.log(data); // Log the fetched data
+        console.log("Cust ID",customer_id)
+        console.log("Fetched Data:", data); // Log the fetched data
         setTickets(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching tickets:", error);
@@ -39,9 +43,11 @@ const CustomerTickets = ({customer_id}) => {
 
   
   return (
-    <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={2}>
+    <Box m="20px">
+      <Header title="My Tickets" subtitle="View your purchased tickets" />
+      <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={2} >
       {tickets.length === 0 ? (
-        <Typography variant="body1">No tickets available.</Typography>
+        <Typography variant="body1">No tickets available. for ID: {customer_id ? customer_id : "..."} </Typography>
       ) : (
         tickets.map((ticket) => (
           <Card key={ticket.id} onClick={() => handleOpen(ticket)} style={{ cursor: 'pointer' }}>
@@ -53,6 +59,7 @@ const CustomerTickets = ({customer_id}) => {
           </Card>
         ))
       )}
+      </Box>
 
       {/* Modal for Ticket Details */}
       <Modal open={!!selectedTicket} onClose={handleClose}>

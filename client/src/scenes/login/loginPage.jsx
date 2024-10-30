@@ -64,19 +64,20 @@ export default function LoginPage() {
                     login({
                         uid,
                         email,
+                        customer_id: userData.customer_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                    });
+                    }, 'customer');
 
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
                     localStorage.setItem('user_data', JSON.stringify({
                         uid,
                         email,
-                        customerId: userData.customer_id,
+                        customer_id: userData.customer_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                    }));
+                    }, 'customer'));
 
                     console.log('Login successful:', data.user);
                     setErrorMessage('');

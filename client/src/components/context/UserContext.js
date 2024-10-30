@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
-// Create a context for user data
+// Context for user data
 const UserContext = createContext(null);
 
-// Create a custom hook to access the user context
+// Custom hook to access the user context
 export const useUser = () => useContext(UserContext);
 
 
@@ -13,19 +13,19 @@ export const UserProvider = ({ children }) => {
   
 
   // Function to log in and set user data
-  const login = useCallback((userData) => {
+  const login = useCallback((userData, userType) => {
     const formattedUserData = {
       email: userData.email,
       uid: userData.uid,
       customer_id: userData.customer_id, // Store customer ID
       first_name: userData.first_name,  //Store user's name
       last_name: userData.last_name, 
+      userType, // Add userType here
   };
 
   setUser(formattedUserData);
   localStorage.setItem('user_data', JSON.stringify(formattedUserData)); // Store user data in local storage
 
-    // Other login logic
 }, []);
 
 
@@ -33,7 +33,8 @@ export const UserProvider = ({ children }) => {
   // Function to log out and clear user data
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user_data'); // Clear user data from local storage
+    // Clear user data from local storage
+    localStorage.removeItem('user_data'); 
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
   };
@@ -43,7 +44,7 @@ export const UserProvider = ({ children }) => {
     const storedUserData = localStorage.getItem('user_data');
     if (storedUserData) {
         const userData = JSON.parse(storedUserData);
-        login(userData); // Set user data in your context or state
+        login(userData); //set userData in context
     }
 },
  [login]
