@@ -6,10 +6,27 @@ from fastapi import APIRouter, Depends, status
 from src.schemas.cust_auth import CustAuthCreateModel, CustAuth, CustAuthLogin
 from src.services.cust_auth import CustAuthService
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.utils import create_access_token, decode_token, verify_password
 from fastapi.responses import JSONResponse
-from src.security import RefreshTokenBearer, AccessTokenBearer, TokenBlocklistService
-from src.security import get_current_user
+from src.errors import (
+    UserAlreadyExists, 
+    UserNotFound, 
+    InvalidCredentials, 
+    InvalidToken,
+)
+
+from src.security import (
+    RefreshTokenBearer, 
+    AccessTokenBearer, 
+    TokenBlocklistService,
+    get_current_user,
+)
+
+from src.utils import (
+    create_access_token,
+    decode_token, 
+    verify_password,
+    generate_hash,
+)
 
 cust_auth_router = APIRouter()
 cust_auth_service = CustAuthService()
@@ -38,7 +55,8 @@ REFRESH_TOKEN_EXPIRY = 2
 )
 async def signup_user(
     user_data: CustAuthCreateModel,
-    session: AsyncSession = Depends(get_session)):
+    session: AsyncSession = Depends(get_session)
+):
     email = user_data.email
 
     user_exists = await cust_auth_service.user_exists(email, session)
@@ -105,7 +123,7 @@ async def login_user(login_data: CustAuthLogin, session: AsyncSession = Depends(
                     }
                 }
             )
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid email or password.")
+        raise InvalidCredentials()
 
 
 @cust_auth_router.get('/refresh-token')
@@ -123,13 +141,10 @@ async def get_new_access_token(
             "access_token": new_access_token
         })
 
-    raise HTTPException(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        detail="Invalid or expired token."
-        )
+    raise InvalidToken()
 
 
-@cust_auth_router.get('/current-user')
+@cust_auth_router.get('/me')
 async def get_current_user(user = Depends(get_current_user)):
     return user
 

@@ -1,3 +1,4 @@
+from typing import List, Any
 from src.utils import decode_token
 from sqlmodel import select, delete
 from fastapi.security import HTTPBearer 
@@ -9,7 +10,15 @@ from src.models.token_blocklist import TokenBlocklist
 from sqlmodel.ext.asyncio.session import AsyncSession 
 from fastapi.security.http import HTTPAuthorizationCredentials
 from src.services.cust_auth import CustAuthService
-import logging
+
+from src.models.cust_auth import CustAuth
+from src.errors import (
+    InvalidToken,
+    RefreshTokenRequired,
+    AccessTokenRequired,
+    InsufficientPermission,
+    AccountNotVerified,
+)
 
 cust_auth_service = CustAuthService()
 
@@ -41,47 +50,32 @@ class TokenBearer(HTTPBearer):
     def __init__(self, auto_error = True):
         super().__init__(auto_error=auto_error)
 
-    async def __call__(self, request: Request, session: AsyncSession = Depends(get_session)) -> HTTPAuthorizationCredentials | None:
+    async def __call__(self, request: Request) -> HTTPAuthorizationCredentials | None:
         creds = await super().__call__(request)
         token = creds.credentials
         token_data = decode_token(token)
-        print(token_data)
 
         if not self.token_valid(token):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail={
-                    "error": "This token is invalid or expired.",
-                    "resolution": "Please get a new token."
-                }
-            )
-        
-        if await TokenBlocklistService.token_in_blocklist(token_data['jti'], session):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail={
-                    "error": "This token is invalid or has been revoked.",
-                    "resolution": "Please get a new token."
-                }
-            )
+            raise InvalidToken()
+        # , session: AsyncSession = Depends(get_session)
+        # if await TokenBlocklistService.token_in_blocklist(token_data['jti'], session):
+        #     raise HTTPException(
+        #         status_code=status.HTTP_403_FORBIDDEN,
+        #         detail={
+        #             "error": "This token is invalid or has been revoked.",
+        #             "resolution": "Please get a new token."
+        #         }
+        #     )
 
         self.verify_token_data(token_data)
-        await TokenBlocklistService.clean_expired_tokens(session)
+        # await TokenBlocklistService.clean_expired_tokens(session)
         return token_data
     
     def token_valid(self, token: str) -> bool:
         '''Checks if access token is valid and returns boolean.'''
-        isTokenValid = False
         token_data = decode_token(token)
-        if token_data:
-            isTokenValid = True 
-            logging.info("Token was valid!")
-        logging.info("Token was invalid!")
-        return isTokenValid
 
-        # print(f"This is the decoded token date: {token_data}")
-
-        # return token_data is not None
+        return token_data is not None
     
     def verify_token_data(self, token_data):
         raise NotImplementedError("Please override this method in child classes.")
@@ -91,19 +85,13 @@ class TokenBearer(HTTPBearer):
 class AccessTokenBearer(TokenBearer):
     def verify_token_data(self, token_data: dict) -> None:
         if token_data and token_data['refresh']:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Please provide an access token."
-            )
+            raise AccessTokenRequired()
         
 
 class RefreshTokenBearer(TokenBearer):
     def verify_token_data(self, token_data: dict) -> None:
         if token_data and not token_data['refresh']:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Please provide a refresh token."
-            )
+            raise RefreshTokenRequired()
         
 
 async def get_current_user(
@@ -115,3 +103,16 @@ async def get_current_user(
     user = await cust_auth_service.get_user_by_email(user_email, session)
 
     return user
+
+
+class RoleChecker:
+    def __init__(self, allowed_roles: List[str]) -> None:
+        self.allowed_roles = allowed_roles
+
+    def __call__(self, current_user: CustAuth = Depends(get_current_user)) -> Any:
+        if not current_user.is_verified:
+            raise AccountNotVerified()
+        if current_user.role in self.allowed_roles:
+            return True 
+        
+        raise InsufficientPermission()

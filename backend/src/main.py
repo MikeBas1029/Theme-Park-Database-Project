@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.models import *
 from src.routes import *
+from src.errors import register_all_errors
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -29,6 +30,8 @@ app = FastAPI(
     version=version,
     lifespan=lifespan
 )
+
+register_all_errors(app)
 
 # Add CORS middleware
 app.add_middleware(
@@ -77,3 +80,4 @@ app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visit
 app.include_router(visit_ticket_router, prefix=f"{version_prefix}/visit-ticket", tags=["visit ticket"])
 app.include_router(work_order_router, prefix=f"{version_prefix}/work-orders", tags=["work orders"])
 app.include_router(work_order_item_router, prefix=f"{version_prefix}/work-order-items", tags=["work order items"])
+app.include_router(oauth_router, prefix=f"{version_prefix}/oauth", tags=["oauth"])
