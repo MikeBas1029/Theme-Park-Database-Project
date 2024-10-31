@@ -36,3 +36,4 @@ from .work_order_items import WorkOrderItems
 from .items import Items 
 
 from .views import MonthlyWeeklyCustomerCounts
+from .views import FrequentRides

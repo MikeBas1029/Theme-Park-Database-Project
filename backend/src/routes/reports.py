@@ -5,8 +5,8 @@ from fastapi.exceptions import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.database import get_session
-from src.models.views import MonthlyWeeklyCustomerCounts
-from src.schemas.reports import MonthlyWeeklyCustomerCount
+from src.models.views import MonthlyWeeklyCustomerCounts, FrequentRides
+from src.schemas.reports import MonthlyWeeklyCustomerCount, FrequentRide
 
 reports_router = APIRouter()
 
@@ -17,3 +17,9 @@ async def get_monthly_weekly_customer_counts(session: AsyncSession = Depends(get
     result = await session.exec(query)
 
     return result.all()
+
+@reports_router.get("/frequent-rides", response_model=List[FrequentRide])
+async def get_frequent_ride_counts(session: AsyncSession = Depends(get_session)):
+    query = select(FrequentRides)
+    results = await session.exec(query)
+    return results.all()
