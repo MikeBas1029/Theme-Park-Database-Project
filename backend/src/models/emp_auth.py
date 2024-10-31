@@ -1,14 +1,15 @@
 import uuid 
 import enum
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
+from sqlalchemy import event
 from datetime import datetime
+from sqlalchemy.orm import Session
 import sqlalchemy.dialects.mysql as mysql
-from sqlmodel import SQLModel, Field, Column, Relationship, ForeignKey
+from sqlmodel import SQLModel, Field, Column, Relationship, ForeignKey, select
 from sqlalchemy import Enum as SAEnum
 from pydantic import EmailStr
 
-if TYPE_CHECKING:
-    from src.models.employees import Employees
+from src.models.employees import Employees
 
 class EmpRole(str, enum.Enum):
     admin = "admin"
@@ -59,3 +60,15 @@ class EmpAuth(SQLModel, table=True):
 
     def __repr__(self):
         return f"<Employee {self.username}>"
+    
+
+@event.listens_for(EmpAuth, "before_insert")
+def set_unit_price(mapper, connection, target):
+    # Use a regular session with a synchronous query
+    with Session(connection) as session:
+        result = session.execute(
+            select(Employees).where(Employees.email == target.email)
+        )
+        employee = result.scalar_one_or_none()
+        if employee:
+            target.customer_id = employee.customer_id

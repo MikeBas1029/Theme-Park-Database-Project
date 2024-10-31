@@ -1,13 +1,14 @@
 import uuid 
+from sqlalchemy import event
 from datetime import datetime
-from typing import Optional, TYPE_CHECKING
-import sqlalchemy.dialects.mysql as mysql
-from sqlmodel import SQLModel, Field, Column, Relationship, ForeignKey
-from sqlalchemy import Enum as SAEnum
 from pydantic import EmailStr
+from sqlalchemy.orm import Session
+from sqlalchemy import Enum as SAEnum
+import sqlalchemy.dialects.mysql as mysql
+from typing import Optional, TYPE_CHECKING
+from sqlmodel import SQLModel, Field, Column, Relationship, ForeignKey, select
 
-if TYPE_CHECKING:
-    from src.models.customers import Customers
+from src.models.customers import Customers
 
 class CustAuth(SQLModel, table=True):
     __tablename__ = "customer_auth"
@@ -27,6 +28,7 @@ class CustAuth(SQLModel, table=True):
             comment="Foreign key to Customers table, some customers may have user accounts"
         )
     )
+    
     username: str
     email: EmailStr
     first_name: str
@@ -51,3 +53,14 @@ class CustAuth(SQLModel, table=True):
 
     def __repr__(self):
         return f"<Customer {self.username}>"
+    
+@event.listens_for(CustAuth, "before_insert")
+def set_unit_price(mapper, connection, target):
+    # Use a regular session with a synchronous query
+    with Session(connection) as session:
+        result = session.execute(
+            select(Customers).where(Customers.email == target.email)
+        )
+        cust = result.scalar_one_or_none()
+        if cust:
+            target.customer_id = cust.customer_id
