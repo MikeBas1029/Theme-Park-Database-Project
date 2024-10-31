@@ -80,4 +80,4 @@ app.include_router(visit_router, prefix=f"{version_prefix}/visits", tags=["visit
 app.include_router(visit_ticket_router, prefix=f"{version_prefix}/visit-ticket", tags=["visit ticket"])
 app.include_router(work_order_router, prefix=f"{version_prefix}/work-orders", tags=["work orders"])
 app.include_router(work_order_item_router, prefix=f"{version_prefix}/work-order-items", tags=["work order items"])
-app.include_router(oauth_router, prefix=f"{version_prefix}/oauth", tags=["oauth"])
+app.include_router(reports_router, prefix=f"{version_prefix}/reports", tags=["reports"])

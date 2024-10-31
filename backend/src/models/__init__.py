@@ -35,3 +35,4 @@ from .work_orders import WorkOrders
 from .work_order_items import WorkOrderItems
 from .items import Items 
 
+from .views import MonthlyWeeklyCustomerCounts
