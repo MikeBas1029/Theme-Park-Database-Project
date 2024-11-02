@@ -113,7 +113,8 @@ async def login_user(login_data: EmpAuthLogin, session: AsyncSession = Depends(g
                     "refresh_token": refresh_token,
                     "user": {
                         "user": user.email,
-                        "uid": str(user.uid)
+                        "uid": str(user.uid),
+                        "role": user.role
                     }
                 }
             )
