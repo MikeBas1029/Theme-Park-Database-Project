@@ -22,15 +22,6 @@ class EmpAuthService:
 
         return result.all()
     
-    async def get_user_by_id(self, employee_id: str, session: AsyncSession):
-        statement = select(EmpAuth).where(EmpAuth.employee_id == employee_id)
-
-        result = await session.exec(statement)
-
-        user = result.first()
-
-        return user if user is not None else None 
-    
     async def get_user_by_email(self, email: str, session: AsyncSession):
         statement = select(EmpAuth).where(EmpAuth.email == email)
 
@@ -40,8 +31,8 @@ class EmpAuthService:
 
         return user if user is not None else None 
 
-    async def user_exists(self, employee_id: str, session: AsyncSession):
-        user = await self.get_user_by_id(employee_id, session)
+    async def user_exists(self, email: str, session: AsyncSession):
+        user = await self.get_user_by_email(email, session)
 
         return bool(user)
     

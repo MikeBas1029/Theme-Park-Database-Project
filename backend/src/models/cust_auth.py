@@ -1,11 +1,11 @@
 import uuid 
+from typing import Optional
 from sqlalchemy import event
 from datetime import datetime
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 from sqlalchemy import Enum as SAEnum
 import sqlalchemy.dialects.mysql as mysql
-from typing import Optional, TYPE_CHECKING
 from sqlmodel import SQLModel, Field, Column, Relationship, ForeignKey, select
 
 from src.models.customers import Customers
@@ -55,7 +55,7 @@ class CustAuth(SQLModel, table=True):
         return f"<Customer {self.username}>"
     
 @event.listens_for(CustAuth, "before_insert")
-def set_unit_price(mapper, connection, target):
+def lookup_customer_id(mapper, connection, target):
     # Use a regular session with a synchronous query
     with Session(connection) as session:
         result = session.execute(

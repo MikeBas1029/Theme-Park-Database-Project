@@ -63,7 +63,7 @@ class EmpAuth(SQLModel, table=True):
     
 
 @event.listens_for(EmpAuth, "before_insert")
-def set_unit_price(mapper, connection, target):
+def lookup_employee_id(mapper, connection, target):
     # Use a regular session with a synchronous query
     with Session(connection) as session:
         result = session.execute(
@@ -71,4 +71,4 @@ def set_unit_price(mapper, connection, target):
         )
         employee = result.scalar_one_or_none()
         if employee:
-            target.customer_id = employee.customer_id
+            target.employee_id = employee.employee_id

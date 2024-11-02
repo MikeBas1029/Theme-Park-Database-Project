@@ -1,12 +1,13 @@
 from typing import List
-from datetime import timedelta, datetime
 from src.db.database import get_session
+from datetime import timedelta, datetime
+from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException 
 from fastapi import APIRouter, Depends, status
-from src.schemas.cust_auth import CustAuthCreateModel, CustAuth, CustAuthLogin
 from src.services.cust_auth import CustAuthService
 from sqlmodel.ext.asyncio.session import AsyncSession
-from fastapi.responses import JSONResponse
+from src.schemas.cust_auth import CustAuthCreateModel, CustAuth, CustAuthLogin
+
 from src.errors import (
     UserAlreadyExists, 
     UserNotFound, 
