@@ -1,13 +1,13 @@
+import React, { useEffect, useState } from "react";
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import Header from "../../components/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import { tokens } from "../../theme";
 import StatBox from "../../components/StatBox";
+import DownloadButton from "../../components/DownloadButton";
+
 
 
 
@@ -17,6 +17,72 @@ const Dashboard = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
+
+
+  
+  // State for average monthly customers
+  const [totalMonthlyCustomers, setTotalMonthlyCustomers] = useState(0);
+  const [averageMonthlyCustomers, setAverageMonthlyCustomers] = useState(0);
+  const [customerData, setCustomerData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  // Function to transform the response data
+  const transformDataForNivo = (data) => {
+    return data.map(entry => {
+      // Construct the date using the month and week number
+      const year = new Date().getFullYear(); // Use the current year
+      const date = new Date(year, entry.month - 1, 1); // Start from the first day of the month
+      date.setDate(date.getDate() + (entry.week - 1) * 7); // Adjust to the correct week
+
+      // Format the date to "YYYY-MM-DD"
+      const formattedDate = date.toISOString().split('T')[0];
+
+      return {
+        value: entry.num_customers,
+        day: formattedDate,
+      };
+    });
+  };
+
+
+
+  useEffect(() => {
+    const fetchCustomerData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/v1/reports/customer-count'); // Replace with your API endpoint
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+
+        const totalCustomers = data.reduce((acc, item) => acc + item.num_customers, 0);
+        const average = totalCustomers / data.length || 0; // Avoid division by zero
+        const transformedData = transformDataForNivo(data);
+        setCustomerData(customerData);
+
+
+        
+        //console logs to confirm data
+        console.log(data);
+        console.log(totalCustomers);
+        console.log(average);
+        console.log(data.length);
+        console.log(transformedData);
+
+        
+        setAverageMonthlyCustomers(Math.round(average)); // Round for display
+        setTotalMonthlyCustomers(totalCustomers);
+      } catch (error) {
+        console.error('Error fetching customer data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomerData();
+  }, []);
+  
+
+  
 
 
     return <Box m="20px">
@@ -55,9 +121,32 @@ const Dashboard = () => {
         alignItems="center"
         justifyContent="center"
       >
+          {loading ? (
+            <Typography>Loading...</Typography> // Show loading text while fetching
+          ) : (
+            <StatBox
+              title={averageMonthlyCustomers.toString()} // Display average customers
+              subtitle="Avg. Monthly Customers"
+              progress="0.50" // Adjust this if needed
+              increase="-50%" // Adjust dynamically if you have data
+              icon={
+                <EmojiPeopleIcon
+                  sx={{ color: colors.greenAccent[100], fontSize: "26px" }}
+                />
+              }
+            />
+          )}
+      </Box>
+      <Box
+        gridColumn="span 3"
+        backgroundColor={colors.primary[400]}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
         <StatBox
-          title="20"
-          subtitle="Avg. Monthly Customers"
+          title={totalMonthlyCustomers.toString()}
+          subtitle="Total Customers"
           progress="0.50"
           increase="-50%"
           icon={
@@ -75,7 +164,7 @@ const Dashboard = () => {
         justifyContent="center"
       >
         <StatBox
-          title="2"
+          title="⛔️"
           subtitle="Rainouts this Month"
           progress="0.50"
           increase="-20%"
@@ -98,25 +187,6 @@ const Dashboard = () => {
             N/A
         </Typography>
       </Box>
-      <Box
-        gridColumn="span 3"
-        backgroundColor={colors.primary[400]}
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <StatBox
-          title="90"
-          subtitle="Total Customers"
-          progress="0.50"
-          increase="-50%"
-          icon={
-            <EmojiPeopleIcon
-              sx={{ color: colors.greenAccent[100], fontSize: "26px" }}
-            />
-          }
-        />
-      </Box>
 
       {/* ROW 2 */}
       <Box
@@ -137,25 +207,24 @@ const Dashboard = () => {
               fontWeight="600"
               color={colors.grey[100]}
             >
-              Revenue Generated
-            </Typography>
+          Customer Statistics
+          </Typography>
             <Typography
               variant="h3"
               fontWeight="bold"
               color={colors.greenAccent[500]}
             >
-              $39
+              DATA VISUAL
             </Typography>
+            
+            insert data visual here later 
           </Box>
           <Box>
-            <IconButton>
-              <DownloadOutlinedIcon
-                sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-              />
-            </IconButton>
+            <DownloadButton />
           </Box>
         </Box>
         <Box height="250px" m="-20px 0 0 0">
+
         </Box>
       </Box>
       <Box
@@ -173,7 +242,7 @@ const Dashboard = () => {
           p="15px"
         >
           <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-            Recent Transactions
+            Popular Rides
           </Typography>
         </Box>
       </Box>
@@ -186,7 +255,7 @@ const Dashboard = () => {
         p="30px"
       >
         <Typography variant="h5" fontWeight="600">
-        Popular Rides
+          Total Revenue
         </Typography>
         <Box
           display="flex"
@@ -200,9 +269,11 @@ const Dashboard = () => {
             color={colors.greenAccent[500]}
             sx={{ mt: "15px" }}
           >
-            Giant Wheel
+            ${40}
           </Typography>
-          <Typography>GIANT WHEEL was Ridden: 22 times this month🔥</Typography>
+          <Typography>(+)Income: $40</Typography>
+          <Typography>(-)Expenses: $0</Typography>
+
         </Box>
       </Box>
       <Box
@@ -215,7 +286,7 @@ const Dashboard = () => {
           fontWeight="600"
           sx={{ padding: "30px 30px 0 30px" }}
         >
-          Customer Statistics
+          Operational Summary
           </Typography>
         <Box height="250px" mt="-20px">
         </Box>
@@ -231,7 +302,7 @@ const Dashboard = () => {
           fontWeight="600"
           sx={{ marginBottom: "15px" }}
         >
-          Operational Summary
+          Staff & Employees
         </Typography>
         <Box height="200px">
         </Box>
