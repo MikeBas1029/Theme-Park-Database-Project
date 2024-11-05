@@ -6,7 +6,7 @@ from enum import Enum
 class RideStatus(str, Enum):
     open = "OPEN"
     closed_maint = "CLOSED(M)"
-    closed_rainout = "CLOSED(RO)"
+    closed_rainout = "CLOSED(R)"
 
 class Ride(BaseModel):
     ride_id: int
