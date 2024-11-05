@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Typography, useTheme, Select, MenuItem } from "@mui/material";
 import Header from "../../components/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
@@ -7,6 +7,7 @@ import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import { tokens } from "../../theme";
 import StatBox from "../../components/StatBox";
 import DownloadButton from "../../components/DownloadButton";
+import Leaderboard from "../../components/Leaderboard";
 
 
 
@@ -20,12 +21,19 @@ const Dashboard = () => {
 
 
   
-  // State for average monthly customers
+  // States for customer summary
   const [totalMonthlyCustomers, setTotalMonthlyCustomers] = useState(0);
   const [averageMonthlyCustomers, setAverageMonthlyCustomers] = useState(0);
   const [customerData, setCustomerData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+
+  // State(s) for dropdown(s)
+   const [selectedRidesMonth, setSelectedRidesMonth] = useState(new Date().getMonth() + 1); // Default to the current month
+
+
+      
 
   // Function to transform the response data
   const transformDataForNivo = (data) => {
@@ -47,10 +55,12 @@ const Dashboard = () => {
 
 
 
+
+  /* Fetching customer summary */
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/v1/reports/customer-count'); // Replace with your API endpoint
+        const response = await fetch('http://127.0.0.1:8000/api/v1/reports/customer-count'); 
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
 
@@ -122,13 +132,13 @@ const Dashboard = () => {
         justifyContent="center"
       >
           {loading ? (
-            <Typography>Loading...</Typography> // Show loading text while fetching
+            <Typography>Loading...</Typography> 
           ) : (
             <StatBox
               title={averageMonthlyCustomers.toString()} // Display average customers
               subtitle="Avg. Monthly Customers"
-              progress="0.50" // Adjust this if needed
-              increase="-50%" // Adjust dynamically if you have data
+              progress="0.50" // TODO: remove ?
+              increase="-50%" // TODO: make dynamic
               icon={
                 <EmojiPeopleIcon
                   sx={{ color: colors.greenAccent[100], fontSize: "26px" }}
@@ -244,7 +254,21 @@ const Dashboard = () => {
           <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
             Popular Rides
           </Typography>
+           {/*  Ride rank dropdown */}
+           <Select
+                            value={selectedRidesMonth}
+                            onChange={(e) => setSelectedRidesMonth(e.target.value)}
+                            style={{ color: colors.grey[100],}}
+                        >
+                            {[...Array(12).keys()].map(month => (
+                                <MenuItem key={month + 1} value={month + 1}>
+                                    {`Month ${month + 1}`}
+                                </MenuItem>
+                            ))}
+                        </Select>
+
         </Box>
+        <Leaderboard selectedMonth={selectedRidesMonth} />
       </Box>
 
       {/* ROW 3 */}
