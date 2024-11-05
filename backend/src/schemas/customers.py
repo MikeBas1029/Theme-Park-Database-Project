@@ -10,7 +10,7 @@ class MembershipType(str, Enum):
     platinum = "Platinum"
 
 class Customer(BaseModel):
-    customer_id: int 
+    customer_id: str 
     first_name: str 
     last_name: str 
     email: EmailStr 

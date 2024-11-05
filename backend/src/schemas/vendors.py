@@ -15,7 +15,7 @@ class Vendor(BaseModel):
     email: EmailStr
     phone_number: str
     address_line1: str
-    address_line2: str
+    address_line2: str | None 
     city: str
     state: str
     zip_code: str

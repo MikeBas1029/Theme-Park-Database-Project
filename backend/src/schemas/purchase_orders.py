@@ -13,17 +13,17 @@ class OrderStatus(str, enum.Enum):
 
 class PurchaseOrder(BaseModel):
     order_id: str 
-    vendor_id: int
+    vendor_id: str
     order_date: date
     order_status: OrderStatus
 
 class PurchaseOrderCreateModel(BaseModel):
     order_id: str = Field(max_length=12)
-    vendor_id: int
+    vendor_id: str
     order_date: date
 
 class PurchaseOrderUpdateModel(BaseModel):
     order_id: str = Field(max_length=12)
-    vendor_id: int
+    vendor_id: str
     order_date: Optional[date] = date.today
     order_status: Optional[OrderStatus] = "Shipped"

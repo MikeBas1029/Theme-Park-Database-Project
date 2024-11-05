@@ -4,16 +4,16 @@ from pydantic import BaseModel
 
 class Visit(BaseModel):
     visit_id: str 
-    customer_id: int
+    customer_id: str
     visit_date: date
     visit_feedback: Optional[str]
     visit_rating: Optional[float]
 
 class VisitCreateModel(BaseModel):
-    customer_id: int
+    customer_id: str
     visit_date: date
 
 class VisitUpdateModel(BaseModel):
-    customer_id: int
+    customer_id: str
     visit_feedback: Optional[str | None] = None
     visit_rating: Optional[float | None] = None
