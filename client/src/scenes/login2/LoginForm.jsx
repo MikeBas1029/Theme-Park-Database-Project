@@ -26,7 +26,7 @@ export default function LoginForm() {
         try {
             const response = await fetch('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-auth/login', {
                 method: 'POST',
-                headers: {
+                headers: { 
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email, password }),
@@ -35,7 +35,7 @@ export default function LoginForm() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Login successful:', data);
-                navigate('/employees');
+                navigate('/shops');
             } else {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
