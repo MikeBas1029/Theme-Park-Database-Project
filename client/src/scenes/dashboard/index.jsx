@@ -8,6 +8,7 @@ import StatBox from "../../components/StatBox";
 import DownloadButton from "../../components/DownloadButton";
 import Leaderboard from "../../components/Leaderboard";
 import LineChart from "../../components/LineChart";
+import MaintenanceSummary from "../../components/MaintenanceSummary";
 
 
 
@@ -56,10 +57,6 @@ const Dashboard = () => {
 
   const [data, setData] = useState([]);
 
-  // Set the data when the component mounts (using the imported sampleData)
-  useEffect(() => {
-    setData(sampleDates); // Set the imported data directly
-  }, []);
 
 
 
@@ -319,6 +316,8 @@ const Dashboard = () => {
           Operational Summary
           </Typography>
         <Box height="250px" mt="-20px">
+        <MaintenanceSummary />
+
         </Box>
       </Box>
       <Box
