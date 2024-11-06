@@ -14,3 +14,10 @@ class BrokenRide(BaseModel):
     Maintenance_Month: int 
     Num_Rides_Maintained: int  # Count of rides
     avg_rides_needing_maint: float 
+
+class InvoiceStatus(BaseModel):
+    invoice_id: str 
+    company_name: str 
+    supply: str
+    amount_due: float 
+    payment_status: str
