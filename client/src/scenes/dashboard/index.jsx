@@ -249,7 +249,7 @@ const Dashboard = () => {
         gridColumn="span 4"
         gridRow="span 2"
         backgroundColor={colors.primary[400]}
-        overflow="auto"
+        overflow="hidden"
       >
         <Box
           display="flex"

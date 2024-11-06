@@ -30,21 +30,21 @@ const Leaderboard = ({ selectedMonth }) => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer component={Paper} style={{ maxHeight: '300px', overflow: 'auto' }}>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell>Rank</TableCell>
-                <TableCell>Ride </TableCell>
-                <TableCell align="right"># Times Ridden</TableCell>
+                <TableCell align="center">Ride </TableCell>
+                <TableCell align="center"># Times Ridden</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredData.map((ride, index) => (
                 <TableRow key={`${ride.name}-${index}`}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{ride.name}</TableCell>
-                  <TableCell align="right">{ride.num_rides}</TableCell>
+                  <TableCell align="center">{ride.name}</TableCell>
+                  <TableCell align="center">{ride.num_rides}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
