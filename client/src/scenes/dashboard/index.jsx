@@ -7,8 +7,6 @@ import { tokens } from "../../theme";
 import StatBox from "../../components/StatBox";
 import DownloadButton from "../../components/DownloadButton";
 import Leaderboard from "../../components/Leaderboard";
-import CalendarChart from "../../components/CalendarChart";
-import { sampleDates } from "../../data/sampleDates";
 import LineChart from "../../components/LineChart";
 
 
