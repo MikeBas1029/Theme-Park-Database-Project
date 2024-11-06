@@ -8,6 +8,7 @@ import StatBox from "../../components/StatBox";
 import DownloadButton from "../../components/DownloadButton";
 import Leaderboard from "../../components/Leaderboard";
 import LineChart from "../../components/LineChart";
+import MaintenanceSummary from "../../components/MaintenanceSummary";
 
 
 
@@ -315,6 +316,8 @@ const Dashboard = () => {
           Operational Summary
           </Typography>
         <Box height="250px" mt="-20px">
+        <MaintenanceSummary />
+
         </Box>
       </Box>
       <Box
