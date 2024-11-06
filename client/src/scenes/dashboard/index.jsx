@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, Typography, useTheme, Select, MenuItem } from "@mui/material";
+import { Box, Button, Typography, useTheme, Select, MenuItem } from "@mui/material";
 import Header from "../../components/Header";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import { tokens } from "../../theme";
 import StatBox from "../../components/StatBox";
 import DownloadButton from "../../components/DownloadButton";
 import Leaderboard from "../../components/Leaderboard";
+import CalendarChart from "../../components/CalendarChart";
+import { sampleDates } from "../../data/sampleDates";
+import LineChart from "../../components/LineChart";
 
 
 
@@ -52,6 +54,14 @@ const Dashboard = () => {
       };
     });
   };
+
+
+  const [data, setData] = useState([]);
+
+  // Set the data when the component mounts (using the imported sampleData)
+  useEffect(() => {
+    setData(sampleDates); // Set the imported data directly
+  }, []);
 
 
 
@@ -110,7 +120,7 @@ const Dashboard = () => {
             padding: "10px 20px",
           }}
         >
-          <DownloadOutlinedIcon sx={{ mr: "10px" }} />
+          <DownloadButton />
           Download Reports
         </Button>
       </Box>
@@ -155,8 +165,8 @@ const Dashboard = () => {
         justifyContent="center"
       >
         <StatBox
-          title={totalMonthlyCustomers.toString()}
-          subtitle="Total Customers"
+          title="⛔️"
+          subtitle="..."
           progress="0.50"
           increase="-50%"
           icon={
@@ -200,43 +210,41 @@ const Dashboard = () => {
 
       {/* ROW 2 */}
       <Box
-        gridColumn="span 8"
-        gridRow="span 2"
-        backgroundColor={colors.primary[400]}
-      >
-        <Box
-          mt="25px"
-          p="0 30px"
-          display="flex "
-          justifyContent="space-between"
-          alignItems="center"
+          gridColumn="span 8"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
         >
-          <Box>
-            <Typography
-              variant="h5"
-              fontWeight="600"
-              color={colors.grey[100]}
-            >
-          Customer Statistics
-          </Typography>
-            <Typography
-              variant="h3"
-              fontWeight="bold"
-              color={colors.greenAccent[500]}
-            >
-              DATA VISUAL
-            </Typography>
-            
-            insert data visual here later 
+          <Box
+            mt="25px"
+            p="0 30px"
+            display="flex "
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              <Typography
+                variant="h5"
+                fontWeight="600"
+                color={colors.grey[100]}
+              >
+                Customers Statistics
+              </Typography>
+              <Typography
+                variant="h3"
+                fontWeight="bold"
+                color={colors.greenAccent[500]}
+              >
+                {totalMonthlyCustomers} total customers
+              </Typography>
+            </Box>
+            <Box>
+              <DownloadButton />
+            </Box>
           </Box>
-          <Box>
-            <DownloadButton />
+          <Box height="250px" m="-20px 0 0 0">
+            <LineChart isDashboard={true} />
           </Box>
         </Box>
-        <Box height="250px" m="-20px 0 0 0">
-
-        </Box>
-      </Box>
       <Box
         gridColumn="span 4"
         gridRow="span 2"

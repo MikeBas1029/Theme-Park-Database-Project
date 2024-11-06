@@ -35,8 +35,8 @@ const Leaderboard = ({ selectedMonth }) => {
             <TableHead>
               <TableRow>
                 <TableCell>Rank</TableCell>
-                <TableCell>Ride Name</TableCell>
-                <TableCell align="right">Number of Rides</TableCell>
+                <TableCell>Ride </TableCell>
+                <TableCell align="right"># Times Ridden</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
