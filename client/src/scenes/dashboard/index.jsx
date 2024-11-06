@@ -56,10 +56,6 @@ const Dashboard = () => {
 
   const [data, setData] = useState([]);
 
-  // Set the data when the component mounts (using the imported sampleData)
-  useEffect(() => {
-    setData(sampleDates); // Set the imported data directly
-  }, []);
 
 
 
