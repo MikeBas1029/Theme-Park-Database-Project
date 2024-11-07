@@ -99,7 +99,7 @@ const shortColumns = [
 
 const columnsToShow = showFullColumns ? allColumns : shortColumns;
 
-if (userRole !== 'employee') {
+if (userRole !== 'admin') {
     return (
         <Box m="20px">
             <Header title="Access Denied" subtitle="You do not have permission to view this page." />
@@ -111,7 +111,7 @@ if (userRole !== 'employee') {
         <Box m="20px">
         {/* Print | Export | Add  */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Employeess✅" subtitle="Marhaban, kayfa halak"/>
+            <Header title="All Employees✅" subtitle="...."/>
             <Box display="flex" alignItems="center">
                 <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" columns={columnsToShow} />
                 <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" fileName="employees_report.csv" columns={columnsToShow} />

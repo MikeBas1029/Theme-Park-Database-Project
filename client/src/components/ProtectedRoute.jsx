@@ -6,9 +6,10 @@ const ProtectedRoute = ({ children }) => {
     const { user } = useUser();
 
     
-    // Check if `user` is being determined or logged in
-    if (user === null) {
-        return <div>Loading...</div>; // Add a loading indicator if `user` is still `null`
+
+    // Redirect to login if no user is found
+    if (!user) {
+        return <Navigate to="/emplogin" />;
     }
 
     // If no user or no userType, send to login
