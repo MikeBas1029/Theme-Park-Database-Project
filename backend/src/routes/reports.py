@@ -36,13 +36,41 @@ async def get_frequent_ride_counts(session: AsyncSession = Depends(get_session))
 @reports_router.get("/broken-rides", response_model=List[BrokenRide])
 async def get_broken_rides(session: AsyncSession = Depends(get_session)):
     query = text('''
-        SELECT Maintenance_Month AS maintenance_month, Num_Rides_Maintained AS num_rides_maintained, avg_rides_needing_maint 
-        FROM `theme-park-db`.broken_rides;
+    SELECT 
+        r.name as ride_name,
+        r.last_inspected,
+        r.status as ride_status,
+        CONCAT(e.first_name, ' ', e.last_name) as assigned_employee,
+        wo.maintenance_type,
+        wo.date_created,
+        wo.status as wo_status
+    FROM `theme-park-db`.rides as r
+    LEFT JOIN `theme-park-db`.workorder as wo
+    ON r.ride_id = wo.ride_id
+    LEFT JOIN `theme-park-db`.employees as e 
+    ON wo.assigned_worker_id = e.employee_id
+    WHERE
+        wo.date_created = (
+        SELECT MAX(date_created)
+        FROM `theme-park-db`.workorder
+        WHERE ride_id = r.ride_id
+        ) 
+        AND wo.ride_id IS NOT NULL;
     ''')
     result = await session.execute(query)
     rows = result.fetchall()
     # Convert each row to a dictionary
-    return [{"Maintenance_Month": row.maintenance_month, "Num_Rides_Maintained": row.num_rides_maintained, "avg_rides_needing_maint": row.avg_rides_needing_maint} for row in rows]
+    return [
+        {
+            "ride_name": row.ride_name, 
+            "last_inspected": row.last_inspected, 
+            "ride_status": row.ride_status,
+            "assigned_employee": row.assigned_employee,
+            "maintenance_type": row.maintenance_type,
+            "date_created": row.date_created,
+            "wo_status": row.wo_status
+        } for row in rows
+        ]
 
 @reports_router.get("/invoice-status", response_model=List[InvoiceStatus])
 async def get_invoice_statuses(session: AsyncSession = Depends(get_session)):

@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from pydantic import BaseModel
 
 class MonthlyWeeklyCustomerCount(BaseModel):
@@ -11,9 +12,13 @@ class FrequentRide(BaseModel):
     num_rides: int
 
 class BrokenRide(BaseModel):
-    Maintenance_Month: int 
-    Num_Rides_Maintained: int  # Count of rides
-    avg_rides_needing_maint: float 
+    ride_name: str 
+    last_inspected: date
+    ride_status: str 
+    assigned_employee: str 
+    maintenance_type: str 
+    date_created: datetime 
+    wo_status: str 
 
 class InvoiceStatus(BaseModel):
     invoice_id: str 
