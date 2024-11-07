@@ -96,6 +96,7 @@ function App() {
             <Route path="/tickets" element={<ProtectedRoute><Tickets  /></ProtectedRoute>} /> {/*Inventory's form page routing */}
             <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
             
+            
              {/*Creation form routes*/}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
             <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}
