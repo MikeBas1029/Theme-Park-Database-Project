@@ -76,26 +76,25 @@ function App() {
         <main className="content">
         {!isCustLogin && !isSignUpPage && !isEmpLogin && user && <Navbar userType={user.userType} />}
           <Routes>
-          <Route 
-                path="/" 
-                element={
-                    <ProtectedRoute>
-                        <Dashboard />
-                    </ProtectedRoute>
-                } 
-            /> {/* Dashboard routing */}
-            <Route 
-                path="/employees" 
-                element={
-                    <ProtectedRoute>
-                        <Employees />
-                    </ProtectedRoute>
-                } 
-            />   {/*Employee page routing */}
-            <Route path="/vendors" element={<Vendors />} />   {/*Vendors page routing */}
+             {/*Login page routes */}
             <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
-            <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
-            <Route path="/invoices" element={<Invoices />} />   {/*Invoice page routing */}
+            <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
+            <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
+            
+             {/*Access controlled routes */}
+            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
+            <Route path="/employees" element={<ProtectedRoute><Employees userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
+            <Route path="/rides" element={<ProtectedRoute> <Rides  /> </ProtectedRoute>} /> {/*Inventory's form page routing */}
+            <Route path="/vendors" element={<ProtectedRoute><Vendors  /></ProtectedRoute>} />   {/*Vendors page routing */}
+            <Route path="/customers" element={<ProtectedRoute><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
+            <Route path="/invoices" element={<ProtectedRoute><Invoices  /></ProtectedRoute>} />   {/*Invoice page routing */}
+            <Route path="/shops" element={<ProtectedRoute><Shops  /></ProtectedRoute>} />   {/*Shops page pagerouting */}
+            <Route path="/maintenance" element={<ProtectedRoute><Maintenance  /></ProtectedRoute>} />   {/*Maintenance page routing */}
+            <Route path="/safety" element={<ProtectedRoute><Safety  /></ProtectedRoute>} />   {/*Safety page routing */}
+            <Route path="/tickets" element={<ProtectedRoute><Tickets  /></ProtectedRoute>} /> {/*Inventory's form page routing */}
+            <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
+            
+             {/*Creation form routes*/}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
             <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}
             <Route path="/orderform" element={<OrderForm />} />   {/*Employee creation form routing */}
@@ -103,24 +102,18 @@ function App() {
             <Route path="/maintenanceform" element={<MaintenanceForm />} />   {/*Employee creation form routing */}
             <Route path="/facilitiesform" element={<FacilitiesForm />} />   {/*Login page routing */}
             <Route path="/ridesform" element={<RideForm />} />   {/*Wrong route for error dimmissal ! change to no s */}
-            <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
-            <Route path="/maintenance" element={<Maintenance />} />   {/*Maintenance page routing */}
-            <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
-            <Route path="/customers" element={<Customers />} />   {/*Customers page routing */}
-            <Route path="/facilities" element={<Facilities />} />   {/*Facilities page routing */}
-            <Route path="/vendorsorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
-            <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
             <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
-            <Route path="/rides" element={<Rides />} /> {/*Inventory's form page routing */}
-            <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
-            <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
-            <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
+             
+             {/*Customer side routes*/}
             <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
             <Route path="/customertickets" element={<CustomerTickets  />} /> {/*Inventory's form page routing */}
-            <Route path="/tickets" element={<Tickets />} /> {/*Inventory's form page routing */}
             <Route path="/parkmap" element={<MapPage />} /> {/*Inventory's form page routing */}
-
-
+            
+             {/*Sidebar page routes*/}
+            <Route path="/vendorsorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
+            <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
+            <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
+            <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
           </Routes>
       </main>
       </div>
