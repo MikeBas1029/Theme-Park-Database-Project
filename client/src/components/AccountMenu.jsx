@@ -38,13 +38,13 @@ export default function AccountMenu({ userRole }) {
     localStorage.removeItem('user_data');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    userRole === 'employee' ? navigate('/emplogin') : navigate('/custlogin');
+    user.userType === 'employee' ? navigate('/emplogin') : navigate('/custlogin');
     logout();
 
   }
 
 
-  const avatarSrc = userRole === 'employee' ? '../../assets/user.png' : '../../assets/user2.jpeg'; // Replace with your actual paths
+  const avatarSrc = user.userType === 'employee' ? '../../assets/user.png' : '../../assets/user2.jpeg'; // Replace with your actual paths
 
 
   return (
@@ -105,7 +105,7 @@ export default function AccountMenu({ userRole }) {
         {/*Profile Settings Tab*/}
         <MenuItem onClick={handleClose}>
         <Avatar src={avatarSrc} alt="Profile Picture" />
-        {user ? `${user.first_name} ${user.last_name}` : 'Guest'} {/* Display user's email and uid or 'Guest' */}
+        {user ? `${user.first_name} ${user.last_name}` : `${user.email}`} {/* Display user's email and uid or 'Guest' */}
         </MenuItem>
 
         <Divider />

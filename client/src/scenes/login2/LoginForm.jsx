@@ -10,6 +10,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../../components/context/UserContext';
 
 export default function LoginForm() {
 
@@ -18,6 +19,10 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useUser();
+    const [errorMessage, setErrorMessage] = useState('');
+
+
 
     //Handle cust login authentication
     const handleLogin = async (e) => {
@@ -32,19 +37,87 @@ export default function LoginForm() {
                 body: JSON.stringify({ email, password }),
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful:', data);
-                navigate('/shops');
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Login failed with status:', response.status);
-                console.error('Error details:', errorData);//see specifcc errors
-                alert('Error message:', errorData.message || 'Unknown error'); //view error
+                console.error('Error details:', errorData);
+                setErrorMessage('Invalid email or password');
+                return;
+            }
+
+            const data = await response.json();
+            if (data && data.user) {
+                const { role, uid, email } = data.user;
+
+                login({
+                    uid,
+                    email,
+                    role, 
+                  }, 'employee');
+          
+
+                localStorage.setItem('access_token', data.access_token);
+                localStorage.setItem('refresh_token', data.refresh_token);
+                localStorage.setItem('user_data', JSON.stringify({
+                    uid,
+                    email,
+                    role,
+                }, 'employee'));
+
+                console.log('Login successful, user role:', data.role);
+                console.log('Login successful:', data.user);
+                navigate('/shops');
+
+                {/*details for fetching customer info */}
+                /*
+                const userResponse = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/${email}`);
+
+                if (!userResponse.ok) {
+                    setErrorMessage('Failed to fetch user details');
+                    console.error('Failed to fetch user details:', userResponse.status);
+                    return;
+                }
+
+                const userData = await userResponse.json();
+                console.log('User Response:', userResponse); //sign in details
+                console.log('User Data:', userData); //user details
+
+                // Check if userData contains employee-specific details
+                if (userData && userData.first_name && userData.last_name) {
+                    login({
+                        uid,
+                        email,
+                        employee_id: userData.employee_id,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                    }, 'employee');
+
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                    localStorage.setItem('user_data', JSON.stringify({
+                        uid,
+                        email,
+                        employee_id: userData.employee_id,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                    }));
+
+                    console.log('Login successful:', data.user);
+                    setErrorMessage('');
+                    navigate('/dashboard');
+                } else {
+                    setErrorMessage('User details not found');
+                    console.error('User details not found');
+                }
+                */
+            } else {
+                setErrorMessage('No user data in response');
+                console.error('No user data in response');
             }
         } catch (error) {
             console.error('Login failed:', error);
             alert('An error occurred while logging in. Please try again later.');
+            setErrorMessage('An error occurred while logging in. Please try again later.');
         }
     };
 
