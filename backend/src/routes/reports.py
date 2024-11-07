@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.database import get_session
 from src.models.views import MonthlyWeeklyCustomerCounts, FrequentRides, BrokenRides
-from src.schemas.reports import MonthlyWeeklyCustomerCount, FrequentRide, BrokenRide, InvoiceStatus, HoursWorked
+from src.schemas.reports import MonthlyWeeklyCustomerCount, FrequentRide, BrokenRide, InvoiceStatus, HoursWorked, RideCount
 
 reports_router = APIRouter()
 
@@ -32,6 +32,78 @@ async def get_frequent_ride_counts(session: AsyncSession = Depends(get_session))
     rows = result.fetchall()
     # Convert each row to a dictionary
     return [{"month": row.month, "name": row.name, "num_rides": row.num_rides} for row in rows]
+
+@reports_router.get("/ride-counts", response_model=List[RideCount])
+async def get_ride_counts(session: AsyncSession = Depends(get_session)):
+    """
+    Retrieve aggregated ride usage counts, grouped by year, month, week, and day.
+
+    This endpoint returns a list of dictionaries containing ride usage statistics for each ride,
+    organized by the ride's name, type, and various time dimensions (year, month, week, day).
+    Aggregated counts are provided to capture the number of distinct usage occurrences at each time level.
+    
+    Args:
+        session (AsyncSession): The asynchronous database session dependency injected into the function.
+    
+    Returns:
+        List[RideCount]: A list of dictionaries, each representing usage statistics for a ride.
+        Each dictionary includes:
+            - ride_name (str): The name of the ride.
+            - ride_type (str): The type of the ride (e.g., roller coaster, carousel).
+            - year (int): The year of the usage event.
+            - yearly_count (int): The count of unique years in which the ride was used.
+            - month (str): The name of the month of the usage event.
+            - monthly_count (int): The count of unique year-month combinations for monthly usage.
+            - week (int): The week number within the year.
+            - weekly_count (int): The count of unique year-week combinations for weekly usage.
+            - day (int): The day of the usage event.
+            - daily_count (int): The count of unique usage dates.
+    """
+    query = text('''
+    SELECT 
+        r.name AS ride_name,
+        rt.ride_type,
+        YEAR(ru.usage_date) as year,
+        COUNT(DISTINCT YEAR(ru.usage_date)) AS yearly_count,
+        MONTHNAME(ru.usage_date) as month,
+        COUNT(DISTINCT CONCAT(YEAR(ru.usage_date), '-', MONTH(ru.usage_date))) AS monthly_count,
+        WEEK(ru.usage_date) as week,
+        COUNT(DISTINCT CONCAT(YEAR(ru.usage_date), '-', WEEK(ru.usage_date))) AS weekly_count,
+        DAY(ru.usage_date) as day,
+        COUNT(DISTINCT ru.usage_date) AS daily_count
+    FROM `theme-park-db`.rides AS r
+    LEFT JOIN `theme-park-db`.ride_usage AS ru
+    ON r.ride_id = ru.ride_id
+    LEFT JOIN `theme-park-db`.ride_type AS rt
+    ON rt.ride_type_id = r.ride_type
+    GROUP BY 
+        r.name, 
+        r.ride_type,
+        YEAR(ru.usage_date),
+        MONTHNAME(ru.usage_date),
+        WEEK(ru.usage_date),
+        DAY(ru.usage_date)
+    ORDER BY 
+        r.name, 
+        r.ride_type;
+    ''')
+    result = await session.execute(query)
+    rows = result.fetchall()
+    # Convert each row to a dictionary
+    return [
+        {
+            "ride_name": row.ride_name, 
+            "ride_type": row.ride_type, 
+            "year": row.year,
+            "yearly_count": row.yearly_count,
+            "month": row.month,
+            "monthly_count": row.monthly_count,
+            "week": row.week,
+            "weekly_count": row.weekly_count,
+            "day": row.day,
+            "daily_count": row.daily_count
+        } for row in rows
+        ]
 
 @reports_router.get("/broken-rides", response_model=List[BrokenRide])
 async def get_broken_rides(session: AsyncSession = Depends(get_session)):
