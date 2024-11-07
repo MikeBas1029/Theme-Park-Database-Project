@@ -25,6 +25,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import { useUser } from "../../components/context/UserContext";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -49,8 +50,11 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [isClosed, setIsClosed] = useState(false); {/*sidebar status */}
-    const [selected, setSelected] =useState("Dashboard");  {/*Which page/tab user is on */}
+    const [isClosed, setIsClosed] = useState(false); 
+    const [selected, setSelected] =useState("Dashboard");  
+    const { user } = useUser(); //Get the user context
+
+
 
 
 return(
@@ -111,7 +115,7 @@ return(
                  alt="profile-photo"
                  width="100px"
                  height="100px"
-                 src={`../../assets/user.png`}
+                 src={user.userType === 'employee' ? '../../assets/user.png' : '../../assets/user2.jpeg'}
                  style={{ cursor: "pointer", borderRadius: "50%" }}
                />
              </Box>
@@ -122,10 +126,10 @@ return(
                  fontWeight="bold"
                  sx={{ m: "10px 0 0 0" }}
                >
-                 Shasta Cou
+                 {user.first_name} {user.last_name}
                </Typography>
                <Typography variant="h5" color={colors.greenAccent[500]}>
-                 Root Admin | Human Resources
+                 {user.role} | Human Resources
                </Typography>
              </Box>
            </Box>
