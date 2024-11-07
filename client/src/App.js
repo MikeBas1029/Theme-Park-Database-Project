@@ -86,7 +86,7 @@ function App() {
             <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
             <Route path="/employees" element={<ProtectedRoute><Employees userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
             <Route path="/payroll" element={<ProtectedRoute><EmployeePayroll userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
-            <Route path="/rides" element={<ProtectedRoute> <Rides  /> </ProtectedRoute>} /> {/*Inventory's form page routing */}
+            <Route path="/rides" element={<ProtectedRoute> <Rides  userRole={user?.role}/> </ProtectedRoute>} /> {/*Inventory's form page routing */}
             <Route path="/vendors" element={<ProtectedRoute><Vendors  /></ProtectedRoute>} />   {/*Vendors page routing */}
             <Route path="/customers" element={<ProtectedRoute><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
             <Route path="/invoices" element={<ProtectedRoute><Invoices  /></ProtectedRoute>} />   {/*Invoice page routing */}
@@ -96,7 +96,7 @@ function App() {
             <Route path="/tickets" element={<ProtectedRoute><Tickets  /></ProtectedRoute>} /> {/*Inventory's form page routing */}
             <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
             
-            
+
              {/*Creation form routes*/}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
             <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}

@@ -2,22 +2,47 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Box, IconButton, useTheme } from '@mui/material';
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import { DisplayModeContext, tokens } from '../../theme';
+import { useUser } from '../../components/context/UserContext';
 
-const NotificationMenu = ({ userRole, userId, buttonStyle, dropdownStyle, itemStyle }) => {
+const NotificationMenu = ({ buttonStyle, dropdownStyle, itemStyle }) => {
     const [notifications, setNotifications] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode); 
     const colorMode = useContext(DisplayModeContext);
+    const {user} = useUser();
+    const { userType, customer_id, employee_id } = user || {}; // Destructure customer_id and employee_id based on userType
+
 
     useEffect(() => {
+        const userId = userType === 'customer' ? customer_id : employee_id;
+        if (!userType || !userId) return; // Ensure userType and userId exist before fetching
+
         const fetchNotifications = async () => {
-            const endpoint = userRole === 'customer'
-            ? `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-notifs/${userId}`
-            : `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-notifs/${userId}`;
-            try {
-                const response = await fetch(endpoint);
+            const endpoint = userType === 'customer'
+                ? `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/cust-notifs/${userId}`
+                : `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-notifs/${userId}`;
+            
+            try  {
+                const response = await fetch(endpoint, {
+                    method: 'GET', 
+                    headers: {
+                        'Content-Type': 'application/json', 
+                    },
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        console.error('No notifications found for', userId);
+                        setNotifications([]);
+                    } else {
+                        throw new Error(`Error: ${response.statusText}`);
+                    }
+                    return;
+                }
+    
                 const data = await response.json();
+                console.log("Data: ", data);
                 setNotifications(data);
             } catch (error) {
                 console.error('Error fetching notifications:', error);
@@ -25,7 +50,8 @@ const NotificationMenu = ({ userRole, userId, buttonStyle, dropdownStyle, itemSt
         };
 
         fetchNotifications();
-    }, [userRole, userId]);
+    }, [userType, customer_id, employee_id]);
+
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -58,7 +84,7 @@ const NotificationMenu = ({ userRole, userId, buttonStyle, dropdownStyle, itemSt
                 >
                     {notifications.length === 0 ? (
                         <Box sx={{ padding: '10px', bgcolor: theme.palette.mode === 'dark' ? colors.primary[400] : 'white' }}>
-                            No notifications
+                            No notifications for {user.customer_id}
                         </Box>
                     ) : (
                         notifications.map((notification) => (
