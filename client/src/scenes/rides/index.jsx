@@ -10,7 +10,7 @@ import AddButton from "../../components/AddButton";
 import PrintButton from "../../components/PrintButton";
 
 
-const Rides = () => {
+const Rides = ({userRole}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
@@ -46,6 +46,16 @@ const Rides = () => {
     
             fetchRides();
         }, []);
+
+
+        if (userRole !== 'admin') {
+            return (
+                <Box m="20px">
+                    <Header title="Access Denied" subtitle="You do not have permission to view this page." />
+                </Box>
+            );
+        }
+        
 
     return(
 

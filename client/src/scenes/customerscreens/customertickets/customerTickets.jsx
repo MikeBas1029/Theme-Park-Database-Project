@@ -18,7 +18,7 @@ const CustomerTickets = () => {
       if (!user) return; // If no user, don't fetch
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/v1/tickets/user/${customer_id}`);   //     https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees//api/v1/tickets/user/${customer_id}  //for live backend api 
+        const response = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/tickets/user/${customer_id}`);  
         const data = await response.json();
         console.log("Cust ID",customer_id)
         console.log("Fetched Data:", data); // Log the fetched data
