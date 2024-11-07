@@ -17,14 +17,24 @@ async def get_all_employees(session: AsyncSession = Depends(get_session)):
     return employees
 
 
-@employee_router.get("/{emp_id}", response_model=Employee) 
-async def get_employee(emp_id: str, session: AsyncSession = Depends(get_session)):
+@employee_router.get("/id/{emp_id}", response_model=Employee) 
+async def get_employee_by_id(emp_id: str, session: AsyncSession = Depends(get_session)):
     employee = await employee_service.get_employee_by_id(emp_id, session)
     
     if employee:
         return employee
     else:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Employee with email {emp_id} not found.") 
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Employee with ID {emp_id} not found.") 
+
+
+@employee_router.get("/email/{email}", response_model=Employee) 
+async def get_employee_by_email(email: str, session: AsyncSession = Depends(get_session)):
+    employee = await employee_service.get_employee_by_email(email, session)
+    
+    if employee:
+        return employee
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Employee with email {email} not found.") 
 
 
 

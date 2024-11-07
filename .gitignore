@@ -2,13 +2,12 @@
 
 # dependencies
 client/node_modules
-<<<<<<< HEAD
-client/node_modules
-=======
->>>>>>> backend
 node_modules
 /.pnp
 .pnp.js
+
+# shell script 
+backend/redeploy.sh 
 
 # testing
 /coverage
