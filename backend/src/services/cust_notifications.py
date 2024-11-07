@@ -15,8 +15,17 @@ class CustomerNotificationService:
 
         return result.all()
     
-    async def get_cust_notification_by_id(self, notification_id: str, session: AsyncSession):
+    async def get_cust_notification_by_notif_id(self, notification_id: str, session: AsyncSession):
         query = select(CustomerNotifications).where(CustomerNotifications.notification_id == notification_id)
+
+        result = await session.exec(query)
+
+        cust_notification = result.first()
+
+        return cust_notification if cust_notification is not None else None 
+    
+    async def get_cust_notification_by_customer_id(self, customer_id: str, session: AsyncSession):
+        query = select(CustomerNotifications).where(CustomerNotifications.customer_id == customer_id)
 
         result = await session.exec(query)
 
