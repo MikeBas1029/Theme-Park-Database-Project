@@ -17,15 +17,19 @@ export const UserProvider = ({ children }) => {
     const formattedUserData = {
       email: userData.email,
       uid: userData.uid,
-      customer_id: userData.customer_id, // Store customer ID
-      first_name: userData.first_name,  //Store user's name
+      customer_id: userType === 'customer' ? userData.customer_id : null, // Store customer ID if customers
+      first_name: userData.first_name,  
       last_name: userData.last_name, 
-      userType, // Add userType here
+      userType, // "employee" or "customer"
+      role: userType === 'employee' ? userData.role : null, // Set role only for employees
+      employee_id: userType === 'employee' ? userData.employee_id : null, // Employee ID/department if employee
+      department: userType === 'employee' ? userData.department : null, 
+
   };
 
   setUser(formattedUserData);
   localStorage.setItem('user_data', JSON.stringify(formattedUserData)); // Store user data in local storage
-
+  localStorage.setItem('user_type', userType); // Store type
 }, []);
 
 
@@ -37,15 +41,18 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem('user_data'); 
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_type');
   };
 
 
   useEffect(() => {
     const storedUserData = localStorage.getItem('user_data');
-    if (storedUserData) {
+    const storedUserType = localStorage.getItem('user_type');
+    
+    if (storedUserData && storedUserType) {
         const userData = JSON.parse(storedUserData);
-        login(userData); //set userData in context
-    }
+        login(userData, storedUserType); // Set user data in context
+      }
 },
  [login]
 );
