@@ -97,8 +97,11 @@ return(
                alignItems="center"
                ml="15px"
              >
+              <Typography variant="h3" color={colors.greenAccent[500]}>
+                   {user.role} 
+               </Typography>
                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN PORTAL
+                   PORTAL
                </Typography>
                <IconButton onClick={() => setIsClosed(!isClosed)}>
                  <MenuOutlinedIcon />
@@ -137,17 +140,40 @@ return(
 
 
          <Box paddingLeft={isClosed ? undefined : "10%"}>
-           <Item
-             title="Dashboard Home"
-             to="/"
-             icon={<HomeOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
+
+            <Item
+              title="Dashboard Home"
+              to="/"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+              {/* Employee elements */}
+              {user.role === 'employee' && (
+            <>
+              <Typography variant="h4" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+                  My Employment
+              </Typography>
+              <Item
+                  title="Timesheet"
+                  to="/clockin"
+                  icon={<AccessibilityNewIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+              <Item
+                  title="Payroll"
+                  to="/mypayroll"
+                  icon={<InventoryIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+            </>)}
+
 
            {!isClosed &&(
            <Typography
-             to="/"
              variant="h4"
              color={colors.grey[300]}
              sx={{ m: "15px 0 5px 20px" }}
@@ -156,22 +182,38 @@ return(
            </Typography>
              )}
 
+
+
+           {/* Park(admin) overview */}
+           {user.role === 'admin' && (
+            <>
             <Item
              title="Shops & Inventory"
              to="/supplies"
              icon={<InventoryIcon />}
              selected={selected}
              setSelected={setSelected}
-           />
+           /> 
+             <Item
+              title="Orders & Vendors"
+              to="/vendorsorders"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              />
+            </>)}
 
-            <Item
-             title="Orders & Vendors"
-             to="/vendorsorders"
-             icon={<ContactsOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-
+            {/* Employee elements */}
+            {user.role === 'employee' && (
+            <>
+              <Item
+                  title="Shops & Dining"
+                  to="/shops"
+                  icon={<InventoryIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+            </>)}
             <Item
              title="Rides & Attractions"
              to="/rides"
@@ -187,6 +229,10 @@ return(
              setSelected={setSelected}
            />
 
+
+           {/* Admin elements */}
+           {user.role === 'admin' && (
+                            <>
              {!isClosed &&(
            <Typography
              variant="h4"
@@ -261,6 +307,10 @@ return(
              selected={selected}
              setSelected={setSelected}
            />
+          </>)}
+
+
+
          </Box>
        </Menu>
      </ProSidebar>
