@@ -23,6 +23,15 @@ class EmployeeService:
 
         return employee if employee is not None else None 
     
+    async def get_employee_by_email(self, email: str, session: AsyncSession):
+        query = select(Employees).where(Employees.email == email)
+
+        result = await session.exec(query)
+
+        employee = result.first()
+
+        return employee if employee is not None else None 
+    
     async def employee_exists(self, emp_id: str, session: AsyncSession):
         query = select(Employees).where(Employees.employee_id == emp_id)
 
