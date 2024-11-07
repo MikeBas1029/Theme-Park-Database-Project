@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Invoices from "../invoices";
-import Payroll from "../payroll";
+import EmployeePayroll from "../payroll";
 import Transactions from "../customertransactions";
 
 
@@ -22,7 +22,7 @@ const TransactionSelection = () => {
     const renderTable = () => {
       switch (activeTab) {
         case 'Employee Payroll':
-          return <Payroll />
+          return <EmployeePayroll />
         case 'Vendor Invoices':
           return <Invoices />
         case 'Customer Transactions':
