@@ -40,7 +40,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import NewCustForm from "./scenes/form/newcustomerform";
 import { useUser } from "./components/context/UserContext";
 import MapPage from "./scenes/map";
-import EmployeePayroll from "./scenes/payroll";
+import EmployeePayroll from "./scenes/employees/payroll";
+import ManageStaff from "./scenes/managestaff/managestaffselection";
 
 
 
@@ -84,18 +85,19 @@ function App() {
             
              {/*Access controlled routes */}
             <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
-            <Route path="/employees" element={<ProtectedRoute><Employees userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
-            <Route path="/payroll" element={<ProtectedRoute><EmployeePayroll userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
-            <Route path="/rides" element={<ProtectedRoute> <Rides  userRole={user?.role}/> </ProtectedRoute>} /> {/*Inventory's form page routing */}
+            <Route path="/employees" element={<ProtectedRoute><Employees  /></ProtectedRoute>}/>   {/*Employee page routing */}
+            <Route path="/payroll" element={<ProtectedRoute><EmployeePayroll  /></ProtectedRoute>}/>   {/*Employee page routing */}
+            <Route path="/rides" element={ <Rides /> } /> {/*Inventory's form page routing */}
             <Route path="/vendors" element={<ProtectedRoute><Vendors  /></ProtectedRoute>} />   {/*Vendors page routing */}
             <Route path="/customers" element={<ProtectedRoute><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
             <Route path="/invoices" element={<ProtectedRoute><Invoices  /></ProtectedRoute>} />   {/*Invoice page routing */}
-            <Route path="/shops" element={<ProtectedRoute><Shops  /></ProtectedRoute>} />   {/*Shops page pagerouting */}
+            <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
             <Route path="/maintenance" element={<ProtectedRoute><Maintenance  /></ProtectedRoute>} />   {/*Maintenance page routing */}
-            <Route path="/safety" element={<ProtectedRoute><Safety  /></ProtectedRoute>} />   {/*Safety page routing */}
+            <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
             <Route path="/tickets" element={<ProtectedRoute><Tickets  /></ProtectedRoute>} /> {/*Inventory's form page routing */}
             <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
-            
+            <Route path="/managestaff" element={<ProtectedRoute><ManageStaff  /></ProtectedRoute>}/>   {/*Staff management page routing */}✅
+            <Route path="/transactions" element={<ProtectedRoute><TransactionSelection /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
 
              {/*Creation form routes*/}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
@@ -113,10 +115,9 @@ function App() {
             <Route path="/parkmap" element={<MapPage />} /> {/*Inventory's form page routing */}
             
              {/*Sidebar page routes*/}
-            <Route path="/vendorsorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
-            <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
-            <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
-            <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
+            <Route path="/vendorsorders" element={<ProtectedRoute><VendorSelection /> </ProtectedRoute>} />   {/*Vendors & Orders tab form routing */}
+            <Route path="/customervisits" element={<ProtectedRoute><CustomerVisitSelection /></ProtectedRoute>} /> {/*Inventory's form page routing */}
+            <Route path="/supplies" element={<ProtectedRoute><Supplies /></ProtectedRoute>} />   {/*Shops&Inventory tab routing */}
           </Routes>
       </main>
       </div>

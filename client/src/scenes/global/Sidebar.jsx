@@ -199,7 +199,7 @@ return(
 
            <Item
              title="Manage Staff"
-             to="/employees"
+             to="/managestaff"
              icon={<PeopleOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
