@@ -21,3 +21,13 @@ class InvoiceStatus(BaseModel):
     supply: str
     amount_due: float 
     payment_status: str
+
+class HoursWorked(BaseModel):
+    first_name: str 
+    last_name: str 
+    job_function: str 
+    department: str 
+    year: int 
+    month: str 
+    day: str 
+    hours_worked: int 

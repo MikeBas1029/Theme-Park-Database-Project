@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.database import get_session
 from src.models.views import MonthlyWeeklyCustomerCounts, FrequentRides, BrokenRides
-from src.schemas.reports import MonthlyWeeklyCustomerCount, FrequentRide, BrokenRide, InvoiceStatus
+from src.schemas.reports import MonthlyWeeklyCustomerCount, FrequentRide, BrokenRide, InvoiceStatus, HoursWorked
 
 reports_router = APIRouter()
 
@@ -62,3 +62,47 @@ async def get_invoice_statuses(session: AsyncSession = Depends(get_session)):
     rows = result.fetchall()
 
     return [{"invoice_id": row.invoice_id, "company_name": row.company_name, "supply": row.supply, "amount_due": row.amount_due, "payment_status": row.payment_status} for row in rows]
+
+@reports_router.get("/hours-worked", response_model=List[HoursWorked])
+async def get_hours_worked(session: AsyncSession = Depends(get_session)):
+    query = text('''
+    SELECT 
+        e.first_name,
+        e.last_name,
+        e.job_function,
+        d.name AS department,
+        YEAR(t.shift_date) as year,
+        MONTHNAME(t.shift_date) as month,
+        DAY(t.shift_date) as day,
+        CASE 
+            WHEN t.punch_in_time IS NOT NULL AND t.punch_out_time IS NOT NULL THEN 
+                TIMESTAMPDIFF(MINUTE, t.punch_in_time, t.punch_out_time) / 60.0 
+                - CASE 
+                    WHEN t.meal_break_start IS NOT NULL AND t.meal_break_end IS NOT NULL THEN 
+                        TIMESTAMPDIFF(MINUTE, t.meal_break_start, t.meal_break_end) / 60.0 
+                    ELSE 0 
+                END
+            ELSE 0
+        END AS hours_worked
+    FROM `theme-park-db`.timesheet AS t
+    LEFT JOIN `theme-park-db`.employees AS e
+        ON t.employee_id = e.employee_id
+    LEFT JOIN `theme-park-db`.sections AS s
+        ON t.section_id = s.section_id
+    LEFT JOIN `theme-park-db`.departments AS d
+        ON s.department_id = d.department_id;
+    ''')
+    result = await session.execute(query)
+    rows = result.fetchall()
+
+    return [
+        {
+            "first_name": row.first_name, 
+            "last_name": row.last_name, 
+            "job_function": row.job_function, 
+            "department": row.year, 
+            "month": row.month,
+            "day": row.day,
+            "hours_worked": row.hours_worked
+        } for row in rows
+        ]
