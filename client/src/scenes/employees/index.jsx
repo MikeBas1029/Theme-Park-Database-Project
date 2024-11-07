@@ -13,12 +13,11 @@ import AddButton from "../../components/AddButton";
 import PrintButton from "../../components/PrintButton";
 
 
-const Employees = ({ userRole }) => {
+const Employees = () => {
 const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
 
-console.log("Received userRole in Employees:", userRole); // Debugging statement
 
 const [employeeData, setEmployeeData] = useState([]); {/*State for storing employee data*/}
 const [loading, setLoading] = useState(true); // Loading state
@@ -100,13 +99,7 @@ const shortColumns = [
 
 const columnsToShow = showFullColumns ? allColumns : shortColumns;
 
-if (userRole !== 'admin') {
-    return (
-        <Box m="20px">
-            <Header title="Access Denied" subtitle="You do not have permission to view this page." />
-        </Box>
-    );
-}
+
 
     return (
         <Box m="20px">

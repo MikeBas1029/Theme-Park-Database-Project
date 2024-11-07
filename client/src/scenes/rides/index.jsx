@@ -47,6 +47,10 @@ const Rides = () => {
             fetchRides();
         }, []);
 
+
+
+        
+
     return(
 
 
