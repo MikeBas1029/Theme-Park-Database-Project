@@ -10,8 +10,21 @@ BEGIN
        YEAR(NEW.date_of_birth) = YEAR(CURDATE()) AND
        MONTH(NEW.date_of_birth) = MONTH(CURDATE()) AND 
        DAY(NEW.date_of_birth) = DAY(CURDATE()) THEN
+                                 
+        -- Insert discounted ticket                         
         INSERT INTO tickets (customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
         VALUES (NEW.customer_id, 'WEEKEND', 75.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 15.00, 'ACTIVE');
+                                 
+        -- Insert notification for new ticket
+        INSERT INTO customer_notifications (customer_id, title, message, status, type, date_created)
+        VALUES (
+            NEW.customer_id,
+            'Happy Birthday from ShastaLand!',
+            'We wish you a happy birthday from us! Get 20% off a weekend pass.'
+            'SENT',
+            'PROMO',
+            CURDATE()
+        );                         
     END IF;
 END;
 """)
