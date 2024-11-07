@@ -100,7 +100,8 @@ async def get_hours_worked(session: AsyncSession = Depends(get_session)):
             "first_name": row.first_name, 
             "last_name": row.last_name, 
             "job_function": row.job_function, 
-            "department": row.year, 
+            "department": row.department, 
+            "year": row.year,
             "month": row.month,
             "day": row.day,
             "hours_worked": row.hours_worked

@@ -29,5 +29,5 @@ class HoursWorked(BaseModel):
     department: str 
     year: int 
     month: str 
-    day: str 
-    hours_worked: int 
+    day: int 
+    hours_worked: float 
