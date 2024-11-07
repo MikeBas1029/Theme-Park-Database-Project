@@ -46,6 +46,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import NewCustForm from "./scenes/form/newcustomerform";
 import { useUser } from "./components/context/UserContext";
 import MapPage from "./scenes/map";
+import EmployeePayroll from "./scenes/payroll";
 
 function App() {
 	const navigate = useNavigate();
@@ -305,6 +306,7 @@ function App() {
              {/*Access controlled routes */}
             <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
             <Route path="/employees" element={<ProtectedRoute><Employees userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
+            <Route path="/payroll" element={<ProtectedRoute><EmployeePayroll userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
             <Route path="/rides" element={<ProtectedRoute> <Rides  /> </ProtectedRoute>} /> {/*Inventory's form page routing */}
             <Route path="/vendors" element={<ProtectedRoute><Vendors  /></ProtectedRoute>} />   {/*Vendors page routing */}
             <Route path="/customers" element={<ProtectedRoute><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
