@@ -35,6 +35,36 @@ async def get_frequent_ride_counts(session: AsyncSession = Depends(get_session))
 
 @reports_router.get("/broken-rides", response_model=List[BrokenRide])
 async def get_broken_rides(session: AsyncSession = Depends(get_session)):
+    """
+    Retrieve a report of rides currently closed for maintenance or repair, 
+    including the most recent work order details.
+
+    This endpoint fetches a list of rides that are currently marked as 
+    'CLOSED(M)' (Closed for Maintenance) or 'CLOSED(R)' (Closed due to Rainout) 
+    from the `rides` table. 
+    
+    For each ride, it includes details from the latest work order, as well as 
+    the employee assigned to the work order. The information provided includes:
+
+    - Ride name
+    - Last inspection date
+    - Ride status
+    - Assigned employee's full name
+    - Maintenance type of the work order
+    - Creation date of the work order
+    - Status of the work order
+
+    This report is helpful for tracking rides that are out of operation and 
+    assessing current maintenance or repair activities.
+
+    Parameters:
+    - `session` (AsyncSession): Database session dependency.
+
+    Returns:
+    - `List[BrokenRide]`: A list of rides with the latest maintenance or 
+    repair work order information.
+    """
+
     query = text('''
     SELECT 
         r.name as ride_name,
@@ -55,7 +85,8 @@ async def get_broken_rides(session: AsyncSession = Depends(get_session)):
         FROM `theme-park-db`.workorder
         WHERE ride_id = r.ride_id
         ) 
-        AND wo.ride_id IS NOT NULL;
+        AND wo.ride_id IS NOT NULL
+        AND r.status in ('CLOSED(M)', 'CLOSED(R)');
     ''')
     result = await session.execute(query)
     rows = result.fetchall()
@@ -72,8 +103,34 @@ async def get_broken_rides(session: AsyncSession = Depends(get_session)):
         } for row in rows
         ]
 
+
 @reports_router.get("/invoice-status", response_model=List[InvoiceStatus])
 async def get_invoice_statuses(session: AsyncSession = Depends(get_session)):
+    """
+    Retrieve the status of invoices, including vendor information and related 
+    supply details.
+
+    This endpoint provides a report of all invoices in the system, showing key 
+    details for tracking outstanding payments and associated vendors. 
+    The information includes:
+
+    - Invoice ID
+    - Vendor's company name
+    - Name of the supply item related to the invoice
+    - Amount due for the invoice
+    - Payment status of the invoice
+
+    This report is helpful for monitoring financial transactions with vendors and 
+    tracking the status of payments.
+
+    Parameters:
+    - `session` (AsyncSession): Database session dependency.
+
+    Returns:
+    - `List[InvoiceStatus]`: A list of invoices with vendor, supply, and payment 
+    status information.
+    """
+
     query = text('''
         SELECT inv.invoice_id, vend.company_name, sup.name AS supply, inv.amount_due, inv.payment_status
         FROM `theme-park-db`.invoice AS inv
@@ -89,10 +146,43 @@ async def get_invoice_statuses(session: AsyncSession = Depends(get_session)):
     result = await session.execute(query)
     rows = result.fetchall()
 
-    return [{"invoice_id": row.invoice_id, "company_name": row.company_name, "supply": row.supply, "amount_due": row.amount_due, "payment_status": row.payment_status} for row in rows]
+    return [
+        {
+            "invoice_id": row.invoice_id, 
+            "company_name": row.company_name, 
+            "supply": row.supply, 
+            "amount_due": row.amount_due, 
+            "payment_status": row.payment_status
+        } for row in rows
+        ]
 
 @reports_router.get("/hours-worked", response_model=List[HoursWorked])
 async def get_hours_worked(session: AsyncSession = Depends(get_session)):
+    """
+    Retrieve a report of hours worked by hourly employees factoring in 
+    meal breaks, where applicable.
+
+    This endpoint generates a report on the total hours worked by each 
+    employee, broken down by day. It calculates the hours worked by factoring 
+    in punch-in and punch-out times and subtracting any meal break time if 
+    applicable. The information includes:
+
+    - Employee's first and last name
+    - Job function of the employee
+    - Department where the employee worked
+    - Year, month, and day of the shift
+    - Total hours worked (excluding meal breaks)
+
+    This report is useful for tracking daily work hours by employees across 
+    different departments and assessing labor distribution.
+
+    Parameters:
+    - `session` (AsyncSession): Database session dependency.
+
+    Returns:
+    - `List[HoursWorked]`: A list of daily work records with employee and 
+    department details, and hours worked.
+    """
     query = text('''
     SELECT 
         e.first_name,
