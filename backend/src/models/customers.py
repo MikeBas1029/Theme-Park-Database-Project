@@ -34,7 +34,7 @@ class Customers(SQLModel, table=True):
 
     # customer_id is the primary key for the Customers table, uniquely identifying each customer.
     customer_id: str = Field(
-        default_factory=lambda: GuestServices.generate_random_id(),
+        default_factory=lambda: Customers.generate_random_id(),
         sa_column=Column(mysql.VARCHAR(12), nullable=False, primary_key=True, comment="Unique ID for each customer"),
         alias="CustomerID"
     )
