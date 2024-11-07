@@ -1,10 +1,6 @@
 import { Box, useTheme, Button} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import {sampleDataRoster} from "../../data/sampleData"
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -19,6 +15,9 @@ const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
 
+
+console.log("Received userRole in EmployeePayroll:", userRole); // Debugging statement
+
 const [employeePayrollData, setEmployeePayrollData] = useState([]); {/*State for storing employee data*/}
 const [loading, setLoading] = useState(true); // Loading state
 
@@ -27,7 +26,7 @@ const [loading, setLoading] = useState(true); // Loading state
 useEffect(() => {
     const fetchEmployeePayrollData = async () => {
         try {
-            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/");
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/");
             console.log("Fetched employees:", response.data);
             setEmployeePayrollData(response.data);
         } catch (error) {
@@ -42,7 +41,6 @@ useEffect(() => {
 
 
 
-{/*Colums for employee table */ }
 const columns = [
     { field: "shift_id", headerName: "Shift ID", flex: 0.5 },
     { field: "employee_id", headerName: "Employee ID", flex: 0.5 },
@@ -61,7 +59,7 @@ const columns = [
 
 
 
-if (userRole === 'admin') {
+if (userRole !== 'admin') {
     return (
         <Box m="20px">
             <Header title="Access Denied" subtitle="You do not have permission to view this page." />
@@ -73,10 +71,10 @@ if (userRole === 'admin') {
         <Box m="20px">
         {/* Print | Export | Add  */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="All Employees✅" subtitle="...."/>
+            <Header title="Employee Timesheets" subtitle="....move to manage staff section"/>
             <Box display="flex" alignItems="center">
-                <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/"  />
-                <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/" fileName="employee_payroll_report.csv"  />
+                <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/"  />
+                <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/" fileName="employee_payroll_report.csv"  />
                 <AddButton navigateTo={'/employeeform'}/>
             </Box>
         </Box>
@@ -97,6 +95,7 @@ if (userRole === 'admin') {
                 <DataGrid
                     checkboxSelection
                     rows={employeePayrollData}
+                    columns={columns} // Use the columns based on the toggle
                     components={{ Toolbar: GridToolbar }}
                     loading={loading}
                     getRowId={(row) => row.shift_id}
