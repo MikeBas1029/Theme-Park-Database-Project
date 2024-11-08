@@ -42,6 +42,8 @@ import { useUser } from "./components/context/UserContext";
 import MapPage from "./scenes/map";
 import EmployeePayroll from "./scenes/employees/payroll";
 import ManageStaff from "./scenes/managestaff/managestaffselection";
+import MaintenanceReports from "./scenes/insights/workorderreports";
+import Insights from "./scenes/insights";
 
 
 
@@ -78,7 +80,7 @@ function App() {
         <main className="content">
         {!isCustLogin && !isSignUpPage && !isEmpLogin && user && <Navbar userType={user.userType} />}
           <Routes>
-             {/*Login page routes */}
+             {/*User Authentication pages */}
             <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
             <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
             <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
@@ -98,8 +100,11 @@ function App() {
             <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
             <Route path="/managestaff" element={<ProtectedRoute><ManageStaff  /></ProtectedRoute>}/>   {/*Staff management page routing */}✅
             <Route path="/transactions" element={<ProtectedRoute><TransactionSelection /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+            <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+                {/*Report pages */}
+            <Route path="/workorderreports" element={<ProtectedRoute><MaintenanceReports /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
 
-             {/*Creation form routes*/}
+             {/*Creation forms*/}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
             <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}
             <Route path="/orderform" element={<OrderForm />} />   {/*Employee creation form routing */}
