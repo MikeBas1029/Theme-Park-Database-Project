@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import  Header from "../../components/Header"
@@ -18,35 +18,38 @@ const Shops = () => {
     
     const [ShopsData, setShopsData] = useState([]); {/*State for storing employee data*/}
     const [loading, setLoading] = useState(true); // Loading state
-    const [selectedShop, setSelectedShop] = useState(null); // State for currently selected shop
+    const [selectedShops, setSelectedShops] = useState([]); // State for currently selected shop
 
-    
-
-    {/*Fetch shop data from endpoints when table is pulled*/}
-useEffect(() => {
-    const fetchShopsData = async () => {
-        try {
-            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/");
-            console.log("Fetched shop:", response.data);
-            setShopsData(response.data);
-        } catch (error) {
-            console.error("Error fetching shop:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    fetchShopsData();
+    useEffect(() => {
+        const fetchShopsData = async () => {
+            try {
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/");
+                console.log("Fetched shop:", response.data);
+                setShopsData(response.data);
+            } catch (error) {
+                console.error("Error fetching shop:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchShopsData();
     }, []);
 
+    // Handle row selection for deletion/editing
     const handleRowSelection = (selectionModel) => {
-        console.log("Selection Model Changed:", selectionModel); // Debugging line
-        if (selectionModel.length > 0) {
-            setSelectedShop(selectionModel[0]);
-        } else {
-            setSelectedShop(null);
-        }
+        setSelectedShops(selectionModel);
+        console.log("Selected Shops:", selectionModel);
     };
+
+    // After delete, filter out deleted IDs from the data and refresh table
+    const handleDeleteSuccess = () => {
+        setShopsData((prevData) =>
+            prevData.filter((shop) => !selectedShops.includes(shop.shop_id))
+        );
+        setSelectedShops([]); // Clear selection after deletion
+    };
+
+
 
 
 
@@ -75,14 +78,18 @@ useEffect(() => {
                         fileName="shops_report.csv"
                         columns={columns}
                         />
-                        <EditButton
-                        navigateTo={`/`} // Pass selectedShop ID to the EditButton
-                        disabled={!selectedShop} // Disable if no shop is selected
+                    <EditButton
+                        navigateTo={`/`} 
+                        disabled={selectedShops.length === 0} // Disabled if no selection
                         sx={{
-                            color: selectedShop ? colors.primary.main : colors.grey[500], // Change icon color based on selection
+                            color: selectedShops.length > 0 ? colors.primary.main : colors.grey[500],
                         }}
                     />
-                    <DeleteButton />
+                    <DeleteButton
+                        selectedItems={selectedShops}
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops"
+                        onDeleteSuccess={handleDeleteSuccess} // Pass the deletion handler
+                    />
                     <AddButton navigateTo={'/shopform'} />
                 </Box>
             </Box>
@@ -122,7 +129,7 @@ useEffect(() => {
                     components={{ Toolbar: GridToolbar }}
                     loading={loading}
                     getRowId={(row) => row.shop_id}
-                    onSelectionModelChange={handleRowSelection} // Ensure this is set
+                    onRowSelectionModelChange={handleRowSelection}
                     />
 
             </Box>
