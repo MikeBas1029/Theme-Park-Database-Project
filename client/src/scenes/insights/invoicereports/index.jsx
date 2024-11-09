@@ -1,19 +1,15 @@
 import { Box, useTheme, IconButton} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import {sampleDataRoster} from "../../data/sampleData"
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
-import  Header from "../../components/Header"
+import { tokens } from "../../../theme";
+import  Header from "../../../components/Header"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import DownloadButton from "../../components/DownloadButton";
-import PrintButton from "../../components/PrintButton";
-import AddButton from "../../components/AddButton";
+import DownloadButton from "../../../components/DownloadButton";
+import PrintButton from "../../../components/PrintButton";
+import AddButton from "../../../components/AddButton";
 
-const Customers = () => {
+const InvoiceReports = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
@@ -23,21 +19,11 @@ const Customers = () => {
 
 
     const columns = [
-        { field: "customer_id", headerName: "CustomerID", flex: 0.5 },
-        { field: "first_name", headerName: "First Name", flex: 1, cellClassName: "name-column--cell" },
-        { field: "last_name", headerName: "Last Name", flex: 1, cellClassName: "name-column--cell" }, 
-        { field: "email", headerName: "Email", flex: 1 },
-        { field: "phone_number", headerName: "Phone Number", flex: 1 },
-        { field: "address_line1", headerName: "Address Line 1" },
-        { field: "address_line2", headerName: "Address Line 2" },
-        { field: "city", headerName: "City" },
-        { field: "state", headerName: "State" },
-        { field: "zip_code", headerName: "Zip Code" },
-        { field: "country", headerName: "Country" },
-        { field: "date_of_birth", headerName: "Date of Birth" },
-        { field: "membership_type", headerName: "Membership Type" },
-        { field: "registration_date", headerName: "Registration Date" },
-        { field: "renewal_date", headerName: "Renewal Date" },
+        { field: "invoice_id", headerName: "Invoice ID", flex: 0.5 },
+        { field: "company_name", headerName: "Company Name", flex: 1, cellClassName: "name-column--cell" },
+        { field: "supply", headerName: "Supply", flex: 1 }, 
+        { field: "amount_due", headerName: "Balance Due", flex: 1, cellClassName: "name-column--cell"},
+        { field: "payment_status", headerName: "Payment Status", flex: 1 },
         ]; {/*field: value/data grabbed from  colName: column title in table */}
 
 
@@ -45,7 +31,7 @@ const Customers = () => {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/");
+                const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/invoice-status")
                 console.log("Fetched customers:", response.data);
                 setCustomers(response.data);
             } catch (error) {
@@ -64,11 +50,13 @@ const Customers = () => {
         <Box m="20px">
             {/* Print | Export | Add  */}
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Customers✅" subtitle="View registered member information(?) *@team, wb no registered customers who just buy ticket*"/>
+                <Header title="Invoice Report" subtitle="View you invoice statuses"/>
                     <Box display="flex" alignItems="center">
-                        <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/" columns={columns} />
+                        <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/invoice-status
+" columns={columns} />
                         <DownloadButton
-                            apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/"
+                            apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/invoice-status
+"
                             fileName="customers_report.csv"
                             columns={columns}
                             />
@@ -114,14 +102,14 @@ const Customers = () => {
             columns={columns} 
             components={{Toolbar: GridToolbar}}
             loading={loading} 
-            getRowId={(row) => row.customer_id}/>
+            getRowId={(row) => row.invoice_id}/>
                 )}
             </Box>
         </Box>
     );
 }
 
-export default Customers;
+export default InvoiceReports;
 
 
 
