@@ -20,7 +20,7 @@ const NotificationMenu = ({ buttonStyle, dropdownStyle, itemStyle }) => {
 
         const fetchNotifications = async () => {
             const endpoint = userType === 'customer'
-                ? `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/cust-notifs/${userId}`
+                ? `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/cust-notifs/cust/${userId}`
                 : `https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/emp-notifs/${userId}`;
             
             try  {
