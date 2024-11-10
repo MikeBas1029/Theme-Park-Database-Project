@@ -44,6 +44,9 @@ import EmployeePayroll from "./scenes/employees/payroll";
 import ManageStaff from "./scenes/managestaff/managestaffselection";
 import MaintenanceReports from "./scenes/insights/workorderreports";
 import Insights from "./scenes/insights";
+import Charts from "./scenes/charts";
+import Finances from "./scenes/finances";
+import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 
 
 
@@ -86,23 +89,26 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
             
              {/*Access controlled routes */}
-            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
-            <Route path="/employees" element={<ProtectedRoute><Employees  /></ProtectedRoute>}/>   {/*Employee page routing */}
-            <Route path="/payroll" element={<ProtectedRoute><EmployeePayroll  /></ProtectedRoute>}/>   {/*Employee page routing */}
+            <Route path="/" element={<ProtectedRoute allowedRoles={[ 'admin']} ><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
+            <Route path="/managerdashboard" element={<ProtectedRoute allowedRoles={[ 'manager']}><ManagerDashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
+            <Route path="/employees" element={<ProtectedRoute allowedRoles={[ 'admin', 'manager']}><Employees  /></ProtectedRoute>}/>   {/*Employee page routing */}
+            <Route path="/payroll" element={<ProtectedRoute allowedRoles={[ 'admin', 'manager']}><EmployeePayroll  /></ProtectedRoute>}/>   {/*Employee page routing */}
             <Route path="/rides" element={ <Rides /> } /> {/*Inventory's form page routing */}
             <Route path="/vendors" element={<ProtectedRoute><Vendors  /></ProtectedRoute>} />   {/*Vendors page routing */}
-            <Route path="/customers" element={<ProtectedRoute><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
-            <Route path="/invoices" element={<ProtectedRoute><Invoices  /></ProtectedRoute>} />   {/*Invoice page routing */}
+            <Route path="/customers" element={<ProtectedRoute allowedRoles={[ 'admin']} ><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
+            <Route path="/invoices" element={<ProtectedRoute allowedRoles={[ 'admin']}><Invoices  /></ProtectedRoute>} />   {/*Invoice page routing */}
             <Route path="/shops" element={<Shops />} />   {/*Shops page pagerouting */}
             <Route path="/maintenance" element={<ProtectedRoute><Maintenance  /></ProtectedRoute>} />   {/*Maintenance page routing */}
             <Route path="/safety" element={<Safety />} />   {/*Safety page routing */}
             <Route path="/tickets" element={<ProtectedRoute><Tickets  /></ProtectedRoute>} /> {/*Inventory's form page routing */}
             <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
-            <Route path="/managestaff" element={<ProtectedRoute><ManageStaff  /></ProtectedRoute>}/>   {/*Staff management page routing */}✅
-            <Route path="/transactions" element={<ProtectedRoute><TransactionSelection /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
-            <Route path="/insights" element={<ProtectedRoute><Insights /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+            <Route path="/managestaff" element={<ProtectedRoute allowedRoles={[ 'admin']}><ManageStaff  /></ProtectedRoute>}/>   {/*Staff management page routing */}✅
+            <Route path="/transactions" element={<ProtectedRoute allowedRoles={[ 'admin']}><TransactionSelection /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+            <Route path="/insights" element={<ProtectedRoute allowedRoles={[ 'admin']}><Insights /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
                 {/*Report pages */}
-            <Route path="/workorderreports" element={<ProtectedRoute><MaintenanceReports /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+            <Route path="/workorderreports" element={<ProtectedRoute allowedRoles={[ 'admin']}><MaintenanceReports /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+            <Route path="/charts" element={<ProtectedRoute allowedRoles={[ 'admin']}><Charts /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
+            <Route path="/finances" element={<ProtectedRoute allowedRoles={[ 'admin']}><Finances /></ProtectedRoute>} />   {/*Transactions tab routing */} ✅
 
              {/*Creation forms*/}
             <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
