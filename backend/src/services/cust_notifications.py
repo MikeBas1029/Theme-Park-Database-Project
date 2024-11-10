@@ -29,7 +29,7 @@ class CustomerNotificationService:
 
         result = await session.exec(query)
 
-        cust_notification = result.first()
+        cust_notification = result.all()
 
         return cust_notification if cust_notification is not None else None 
     

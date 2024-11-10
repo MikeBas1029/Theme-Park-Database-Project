@@ -26,9 +26,9 @@ async def get_cust_notification_by_notif_id(notification_id: str, session: Async
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No notification found for notification with ID {notification_id}.") 
 
 
-@cust_notification_router.get("/cust/{customer_id}", response_model=CustomerNotificationOutputModel) 
+@cust_notification_router.get("/cust/{customer_id}", response_model=List[CustomerNotificationOutputModel]) 
 async def get_cust_notification_by_cust_id(customer_id: str, session: AsyncSession = Depends(get_session)):
-    cust_notification = await cust_notification_service.get_cust_notification_by_notif_id(customer_id, session)
+    cust_notification = await cust_notification_service.get_cust_notification_by_customer_id(customer_id, session)
     
     if cust_notification:
         return cust_notification
