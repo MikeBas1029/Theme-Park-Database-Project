@@ -3,6 +3,7 @@ from .customers import customer_router
 from .cust_auth import cust_auth_router
 from .cust_notifications import cust_notification_router
 from .departments import department_router
+from .department_managers import department_manager_router
 from .employee_payments import employee_payment_router
 from .employees import employee_router 
 from .emp_auth import emp_auth_router

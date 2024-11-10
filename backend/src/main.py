@@ -47,6 +47,7 @@ app.include_router(customer_router, prefix=f"{version_prefix}/customers", tags=[
 app.include_router(cust_auth_router, prefix=f"{version_prefix}/cust-auth", tags=["customer auth"])
 app.include_router(cust_notification_router, prefix=f"{version_prefix}/cust-notifs", tags=["customer notification"])
 app.include_router(department_router, prefix=f"{version_prefix}/departments", tags=["departments"])
+app.include_router(department_manager_router, prefix=f"{version_prefix}/department-managers", tags=["department managers"])
 app.include_router(employee_router, prefix=f"{version_prefix}/employees", tags=["employees"])
 app.include_router(emp_auth_router, prefix=f"{version_prefix}/emp-auth", tags=["emp_auth"])
 app.include_router(employee_payment_router, prefix=f"{version_prefix}/employee-payments", tags=["employee payments"])
