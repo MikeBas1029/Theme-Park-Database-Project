@@ -6,8 +6,8 @@ from fastapi.exceptions import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.database import get_session
-from src.models.views import MonthlyWeeklyCustomerCounts, FrequentRides, BrokenRides
 from src.schemas.reports import MonthlyWeeklyCustomerCount, FrequentRide, BrokenRide, InvoiceStatus, HoursWorked, RideCount
+from src.schemas.employees import Employee
 
 reports_router = APIRouter()
 
@@ -297,3 +297,38 @@ async def get_hours_worked(session: AsyncSession = Depends(get_session)):
             "hours_worked": row.hours_worked
         } for row in rows
         ]
+
+
+@reports_router.get("/department-employees/{dept_id}", response_model=List[Employee])
+async def get_department_employees(dept_id: int, session: AsyncSession = Depends(get_session)):
+    """
+    Retrieve a list of employees within a specific department.
+
+    This endpoint fetches detailed information about employees assigned to 
+    a specified department based on the `dept_id`. The report provides 
+    employee data relevant to tracking department-specific personnel and 
+    reviewing employee roles and departmental assignments. This can be useful 
+    for managerial purposes and HR assessments across departments.
+
+    Parameters:
+    - `dept_id` (int): The unique identifier of the department whose employees 
+      are to be retrieved.
+
+    Returns:
+    - `List[Employee]`: A list of employee records within the specified department. 
+      Each record includes:
+      - Employee ID, first and last name
+      - Job function
+      - Department ID
+
+    Example:
+    Requesting `/department-employees/5` returns all employees who work in 
+    department 5.
+    """
+    query = text(f'''
+    SELECT * FROM `theme-park-db`.employees WHERE department_id = :dept_id
+    ''')
+    result = await session.execute(query, {"dept_id": dept_id})
+    employees = result.fetchall()
+
+    return employees
