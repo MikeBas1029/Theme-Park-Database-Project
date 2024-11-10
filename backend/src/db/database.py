@@ -4,7 +4,7 @@ from sqlmodel  import SQLModel, create_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 import ssl
 from src.config import Config 
-from .triggers import birthday_discount_trigger, change_status_if_not_inspected
+from .triggers import birthday_discount_trigger_after_insert, birthday_discount_trigger_after_update, change_status_if_not_inspected
 
 import logging 
 from sqlalchemy.exc import SQLAlchemyError
@@ -28,10 +28,11 @@ async def init_db() -> None:
             logging.info("Creating tables if don't exist...")
             await conn.run_sync(SQLModel.metadata.create_all)
 
-            # Create trigger to check last inspection on ride
-            await conn.execute(birthday_discount_trigger)
-
             # Birthday discount trigger
+            await conn.execute(birthday_discount_trigger_after_insert)
+            await conn.execute(birthday_discount_trigger_after_update)
+
+            # Create trigger to check last inspection on ride
             await conn.execute(change_status_if_not_inspected)
    
         logging.info("Tables in the database:")

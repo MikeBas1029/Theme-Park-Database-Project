@@ -1,7 +1,33 @@
-from sqlalchemy import text 
+"""Feat: add event to check daily for birthdays and updated trigger.
 
-# Birthday Discount Trigger
-birthday_discount_trigger_after_insert = text("""
+Revision ID: 9759d001386a
+Revises: 5d671c537215
+Create Date: 2024-11-10 09:10:35.728413
+
+"""
+from typing import Sequence, Union
+
+from alembic import op
+import sqlalchemy as sa
+
+
+# revision identifiers, used by Alembic.
+revision: str = '9759d001386a'
+down_revision: Union[str, None] = '5d671c537215'
+branch_labels: Union[str, Sequence[str], None] = None
+depends_on: Union[str, Sequence[str], None] = None
+
+
+
+def upgrade():
+    # Drop the existing triggers if they exist
+    op.execute("""
+    DROP TRIGGER IF EXISTS birthday_discount_trigger_after_insert;
+    DROP TRIGGER IF EXISTS birthday_discount_trigger_after_update;
+    """)
+
+    # Create the AFTER INSERT trigger with random ticket_id generation
+    op.execute("""
     CREATE TRIGGER birthday_discount_trigger_after_insert
     AFTER INSERT ON customers
     FOR EACH ROW
@@ -42,8 +68,10 @@ birthday_discount_trigger_after_insert = text("""
             END IF;
         END IF;
     END;
-""")
-birthday_discount_trigger_after_update = text("""
+    """)
+
+    # Create the AFTER UPDATE trigger with random ticket_id generation
+    op.execute("""
     CREATE TRIGGER birthday_discount_trigger_after_update
     AFTER UPDATE ON customers
     FOR EACH ROW
@@ -84,61 +112,62 @@ birthday_discount_trigger_after_update = text("""
             END IF;
         END IF;
     END;
-""")
+    """)
 
-"""
-Birthday Discount Trigger Documentation:
+    # Create the scheduled event with random ticket_id generation
+    op.execute(
+    """
+    CREATE EVENT IF NOT EXISTS birthday_discount_event
+    ON SCHEDULE EVERY 1 DAY
+    DO
+    BEGIN
+        DECLARE ticket_id CHAR(12);
+        DECLARE notification_id CHAR(12);
 
-Purpose:
-This trigger automatically creates a discounted weekend pass for reward members on their birthday.
+        -- Insert discounted ticket for each eligible customer whose birthday is today
+        INSERT INTO tickets (ticket_id, customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
+        SELECT 
+            CONCAT(SUBSTRING(MD5(RAND()), 1, 6), SUBSTRING(MD5(RAND()), 7, 6)) AS ticket_id, 
+            customer_id, 
+            'WEEKEND', 
+            75.00, 
+            CURDATE(), 
+            CURDATE(), 
+            DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 
+            15.00, 
+            'ACTIVE'
+        FROM customers
+        WHERE membership_type = 'Platinum' AND 
+              MONTH(date_of_birth) = MONTH(CURDATE()) AND 
+              DAY(date_of_birth) = DAY(CURDATE())
+              AND customer_id NOT IN (SELECT customer_id FROM tickets WHERE purchase_date = CURDATE());
 
-Functionality:
-1. Activates AFTER UPDATE operations on the 'customers' table.
-2. Checks if the updated customer is a rewards member (rewards_member = 1).
-3. Verifies if today is the customer's birthday by comparing month and day of birth_date with current date.
-4. If conditions are met, inserts a new record into the 'tickets' table with the following details:
-   - CustomerID: The ID of the customer whose record was updated
-   - TicketType: 'WEEKEND'
-   - Price: 75.00 (base price for a weekend pass)
-   - PurchaseDate: Current date
-   - StartDate: Current date
-   - ExpirationDate: One year from the current date
-   - Discount: 15.00 (20% discount)
-   - Status: 'ACTIVE'
+        -- Insert notification for eligible customers whose birthday is today
+        INSERT INTO customer_notifications (customer_id, title, message, status, type, date_created)
+        SELECT 
+                CONCAT(SUBSTRING(MD5(RAND()), 1, 6), SUBSTRING(MD5(RAND()), 7, 6)) AS notification_id,
+                customer_id, 
+               'Happy Birthday from ShastaLand!', 
+               'We wish you a happy birthday from us! Get 20% off a weekend pass.', 
+               'SENT', 
+               'PROMO', 
+               CURDATE()
+        FROM customers
+        WHERE membership_type = 'Platinum' AND 
+              MONTH(date_of_birth) = MONTH(CURDATE()) AND 
+              DAY(date_of_birth) = DAY(CURDATE())
+              AND customer_id NOT IN (SELECT customer_id FROM customer_notifications WHERE date_created = CURDATE());
+    END;
+    """
+    )
 
-Important Considerations:
-- This trigger will create a new ticket every time a qualifying customer's record is updated on their birthday.
-- There's no built-in limit to prevent multiple discounts for the same birthday.
-- The trigger assumes a fixed base price (100.00) and discount (20%) for the weekend pass.
-- This trigger uses MySQL-specific date functions and syntax.
-"""
-
-# Ride Maintenance Status Trigger
-change_status_if_not_inspected = text("""
-CREATE TRIGGER IF NOT EXISTS update_ride_status
-BEFORE UPDATE ON rides
-FOR EACH ROW
-BEGIN
-    IF DATEDIFF(UTC_TIMESTAMP(), NEW.last_inspected) > 7 AND NEW.status != 'CLOSED(M)' THEN
-        SET NEW.Status = 'CLOSED(M)';
-    END IF;
-END;
-""")
-
-"""
-Ride Maintenance Status Trigger Documentation:
-
-Purpose:
-This trigger automatically updates a ride's status to 'CLOSED(M)' if it hasn't been inspected in the last 7 days.
-
-Functionality:
-1. Activates BEFORE UPDATE operations on the 'rides' table.
-2. Calculates the number of days since the last inspection using DATEDIFF().
-3. If more than 7 days have passed since the last inspection and the current status is not already 'CLOSED(M)',
-   it changes the Status to 'CLOSED(M)'.
-
-Important Considerations:
-- This trigger will prevent any manual status updates that might overlook the need for maintenance.
-- It ensures that rides are not operated if they haven't been inspected recently, promoting safety.
-- The trigger uses UTC timestamp for consistency, especially if the system operates across multiple time zones.
-"""
+def downgrade():
+    # Drop the trigger and event during downgrade
+    op.execute("""
+    DROP TRIGGER IF EXISTS birthday_discount_trigger_after_insert;
+    DROP TRIGGER IF EXISTS birthday_discount_trigger_after_update;
+    """)
+    
+    op.execute("""
+    DROP EVENT IF EXISTS birthday_discount_event;
+    """)
