@@ -2,7 +2,7 @@ from sqlalchemy import text
 
 # Birthday Discount Trigger
 birthday_discount_trigger_after_insert = text("""
-    CREATE TRIGGER birthday_discount_trigger_after_insert
+    CREATE TRIGGER IF NOT EXISTS birthday_discount_trigger_after_insert
     AFTER INSERT ON customers
     FOR EACH ROW
     BEGIN
@@ -44,7 +44,7 @@ birthday_discount_trigger_after_insert = text("""
     END;
 """)
 birthday_discount_trigger_after_update = text("""
-    CREATE TRIGGER birthday_discount_trigger_after_update
+    CREATE TRIGGER IF NOT EXISTS birthday_discount_trigger_after_update
     AFTER UPDATE ON customers
     FOR EACH ROW
     BEGIN

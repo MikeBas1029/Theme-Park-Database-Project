@@ -2,6 +2,7 @@ from .beverage_items import BeverageItems
 from .cust_auth import CustAuth
 from .customers import Customers
 from .departments import Departments
+from .department_managers import DepartmentManagers
 from .employee_payments import EmployeePayments
 from .employees import Employees 
 from .emp_auth import EmpAuth

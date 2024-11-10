@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from src.models.emp_auth import EmpAuth
     from src.models.emp_notifications import EmployeeNotifications
     from src.models.departments import Departments
+    from src.models.department_managers import DepartmentManagers
+
 
 class EmployeeType(str, Enum):
     hourly = "Hourly"
@@ -146,8 +148,11 @@ class Employees(SQLModel, table=True):
 
 
     # Relationships
-    # A department can have multiple managers (employees), and each employee can be assigned to multiple departments.
-    departments: List["Departments"] = Relationship(back_populates="manager", cascade_delete=True)
+    # Relationship to the department this employee manages
+    managed_department: Optional["DepartmentManagers"] = Relationship(back_populates="manager")
+
+    # Relationship to the department they work in
+    department: Optional["Departments"] = Relationship(back_populates="employees")
 
     # A timesheet is created for each employee, capturing work hours and attendance.
     assigned_timesheets: List["Timesheet"] = Relationship(
@@ -186,7 +191,6 @@ class Employees(SQLModel, table=True):
 
     managed_shops: Optional["Shops"] = Relationship(back_populates="manager")
 
-    department: Optional["Departments"] = Relationship(back_populates="employees")
 
     # An employee can have multiple payments recorded in the employee_payments table.
     employee_payments: List["EmployeePayments"] = Relationship(back_populates="employee", cascade_delete=True)
