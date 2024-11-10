@@ -35,10 +35,7 @@ class EmpAuth(SQLModel, table=True):
             comment="Foreign key to employees table, may be optional"
         )
     )
-    username: str
     email: EmailStr
-    first_name: str
-    last_name: str
     role: EmpRole = Field(
         default="employee",
         sa_column=Column(
