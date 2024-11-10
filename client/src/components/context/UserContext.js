@@ -11,7 +11,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   
-
+ 
   // Function to log in and set user data
   const login = useCallback((userData, userType) => {
     const formattedUserData = {
