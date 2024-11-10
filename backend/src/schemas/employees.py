@@ -33,7 +33,7 @@ class Employee(BaseModel):
     hourly_wage: Optional[float] 
     salary: Optional[float]
     job_function: str 
-    department_id: int
+    department_id: Optional[int | None]
 
 
 class EmployeeCreateModel(BaseModel):
