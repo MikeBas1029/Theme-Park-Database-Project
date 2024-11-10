@@ -50,6 +50,7 @@ class Departments(SQLModel, table=True):
     # A department can have multiple sections, represented as a list of `Section` objects.
     sections: List["Section"] = Relationship(back_populates="department")
 
+    employees: List["Employees"] = Relationship(back_populates="department")
 
     # Table index: Adds an index on the department_id field.
     # This index improves performance for queries filtering by the department_id.
