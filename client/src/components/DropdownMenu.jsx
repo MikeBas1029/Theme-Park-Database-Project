@@ -49,7 +49,7 @@ export default function DropdownMenu({ title, menuItems, icon }) {
 						{icon}
 					</Box>
 				)}
-				<Typography sx={{ fontSize: "1.2rem" }}>{title}</Typography>
+				<Typography sx={{ fontSize: "1rem" }}>{title}</Typography>
 			</Box>
 			<Menu
 				id="basic-menu"

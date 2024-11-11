@@ -124,231 +124,239 @@ const CustomerEvents = () => {
 	}, {});
 
 	return (
-		<Container maxWidth="lg">
-			<Box py={4}>
-				<Typography variant="h3" gutterBottom align="center">
-					Shows & Events Calendar
-				</Typography>
+		<Box>
+			<Container maxWidth="lg">
+				<Box py={4}>
+					<Typography variant="h3" gutterBottom align="center">
+						Shows & Events Calendar
+					</Typography>
 
-				{loading ? (
-					<Box display="flex" justifyContent="center" my={4}>
-						<CircularProgress />
-					</Box>
-				) : error ? (
-					<Alert severity="error" sx={{ my: 2 }}>
-						Error loading shows: {error}
-					</Alert>
-				) : (
-					<Box
-						sx={{
-							display: "flex",
-							flexDirection: { xs: "column", md: "row" },
-							gap: 4,
-						}}
-					>
-						{/* Calendar Section */}
-						<Paper
-							elevation={3}
+					{loading ? (
+						<Box display="flex" justifyContent="center" my={4}>
+							<CircularProgress />
+						</Box>
+					) : error ? (
+						<Alert severity="error" sx={{ my: 2 }}>
+							Error loading shows: {error}
+						</Alert>
+					) : (
+						<Box
 							sx={{
-								flex: "1 1 auto",
-								p: 2,
-								"& .fc": {
-									fontFamily: "inherit",
-								},
-								"& .fc-toolbar-title": {
-									fontSize: "1.25rem",
-								},
-								"& .fc-event": {
-									cursor: "pointer",
-									backgroundColor: "#1976d2",
-									borderColor: "#1976d2",
-									"&:hover": {
-										opacity: 0.9,
-									},
-								},
-								"& .fc-day-today": {
-									backgroundColor:
-										"rgba(25, 118, 210, 0.05) !important",
-								},
-							}}
-						>
-							<FullCalendar
-								plugins={[dayGridPlugin, timeGridPlugin]}
-								initialView="dayGridMonth"
-								events={activeShows}
-								headerToolbar={{
-									left: "prev,next today",
-									center: "title",
-									right: "dayGridMonth,timeGridWeek",
-								}}
-								height="auto"
-								eventDisplay="block"
-								displayEventEnd={true}
-								eventTimeFormat={{
-									hour: "numeric",
-									minute: "2-digit",
-									meridiem: "short",
-								}}
-							/>
-						</Paper>
-
-						{/* Upcoming Shows Section */}
-						<Paper
-							elevation={3}
-							sx={{
-								flex: "0 0 auto",
-								width: { xs: "100%", md: "400px" },
-								p: 0,
-								maxHeight: { md: "800px" },
-								overflow: "hidden",
 								display: "flex",
-								flexDirection: "column",
+								flexDirection: { xs: "column", md: "row" },
+								gap: 4,
 							}}
 						>
-							<Box
+							{/* Calendar Section */}
+							<Paper
+								elevation={3}
 								sx={{
-									p: 3,
-									pb: 2,
-									borderBottom: 1,
-									borderColor: "divider",
-									bgcolor: "background.paper",
-								}}
-							>
-								<Typography variant="h6" gutterBottom={false}>
-									Upcoming Shows
-								</Typography>
-							</Box>
-
-							<Box
-								sx={{
-									overflowY: "auto",
-									flexGrow: 1,
-									pb: 3,
-									"&::-webkit-scrollbar": {
-										width: "8px",
+									flex: "1 1 auto",
+									p: 2,
+									"& .fc": {
+										fontFamily: "inherit",
 									},
-									"&::-webkit-scrollbar-track": {
-										background: "#f1f1f1",
-										borderRadius: "4px",
+									"& .fc-toolbar-title": {
+										fontSize: "1.25rem",
 									},
-									"&::-webkit-scrollbar-thumb": {
-										background: "#888",
-										borderRadius: "4px",
+									"& .fc-event": {
+										cursor: "pointer",
+										backgroundColor: "#1976d2",
+										borderColor: "#1976d2",
 										"&:hover": {
-											background: "#666",
+											opacity: 0.9,
 										},
 									},
+									"& .fc-day-today": {
+										backgroundColor:
+											"rgba(25, 118, 210, 0.05) !important",
+									},
 								}}
 							>
-								{Object.keys(groupedShows).length === 0 ? (
-									<Alert
-										severity="info"
-										sx={{ mt: 2, mx: 3 }}
+								<FullCalendar
+									plugins={[dayGridPlugin, timeGridPlugin]}
+									initialView="dayGridMonth"
+									events={activeShows}
+									headerToolbar={{
+										left: "prev,next today",
+										center: "title",
+										right: "dayGridMonth,timeGridWeek",
+									}}
+									height="auto"
+									eventDisplay="block"
+									displayEventEnd={true}
+									eventTimeFormat={{
+										hour: "numeric",
+										minute: "2-digit",
+										meridiem: "short",
+									}}
+								/>
+							</Paper>
+
+							{/* Upcoming Shows Section */}
+							<Paper
+								elevation={3}
+								sx={{
+									flex: "0 0 auto",
+									width: { xs: "100%", md: "400px" },
+									p: 0,
+									maxHeight: { md: "800px" },
+									overflow: "hidden",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
+								<Box
+									sx={{
+										p: 3,
+										pb: 2,
+										borderBottom: 1,
+										borderColor: "divider",
+										bgcolor: "background.paper",
+									}}
+								>
+									<Typography
+										variant="h6"
+										gutterBottom={false}
 									>
-										No upcoming shows scheduled.
-									</Alert>
-								) : (
-									<Box sx={{ mt: 2 }}>
-										{Object.entries(groupedShows).map(
-											(
-												[monthYear, monthShows],
-												index
-											) => (
-												<Box
-													key={monthYear}
-													sx={{
-														mb: 3,
-														"&:last-child": {
-															mb: 0,
-														},
-													}}
-												>
+										Upcoming Shows
+									</Typography>
+								</Box>
+
+								<Box
+									sx={{
+										overflowY: "auto",
+										flexGrow: 1,
+										pb: 3,
+										"&::-webkit-scrollbar": {
+											width: "8px",
+										},
+										"&::-webkit-scrollbar-track": {
+											background: "#f1f1f1",
+											borderRadius: "4px",
+										},
+										"&::-webkit-scrollbar-thumb": {
+											background: "#888",
+											borderRadius: "4px",
+											"&:hover": {
+												background: "#666",
+											},
+										},
+									}}
+								>
+									{Object.keys(groupedShows).length === 0 ? (
+										<Alert
+											severity="info"
+											sx={{ mt: 2, mx: 3 }}
+										>
+											No upcoming shows scheduled.
+										</Alert>
+									) : (
+										<Box sx={{ mt: 2 }}>
+											{Object.entries(groupedShows).map(
+												(
+													[monthYear, monthShows],
+													index
+												) => (
 													<Box
+														key={monthYear}
 														sx={{
-															position: "sticky",
-															top: 0,
-															bgcolor: "#f8f8f8",
-															pt:
-																index === 0
-																	? 0
-																	: 2,
-															zIndex: 1,
-															borderRadius: 0,
-															display: "flex",
-															flexDirection:
-																"column",
-															width: "100%",
-															"&::after": {
-																content: '""',
-																position:
-																	"absolute",
-																left: 0,
-																right: 0,
-																bottom: 0,
-																height: "4px",
-																background:
-																	"linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%)",
+															mb: 3,
+															"&:last-child": {
+																mb: 0,
 															},
 														}}
 													>
-														<Typography
-															variant="h6"
+														<Box
 															sx={{
-																fontSize:
-																	"1.1rem",
-																fontWeight:
-																	"500",
-																color: "primary.main",
-																mb: 1,
-																pl: 3,
+																position:
+																	"sticky",
+																top: 0,
+																bgcolor:
+																	"#f8f8f8",
+																pt:
+																	index === 0
+																		? 0
+																		: 2,
+																zIndex: 1,
+																borderRadius: 0,
+																display: "flex",
+																flexDirection:
+																	"column",
+																width: "100%",
+																"&::after": {
+																	content:
+																		'""',
+																	position:
+																		"absolute",
+																	left: 0,
+																	right: 0,
+																	bottom: 0,
+																	height: "4px",
+																	background:
+																		"linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%)",
+																},
 															}}
 														>
-															{monthYear}
-														</Typography>
-														<Divider />
-													</Box>
+															<Typography
+																variant="h6"
+																sx={{
+																	fontSize:
+																		"1.1rem",
+																	fontWeight:
+																		"500",
+																	color: "primary.main",
+																	mb: 1,
+																	pl: 3,
+																}}
+															>
+																{monthYear}
+															</Typography>
+															<Divider />
+														</Box>
 
-													<Box
-														sx={{
-															display: "flex",
-															flexDirection:
-																"column",
-															gap: 2,
-															mt: 2,
-															px: 3,
-														}}
-													>
-														{monthShows.map(
-															(show) => (
-																<EventCard
-																	key={
-																		show.show_id
-																	}
-																	title={
-																		show.show_name
-																	}
-																	date={formatDateTime(
-																		show.show_date,
-																		show.show_time
-																	)}
-																	description={`Join us for this amazing show! Tickets starting at $${show.ticket_price.toFixed(
-																		2
-																	)}`}
-																/>
-															)
-														)}
+														<Box
+															sx={{
+																display: "flex",
+																flexDirection:
+																	"column",
+																gap: 2,
+																mt: 2,
+																px: 3,
+															}}
+														>
+															{monthShows.map(
+																(show) => (
+																	<EventCard
+																		key={
+																			show.show_id
+																		}
+																		title={
+																			show.show_name
+																		}
+																		date={formatDateTime(
+																			show.show_date,
+																			show.show_time
+																		)}
+																		description={`Join us for this amazing show! Tickets starting at $${show.ticket_price.toFixed(
+																			2
+																		)}`}
+																	/>
+																)
+															)}
+														</Box>
 													</Box>
-												</Box>
-											)
-										)}
-									</Box>
-								)}
-							</Box>
-						</Paper>
-					</Box>
-				)}
-			</Box>
-		</Container>
+												)
+											)}
+										</Box>
+									)}
+								</Box>
+							</Paper>
+						</Box>
+					)}
+				</Box>
+			</Container>
+		</Box>
 	);
 };
 

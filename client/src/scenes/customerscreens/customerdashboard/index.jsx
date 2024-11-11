@@ -10,7 +10,6 @@ import {
 import Grid from "@mui/material/Grid2";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../../components/Header";
 import HeroCarousel from "../../../components/HeroCarousel";
 import RideCard from "../../../components/RideCard";
 import EventCard from "../../../components/EventCard";
