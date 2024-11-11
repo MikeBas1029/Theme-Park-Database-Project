@@ -1,3 +1,4 @@
+// CustomerDashboard.js
 import {
 	Box,
 	Typography,
@@ -6,6 +7,7 @@ import {
 	Button,
 	Fade,
 	Container,
+	useTheme,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useState, useEffect } from "react";
@@ -15,8 +17,8 @@ import RideCard from "../../../components/RideCard";
 import EventCard from "../../../components/EventCard";
 import PromotionBanner from "../../../components/PromotionBanner";
 import Footer from "../../../components/Footer";
+import getRideImage from "../../../utils/getRideImage";
 
-// Helper functions
 const formatRideType = (rideType) => {
 	return rideType
 		.split("_")
@@ -24,9 +26,8 @@ const formatRideType = (rideType) => {
 		.join(" ");
 };
 
-const getRideImage = (rideType) => {
-	return `/images/${rideType}.jpg`;
-};
+// const getRideImage = (rideType) =>
+// 	require(`../../public/assets/rides/${rideType}.jpg`).default;
 
 const formatDateTime = (date, time) => {
 	const eventDate = new Date(date + " " + time);
@@ -43,6 +44,7 @@ const INITIAL_DISPLAY_COUNT = 3;
 
 const CustomerDashboard = () => {
 	const navigate = useNavigate();
+	const theme = useTheme();
 	const [rides, setRides] = useState([]);
 	const [shows, setShows] = useState([]);
 	const [ridesLoading, setRidesLoading] = useState(true);
@@ -130,7 +132,6 @@ const CustomerDashboard = () => {
 		</Box>
 	);
 
-	// Filter active shows and sort by date
 	const activeShows = shows
 		.filter((show) => show.status === "Active")
 		.sort((a, b) => new Date(a.show_date) - new Date(b.show_date));
@@ -208,10 +209,13 @@ const CustomerDashboard = () => {
 										mb: 2,
 										px: 4,
 										borderRadius: 1,
-										backgroundColor: "#2344A1",
-										color: "white",
+										backgroundColor:
+											theme.palette.primary.main,
+										color: theme.palette.primary
+											.contrastText,
 										"&:hover": {
-											backgroundColor: "#3A5BC7",
+											backgroundColor:
+												theme.palette.primary.dark,
 										},
 									}}
 								>
@@ -281,10 +285,13 @@ const CustomerDashboard = () => {
 											mb: 2,
 											px: 4,
 											borderRadius: 1,
-											backgroundColor: "#2344A1",
-											color: "white",
+											backgroundColor:
+												theme.palette.primary.main,
+											color: theme.palette.primary
+												.contrastText,
 											"&:hover": {
-												backgroundColor: "#3A5BC7",
+												backgroundColor:
+													theme.palette.primary.dark,
 											},
 										}}
 									>

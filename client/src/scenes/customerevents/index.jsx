@@ -6,6 +6,7 @@ import {
 	Container,
 	Paper,
 	Divider,
+	useTheme,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
@@ -32,6 +33,7 @@ const formatMonthYear = (date) => {
 };
 
 const CustomerEvents = () => {
+	const theme = useTheme();
 	const [shows, setShows] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -69,7 +71,6 @@ const CustomerEvents = () => {
 		fetchData();
 	}, []);
 
-	// Filter active shows and format for FullCalendar
 	const activeShows = shows
 		.filter((show) => show.status === "Active")
 		.map((show) => {
@@ -96,7 +97,6 @@ const CustomerEvents = () => {
 			};
 		});
 
-	// Get upcoming shows (next 6 months) grouped by month
 	const sixMonthsFromNow = new Date();
 	sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
 
@@ -113,7 +113,6 @@ const CustomerEvents = () => {
 		})
 		.sort((a, b) => new Date(a.show_date) - new Date(b.show_date));
 
-	// Group shows by month
 	const groupedShows = upcomingShows.reduce((groups, show) => {
 		const monthYear = formatMonthYear(show.show_date);
 		if (!groups[monthYear]) {
@@ -153,6 +152,8 @@ const CustomerEvents = () => {
 								sx={{
 									flex: "1 1 auto",
 									p: 2,
+									backgroundColor:
+										theme.palette.background.paper,
 									"& .fc": {
 										fontFamily: "inherit",
 									},
@@ -161,15 +162,17 @@ const CustomerEvents = () => {
 									},
 									"& .fc-event": {
 										cursor: "pointer",
-										backgroundColor: "#1976d2",
-										borderColor: "#1976d2",
+										backgroundColor:
+											theme.palette.primary.main,
+										borderColor: theme.palette.primary.main,
+										color: theme.palette.primary
+											.contrastText,
 										"&:hover": {
 											opacity: 0.9,
 										},
 									},
 									"& .fc-day-today": {
-										backgroundColor:
-											"rgba(25, 118, 210, 0.05) !important",
+										backgroundColor: `${theme.palette.primary.light}33`,
 									},
 								}}
 							>
@@ -200,6 +203,9 @@ const CustomerEvents = () => {
 									flex: "0 0 auto",
 									width: { xs: "100%", md: "400px" },
 									p: 0,
+									backgroundColor:
+										theme.palette.neutral.light,
+									color: theme.palette.text.primary,
 									maxHeight: { md: "800px" },
 									overflow: "hidden",
 									display: "flex",
@@ -211,13 +217,17 @@ const CustomerEvents = () => {
 										p: 3,
 										pb: 2,
 										borderBottom: 1,
-										borderColor: "divider",
-										bgcolor: "background.paper",
+										borderColor: theme.palette.divider,
+										backgroundColor:
+											theme.palette.neutral.main,
 									}}
 								>
 									<Typography
-										variant="h6"
+										variant="h3"
 										gutterBottom={false}
+										sx={{
+											color: theme.palette.text.secondary,
+										}}
 									>
 										Upcoming Shows
 									</Typography>
@@ -232,14 +242,18 @@ const CustomerEvents = () => {
 											width: "8px",
 										},
 										"&::-webkit-scrollbar-track": {
-											background: "#f1f1f1",
+											background:
+												theme.palette.background
+													.default,
 											borderRadius: "4px",
 										},
 										"&::-webkit-scrollbar-thumb": {
-											background: "#888",
+											background:
+												theme.palette.primary.light,
 											borderRadius: "4px",
 											"&:hover": {
-												background: "#666",
+												background:
+													theme.palette.primary.main,
 											},
 										},
 									}}
@@ -273,13 +287,15 @@ const CustomerEvents = () => {
 																	"sticky",
 																top: 0,
 																bgcolor:
-																	"#f8f8f8",
+																	theme
+																		.palette
+																		.neutral
+																		.main,
 																pt:
 																	index === 0
 																		? 0
 																		: 2,
 																zIndex: 1,
-																borderRadius: 0,
 																display: "flex",
 																flexDirection:
 																	"column",
@@ -293,8 +309,7 @@ const CustomerEvents = () => {
 																	right: 0,
 																	bottom: 0,
 																	height: "4px",
-																	background:
-																		"linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%)",
+																	background: `linear-gradient(to bottom, ${theme.palette.neutral.main} 0%, transparent 100%)`,
 																},
 															}}
 														>
@@ -303,9 +318,10 @@ const CustomerEvents = () => {
 																sx={{
 																	fontSize:
 																		"1.1rem",
-																	fontWeight:
-																		"500",
-																	color: "primary.main",
+																	fontWeight: 500,
+																	color: theme
+																		.palette
+																		.text,
 																	mb: 1,
 																	pl: 3,
 																}}
@@ -338,9 +354,7 @@ const CustomerEvents = () => {
 																			show.show_date,
 																			show.show_time
 																		)}
-																		description={`Join us for this amazing show! Tickets starting at $${show.ticket_price.toFixed(
-																			2
-																		)}`}
+																		description={`Join us for this amazing show! Tickets starting at $${show.ticket_price.toFixed(2)}`}
 																	/>
 																)
 															)}

@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid2";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import RideCard from "../../components/RideCard";
+import getRideImage from "../../utils/getRideImage";
 
 // Helper functions remain the same
 const formatRideType = (rideType) => {
@@ -18,10 +19,6 @@ const formatRideType = (rideType) => {
 		.split("_")
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ");
-};
-
-const getRideImage = (rideType) => {
-	return `/images/${rideType}.jpg`;
 };
 
 const CustomerRides = () => {

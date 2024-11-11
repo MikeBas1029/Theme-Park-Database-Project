@@ -11,7 +11,6 @@ import { DisplayModeContext } from "../../theme";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
@@ -24,6 +23,7 @@ import { useUser } from "../../components/context/UserContext";
 
 const Item = ({ title, to, icon }) => {
 	const location = useLocation();
+	const theme = useTheme();
 	const isActive = location.pathname === to;
 
 	return (
@@ -34,14 +34,16 @@ const Item = ({ title, to, icon }) => {
 					alignItems: "center",
 					padding: "10px 20px",
 					backgroundColor: isActive
-						? "rgba(255, 255, 255, 0.1)"
+						? theme.palette.action.hover
 						: "transparent",
 					borderRadius: "8px",
 				}}
 			>
 				<Box
 					sx={{
-						color: isActive ? "#FFD700" : "inherit",
+						color: isActive
+							? theme.palette.secondary.main // Apply secondary color only to icon if active
+							: theme.palette.navbarText.main,
 						marginRight: "8px",
 					}}
 				>
@@ -51,6 +53,7 @@ const Item = ({ title, to, icon }) => {
 					sx={{
 						marginLeft: "8px",
 						fontSize: "1rem",
+						color: theme.palette.navbarText.main, // Use navbar-specific text color
 					}}
 				>
 					{title}
@@ -75,7 +78,7 @@ const Navbar = () => {
 			position="sticky"
 			top={0}
 			zIndex={10}
-			backgroundColor="black"
+			backgroundColor={theme.palette.navbar.main}
 			boxShadow="0px 2px 5px rgba(0, 0, 0, 0.1)"
 		>
 			{/* Left Spacer */}
@@ -114,10 +117,7 @@ const Navbar = () => {
 					<DropdownMenu
 						title="Tickets"
 						menuItems={[
-							{
-								label: "My Tickets",
-								path: "/customertickets",
-							},
+							{ label: "My Tickets", path: "/customertickets" },
 							{
 								label: "Purchase Tickets",
 								path: "/purchaseTickets",
@@ -168,11 +168,7 @@ const Navbar = () => {
 						<LightModeOutlinedIcon />
 					)}
 				</IconButton>
-				{/* <IconButton>
-					<CalendarTodayOutlinedIcon />
-				</IconButton> */}
 
-				{/* Conditionally render AccountMenu or Sign Up */}
 				{user ? (
 					<Box display="flex" gap={1}>
 						<IconButton>
