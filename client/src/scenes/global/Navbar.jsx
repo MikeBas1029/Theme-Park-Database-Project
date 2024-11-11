@@ -4,6 +4,7 @@ import {
 	useTheme,
 	Typography,
 	useMediaQuery,
+	Button,
 } from "@mui/material";
 import { useContext } from "react";
 import { DisplayModeContext } from "../../theme";
@@ -19,6 +20,7 @@ import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import NotificationMenu from "./NotificationMenu";
 import AccountMenu from "../../components/AccountMenu";
 import DropdownMenu from "../../components/DropdownMenu";
+import { useUser } from "../../components/context/UserContext";
 
 const Item = ({ title, to, icon }) => {
 	const location = useLocation();
@@ -48,8 +50,7 @@ const Item = ({ title, to, icon }) => {
 				<Typography
 					sx={{
 						marginLeft: "8px",
-						fontSize: "1.1rem",
-						// color: isActive ? "#3A5BC7" : "inherit",
+						fontSize: "1rem",
 					}}
 				>
 					{title}
@@ -59,22 +60,23 @@ const Item = ({ title, to, icon }) => {
 	);
 };
 
-const Navbar = ({ userType }) => {
+const Navbar = () => {
 	const theme = useTheme();
 	const colorMode = useContext(DisplayModeContext);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 	const navigate = useNavigate();
+	const { user } = useUser();
 
 	return (
 		<Box
 			display="flex"
 			alignItems="center"
 			p={1}
-			position="sticky" // Make navbar sticky
-			top={0} // Stick to the top of the viewport
-			zIndex={10} // Ensure it stays above other content when scrolling
-			backgroundColor="black" // Set background color to avoid transparency issues
-			boxShadow="0px 2px 5px rgba(0, 0, 0, 0.1)" // Add a shadow for better visibility
+			position="sticky"
+			top={0}
+			zIndex={10}
+			backgroundColor="black"
+			boxShadow="0px 2px 5px rgba(0, 0, 0, 0.1)"
 		>
 			{/* Left Spacer */}
 			<Box
@@ -91,73 +93,64 @@ const Navbar = ({ userType }) => {
 				/>
 			</Box>
 
-			{/* Centered Navbar Content */}
+			{/* Centered Navbar Content - visible for all users */}
 			<Box
 				display="flex"
 				justifyContent="center"
 				alignItems="center"
 				flex="2"
 				mx="auto"
+				pr={2}
 			>
-				{userType === "customer" && (
-					<Box
-						display="flex"
-						justifyContent="center"
-						alignItems="center"
-						flexWrap={isSmallScreen ? "wrap" : "nowrap"}
-						gap={1}
-						maxWidth="800px"
-					>
-						<Item
-							title="Home"
-							to="/customerhome"
-							icon={<HomeOutlinedIcon />}
-						/>
-						<DropdownMenu
-							title="Tickets"
-							menuItems={[
-								{
-									label: "My Tickets",
-									path: "/customertickets",
-								},
-								{
-									label: "Purchase Tickets",
-									path: "/purchaseTickets",
-								},
-							]}
-							icon={<LocalActivityIcon />}
-						/>
-						<Item
-							title="Map"
-							to="/parkmap"
-							icon={<MapOutlinedIcon />}
-						/>
-						<DropdownMenu
-							title="Amusement"
-							menuItems={[
-								{ label: "Rides", path: "/customer-rides" },
-								// {
-								// 	label: "Attractions",
-								// 	path: "/customerattractions",
-								// },
-								{ label: "Events", path: "/customer-events" },
-							]}
-							icon={<AttractionsOutlinedIcon />}
-						/>
-						<DropdownMenu
-							title="Services"
-							menuItems={[
-								{ label: "Dining", path: "/customerdining" },
-								{
-									label: "Facilities",
-									path: "/customerfacilities",
-								},
-								{ label: "Shopping", path: "/customershops" },
-							]}
-							icon={<StoreOutlinedIcon />}
-						/>
-					</Box>
-				)}
+				<Box
+					display="flex"
+					justifyContent="center"
+					alignItems="center"
+					flexWrap={isSmallScreen ? "wrap" : "nowrap"}
+					gap={1}
+					maxWidth="800px"
+				>
+					<Item title="Home" to="/" icon={<HomeOutlinedIcon />} />
+					<DropdownMenu
+						title="Tickets"
+						menuItems={[
+							{
+								label: "My Tickets",
+								path: "/customertickets",
+							},
+							{
+								label: "Purchase Tickets",
+								path: "/purchaseTickets",
+							},
+						]}
+						icon={<LocalActivityIcon />}
+					/>
+					<Item
+						title="Map"
+						to="/parkmap"
+						icon={<MapOutlinedIcon />}
+					/>
+					<DropdownMenu
+						title="Amusement"
+						menuItems={[
+							{ label: "Rides", path: "/customer-rides" },
+							{ label: "Events", path: "/customer-events" },
+						]}
+						icon={<AttractionsOutlinedIcon />}
+					/>
+					<DropdownMenu
+						title="Services"
+						menuItems={[
+							{ label: "Dining", path: "/customerdining" },
+							{
+								label: "Facilities",
+								path: "/customerfacilities",
+							},
+							{ label: "Shopping", path: "/customershops" },
+						]}
+						icon={<StoreOutlinedIcon />}
+					/>
+				</Box>
 			</Box>
 
 			{/* Right-aligned Icon Section */}
@@ -166,6 +159,7 @@ const Navbar = ({ userType }) => {
 				alignItems="center"
 				flex="1"
 				justifyContent="flex-end"
+				pl={3}
 			>
 				<IconButton onClick={colorMode.toggleDisplayMode}>
 					{theme.palette.mode === "dark" ? (
@@ -174,15 +168,36 @@ const Navbar = ({ userType }) => {
 						<LightModeOutlinedIcon />
 					)}
 				</IconButton>
-				{userType !== "customer" && (
-					<IconButton>
-						<CalendarTodayOutlinedIcon />
-					</IconButton>
+				{/* <IconButton>
+					<CalendarTodayOutlinedIcon />
+				</IconButton> */}
+
+				{/* Conditionally render AccountMenu or Sign Up */}
+				{user ? (
+					<Box display="flex" gap={1}>
+						<IconButton>
+							<NotificationMenu />
+						</IconButton>
+						<AccountMenu userType={user.userType} />
+					</Box>
+				) : (
+					<Box display="flex" gap={1}>
+						<Button
+							variant="text"
+							color="inherit"
+							onClick={() => navigate("/custlogin")}
+						>
+							Log In
+						</Button>
+						<Button
+							variant="text"
+							color="inherit"
+							onClick={() => navigate("/signup")}
+						>
+							Register
+						</Button>
+					</Box>
 				)}
-				<IconButton>
-					<NotificationMenu />
-				</IconButton>
-				<AccountMenu userType={userType} />
 			</Box>
 		</Box>
 	);
