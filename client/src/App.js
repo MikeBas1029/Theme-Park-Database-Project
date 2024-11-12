@@ -56,6 +56,7 @@ import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
+import CustomerRestaurants from "./scenes/customerrestaurants";
 
 function App() {
 	const navigate = useNavigate();
@@ -155,6 +156,10 @@ function App() {
 								path="/customer-events"
 								element={<CustomerEvents />}
 							/>{" "}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"
@@ -222,7 +227,15 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>{" "}
-							<Route path="/my-team"element={<ProtectedRoute allowedRoles={["manager"]}><ManagerStaffView/></ProtectedRoute>}/> {/*DESIRED ROUTES FORMAT !! */}
+							<Route
+								path="/my-team"
+								element={
+									<ProtectedRoute allowedRoles={["manager"]}>
+										<ManagerStaffView />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*DESIRED ROUTES FORMAT !! */}
 							{/*Staff management page routing */}✅
 							<Route
 								path="/transactions"
