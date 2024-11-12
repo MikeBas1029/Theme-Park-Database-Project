@@ -59,6 +59,7 @@ import ManagerStaffView from "./scenes/managestaff/manager";
 import CustomerRestaurants from "./scenes/customerrestaurants";
 import PurchaseTickets from "./scenes/purchasetickets";
 import ShoppingCart from "./scenes/shoppingcart";
+import Checkout from "./scenes/checkout";
 
 function App() {
 	const navigate = useNavigate();
@@ -170,6 +171,7 @@ function App() {
 								path="/shopping-cart"
 								element={<ShoppingCart />}
 							/>{" "}
+							<Route path="/checkout" element={<Checkout />} />{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"

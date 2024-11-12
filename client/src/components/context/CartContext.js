@@ -9,29 +9,17 @@ export const CartProvider = ({ children }) => {
 	const [cartItems, setCartItems] = useState([]);
 
 	const addItem = (newItem) => {
-		setCartItems((prevItems) => {
-			const existingItemIndex = prevItems.findIndex(
-				(item) => item.id === newItem.id
-			);
-
-			if (existingItemIndex !== -1) {
-				// If item exists, increase the quantity
-				const updatedItems = [...prevItems];
-				const existingItem = updatedItems[existingItemIndex];
-				updatedItems[existingItemIndex] = {
-					...existingItem,
-					quantity:
-						(existingItem.quantity || 1) + (newItem.quantity || 1),
-				};
-				return updatedItems;
-			} else {
-				// If item does not exist, add it to the cart with initial quantity
-				return [
-					...prevItems,
-					{ ...newItem, quantity: newItem.quantity || 1 },
-				];
-			}
-		});
+		setCartItems((prevItems) => [
+			...prevItems,
+			{
+				...newItem,
+				quantity: newItem.quantity || 1,
+				name: newItem.name || "Ticket",
+				type: newItem.type || "Adult",
+				price: newItem.price || 0,
+				totalPrice: (newItem.quantity || 1) * (newItem.price || 0),
+			},
+		]);
 	};
 
 	const removeItem = (itemId) => {
@@ -40,19 +28,22 @@ export const CartProvider = ({ children }) => {
 		);
 	};
 
-	const updateItemQuantity = (itemId, newValues) => {
+	const updateItemQuantity = (itemId, newQuantity) => {
 		setCartItems((prevItems) =>
 			prevItems.map((item) =>
-				item.id === itemId ? { ...item, ...newValues } : item
+				item.id === itemId
+					? {
+							...item,
+							quantity: newQuantity,
+							totalPrice: newQuantity * item.price,
+						}
+					: item
 			)
 		);
 	};
 
 	const calculateTotal = () => {
-		return cartItems.reduce(
-			(total, item) => total + item.totalPrice * (item.quantity || 1),
-			0
-		);
+		return cartItems.reduce((total, item) => total + item.totalPrice, 0);
 	};
 
 	return (
@@ -69,3 +60,5 @@ export const CartProvider = ({ children }) => {
 		</CartContext.Provider>
 	);
 };
+
+export default CartContext;

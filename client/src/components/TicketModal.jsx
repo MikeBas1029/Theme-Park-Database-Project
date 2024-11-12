@@ -34,21 +34,39 @@ const TicketSelectionModal = ({ open, onClose, ticket }) => {
 		setStep(1);
 	};
 
-	const handleConfirm = () => {
-		const item = {
-			id: `${ticket.ticket_type}-${new Date().getTime()}`, // Unique ID for the cart item
-			ticketType: ticket.ticket_type,
-			date: selectedDate,
-			adultCount,
-			childCount,
-			adultPrice: ticket.base_price,
-			childPrice: (ticket.base_price * 0.8).toFixed(2),
-			totalPrice:
-				adultCount * ticket.base_price +
-				childCount * (ticket.base_price * 0.8),
-		};
+	const generateRandomId = () => {
+		return Math.random().toString(36).substring(2, 14); // Generates a 12-character alphanumeric string
+	};
 
-		addItem(item); // Add item to cart context
+	const handleConfirm = () => {
+		// Adding adult tickets as separate items if any are selected
+		if (adultCount > 0) {
+			const adultTicket = {
+				id: `${generateRandomId()}`, // Unique ID
+				name: `${ticket.ticket_type} PASS (Adult)`,
+				type: "Adult",
+				date: selectedDate,
+				quantity: adultCount,
+				price: ticket.base_price,
+				totalPrice: adultCount * ticket.base_price,
+			};
+			addItem(adultTicket);
+		}
+
+		// Adding child tickets as separate items if any are selected
+		if (childCount > 0) {
+			const childTicket = {
+				id: `${generateRandomId()}`, // Unique ID
+				name: `${ticket.ticket_type} PASS (Child)`,
+				type: "Child",
+				date: selectedDate,
+				quantity: childCount,
+				price: Math.round(ticket.base_price * 0.8),
+				totalPrice: childCount * (ticket.base_price * 0.8),
+			};
+			addItem(childTicket);
+		}
+
 		onClose();
 	};
 
@@ -81,7 +99,7 @@ const TicketSelectionModal = ({ open, onClose, ticket }) => {
 								/>
 								<TicketCounter
 									label="Child Ticket"
-									price={(ticket.base_price * 0.8).toFixed(2)}
+									price={Math.round(ticket.base_price * 0.8)}
 									count={childCount}
 									setCount={setChildCount}
 								/>
@@ -144,6 +162,7 @@ const TicketSelectionModal = ({ open, onClose, ticket }) => {
 							onClick={handleConfirm}
 							color="primary"
 							variant="contained"
+							disabled={!selectedDate}
 						>
 							Add to Cart
 						</Button>

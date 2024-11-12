@@ -10,9 +10,9 @@ const ShoppingCart = () => {
 		useCart();
 	const navigate = useNavigate();
 
-	const handleRemoveItem = (item) => removeItem(item.id);
-	const handleUpdateQuantity = (item, newValues) =>
-		updateItemQuantity(item.id, newValues);
+	const handleRemoveItem = (itemId) => removeItem(itemId);
+	const handleUpdateQuantity = (itemId, newQuantity) =>
+		updateItemQuantity(itemId, newQuantity);
 
 	const total = calculateTotal();
 
@@ -48,7 +48,11 @@ const ShoppingCart = () => {
 						<Typography variant="h6">
 							Total: ${total.toFixed(2)}
 						</Typography>
-						<Button variant="contained" color="primary">
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => navigate("/checkout")}
+						>
 							Proceed to Checkout
 						</Button>
 					</Box>
