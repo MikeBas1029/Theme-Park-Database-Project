@@ -121,13 +121,13 @@ const Navbar = () => {
 								? [
 										{
 											label: "My Tickets",
-											path: "/customertickets",
+											path: "/my-tickets",
 										},
 									]
 								: []),
 							{
 								label: "Purchase Tickets",
-								path: "/purchaseTickets",
+								path: "/purchase-tickets",
 							},
 						]}
 						icon={<LocalActivityIcon />}
