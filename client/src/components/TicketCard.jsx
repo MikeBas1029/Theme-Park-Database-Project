@@ -1,4 +1,5 @@
-import React from "react";
+// TicketCard.js
+import React, { useState } from "react";
 import {
 	Card,
 	CardContent,
@@ -7,6 +8,9 @@ import {
 	Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../components/context/UserContext";
+import TicketSelectionModal from "./TicketModal";
 
 const StyledCard = styled(Card)({
 	width: 200,
@@ -20,6 +24,18 @@ const StyledCard = styled(Card)({
 });
 
 const TicketCard = ({ ticket }) => {
+	const navigate = useNavigate();
+	const { user } = useUser();
+	const [modalOpen, setModalOpen] = useState(false);
+
+	const handleFindTickets = () => {
+		if (user) {
+			setModalOpen(true);
+		} else {
+			navigate("/custlogin");
+		}
+	};
+
 	return (
 		<StyledCard>
 			<CardContent>
@@ -41,10 +57,21 @@ const TicketCard = ({ ticket }) => {
 				</Typography>
 			</CardContent>
 			<CardActions style={{ justifyContent: "center" }}>
-				<Button size="small" variant="outlined">
+				<Button
+					size="small"
+					variant="outlined"
+					onClick={handleFindTickets}
+				>
 					Find Tickets
 				</Button>
 			</CardActions>
+
+			{/* Modal for ticket selection */}
+			<TicketSelectionModal
+				open={modalOpen}
+				onClose={() => setModalOpen(false)}
+				ticket={ticket}
+			/>
 		</StyledCard>
 	);
 };
