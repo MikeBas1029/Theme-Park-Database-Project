@@ -56,6 +56,10 @@ import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
+import CustomerRestaurants from "./scenes/customerrestaurants";
+import PurchaseTickets from "./scenes/purchasetickets";
+import ShoppingCart from "./scenes/shoppingcart";
+import Checkout from "./scenes/checkout";
 
 function App() {
 	const navigate = useNavigate();
@@ -155,6 +159,19 @@ function App() {
 								path="/customer-events"
 								element={<CustomerEvents />}
 							/>{" "}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/purchase-tickets"
+								element={<PurchaseTickets />}
+							/>{" "}
+							<Route
+								path="/shopping-cart"
+								element={<ShoppingCart />}
+							/>{" "}
+							<Route path="/checkout" element={<Checkout />} />{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"
@@ -222,7 +239,15 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>{" "}
-							<Route path="/my-team"element={<ProtectedRoute allowedRoles={["manager"]}><ManagerStaffView/></ProtectedRoute>}/> {/*DESIRED ROUTES FORMAT !! */}
+							<Route
+								path="/my-team"
+								element={
+									<ProtectedRoute allowedRoles={["manager"]}>
+										<ManagerStaffView />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*DESIRED ROUTES FORMAT !! */}
 							{/*Staff management page routing */}✅
 							<Route
 								path="/transactions"
