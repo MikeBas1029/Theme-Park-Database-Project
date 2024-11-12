@@ -36,9 +36,7 @@ export default function AccountMenu({ userRole }) {
 		localStorage.removeItem("user_data");
 		localStorage.removeItem("access_token");
 		localStorage.removeItem("refresh_token");
-		user.userType === "employee"
-			? navigate("/emplogin")
-			: navigate("/custlogin");
+		user.userType === "employee" ? navigate("/emplogin") : navigate("/");
 		logout();
 	};
 
