@@ -42,7 +42,7 @@ const Item = ({ title, to, icon }) => {
 				<Box
 					sx={{
 						color: isActive
-							? theme.palette.secondary.main // Apply secondary color only to icon if active
+							? theme.palette.secondary.main
 							: theme.palette.navbarText.main,
 						marginRight: "8px",
 					}}

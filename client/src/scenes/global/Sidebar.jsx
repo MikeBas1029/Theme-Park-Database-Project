@@ -55,7 +55,7 @@ return(
     <Box
     sx ={{
         "& .pro-sidebar-inner": {
-            background: `${colors.primary[400]} !important`
+            background: `${colors.grey[700]} !important`
         },
         "& .pro-icon-wrapper": {
             backgroundColor: "transparent !important"
@@ -134,7 +134,7 @@ return(
 
             <Item
               title="Dashboard Home"
-              to={user?.role === 'employee' ? '/employeedashboard' : user?.role === 'manager' ? '/managerdashboard' : '/'}
+              to={user?.role === 'employee' ? '/employeedashboard' : user?.role === 'manager' ? '/managerdashboard' : '/dashboard'}
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -239,7 +239,7 @@ return(
 
            <Item
              title="Manage Team"
-             to="/managestaff"
+             to="/my-team"
              icon={<PeopleOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}

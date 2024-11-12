@@ -75,7 +75,7 @@ export default function LoginForm() {
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                        department: userData.job_function,
+                        department: userData.department_id,
                     }, 'employee');
 
                     localStorage.setItem('access_token', data.access_token);
@@ -87,7 +87,7 @@ export default function LoginForm() {
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                        department: userData.job_function,
+                        department: userData.department_id,
                     }, 'employee'));
 
                     console.log('Login successful:', data.user);
