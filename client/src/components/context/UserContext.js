@@ -24,10 +24,11 @@ export const UserProvider = ({ children }) => {
       userType, // "employee" or "customer"
       role: userType === 'employee' ? userData.role : null, // Set role only for employees
       employee_id: userType === 'employee' ? userData.employee_id : null, // Employee ID/department if employee
-      department: userType === 'employee' ? userData.department_id : null, 
+      department: userType === 'employee' ? userData.department_id : null 
 
   };
 
+  console.log('Setting user data:', userData); // Debug log
   setUser(formattedUserData);
   localStorage.setItem('user_data', JSON.stringify(formattedUserData)); // Store user data in local storage
   localStorage.setItem('user_type', userType); // Store type

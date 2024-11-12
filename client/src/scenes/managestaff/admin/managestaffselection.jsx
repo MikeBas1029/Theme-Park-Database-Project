@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../../components/Header";
 import Employees from "../../employees";
 import EmployeePayroll from "../../employees/payroll";
+import Departments from "../../departments";
 
 
 
@@ -15,10 +16,12 @@ const ManageStaff = () => {
 
   {/*Table/Tab state management */}
     const [activeTab, setActiveTab] = useState('Employee Roster');
-    const tabs = ['Employee Roster', 'Timesheets'];   // Page table tabs
+    const tabs = ['All Departments', 'Employee Roster', 'Timesheets'];   // Page table tabs
     // Function to render the correct table component
     const renderTable = () => {
       switch (activeTab) {
+        case 'All Departments':
+          return <Departments />
         case 'Employee Roster':
           return <Employees />
         case 'Timesheets':
