@@ -9,27 +9,18 @@ class TicketStatus(str, enum.Enum):
     USED = "USED"
     CANCELLED = "CANCELLED"
 
-class TicketType(str, enum.Enum):
-    SEASONAL = "SEASONAL"
-    WEEKEND = "WEEKEND"
-    DAY_PASS = "DAY_PASS"
-    VIP = "VIP"
-    GROUP = "GROUP"
-    STUDENT = "STUDENT"
-
 class TicketCreateModel(BaseModel):
     customer_id: str
-    ticket_type: TicketType
     price: float 
     purchase_date: date
     start_date: date 
     expiration_date: date
     discount: float 
     special_access: Optional[str | None] = None
+    ticket_type_id: int
 
 class TicketUpdateModel(BaseModel):
     customer_id: str
-    ticket_type: TicketType
     price: float 
     purchase_date: date
     start_date: date 
@@ -37,11 +28,11 @@ class TicketUpdateModel(BaseModel):
     discount: float 
     special_access: Optional[str]
     status: TicketStatus 
+    ticket_type_id: int
 
 class TicketOutputModel(BaseModel):
     ticket_id: str
     customer_id: str
-    ticket_type: TicketType
     price: float 
     purchase_date: date
     start_date: date 
@@ -49,3 +40,4 @@ class TicketOutputModel(BaseModel):
     discount: float 
     special_access: Optional[str | None] = None
     status: TicketStatus 
+    ticket_type_id: int
