@@ -123,7 +123,7 @@ return(
                  {user.first_name} {user.last_name}
                </Typography>
                <Typography variant="h5" color={colors.greenAccent[500]}>
-                 {user.role} |{user.department}
+                 {user.role} |{`${user.email}`}
                </Typography>
              </Box>
            </Box>
@@ -224,7 +224,7 @@ return(
 
 
                 
-           {/* Admin elements */}
+           {/* Manager elements */}
            {user.role === 'manager' && (
                             <>
              {!isClosed &&(
@@ -246,8 +246,8 @@ return(
            />
 
            <Item
-             title="Timesheets"
-             to="/maintenance"
+             title="Budget"
+             to=""
              icon={<HandymanIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -255,7 +255,7 @@ return(
 
             <Item
              title="Meetings"
-             to="/customervisits"
+             to=""
              icon={<TourIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -272,7 +272,7 @@ return(
                  )}
              <Item
              title="Tasks"
-             to="/insights"
+             to=""
              icon={<InsightsIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -280,14 +280,14 @@ return(
 
             <Item
              title="Workflow"
-             to="/finances"
+             to=""
              icon={<ReceiptOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
            />
             <Item
              title="Announcements"
-             to="/charts"
+             to=""
              icon={<AnalyticsOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}

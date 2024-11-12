@@ -65,12 +65,14 @@ export default function LoginForm() {
                 const userData = await userResponse.json();
                 console.log('User Response:', userResponse); //sign in details
                 console.log('User Data:', userData); //user details
+                console.log('User Data:', userData.department_id); //user details
+
 
                 // Check if userData contains employee-specific details
                 if (userData && userData.first_name && userData.last_name) {
                     login({
                         uid,
-                        email,
+                        email: userData.department_id,
                         role,
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
@@ -82,7 +84,7 @@ export default function LoginForm() {
                     localStorage.setItem('refresh_token', data.refresh_token);
                     localStorage.setItem('user_data', JSON.stringify({
                         uid,
-                        email,
+                        email: userData.department_id,
                         role,
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,

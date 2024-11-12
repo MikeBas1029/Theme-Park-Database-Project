@@ -1,10 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { sampleInvoices } from "../../data/sampleInvoices";
-import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
-import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
 import  Header from "../../components/Header"
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -44,7 +40,6 @@ const Maintenance = () => {
         {field: "section_id", headerName: "Section", flex: 1, cellClassName: "name-column--cell"}, 
         {field: "ride_id", headerName: "Ride ID"},
         {field: "invoice_id", headerName: "Invoice ID", flex: 0.5}, 
-        {field: "date", headerName: "Date", flex: 1},
         {field: "maintenance_date", headerName: "Date of Service", flex: 1},
         {field: "maintenance_type", headerName: "Maintenance Type", flex: 0.5}, 
         {field: "assigned_worker_id", headerName: "Assigned Worker(ID)", flex: 0.5}, 
