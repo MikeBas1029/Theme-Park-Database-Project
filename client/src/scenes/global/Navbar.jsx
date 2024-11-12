@@ -117,7 +117,14 @@ const Navbar = () => {
 					<DropdownMenu
 						title="Tickets"
 						menuItems={[
-							{ label: "My Tickets", path: "/customertickets" },
+							...(user
+								? [
+										{
+											label: "My Tickets",
+											path: "/customertickets",
+										},
+									]
+								: []),
 							{
 								label: "Purchase Tickets",
 								path: "/purchaseTickets",
