@@ -1,14 +1,15 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import CustomizedTabs from "../../components/tabs";
+import CustomizedTabs from "../../../components/tabs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import Employees from "../employees";
-import EmployeePayroll from "../employees/payroll";
+import Header from "../../../components/Header";
+import Employees from "../../employees";
+import EmployeePayroll from "../../employees/payroll";
+import MyEmployees from "../../employees/manager";
 
 
 
-const ManageStaff = () => {
+const ManagerStaffView = () => {
 
 
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const ManageStaff = () => {
     const renderTable = () => {
       switch (activeTab) {
         case 'Employee Roster':
-          return <Employees />
+          return <MyEmployees />
         case 'Timesheets':
           return <EmployeePayroll />
         default:
@@ -42,4 +43,4 @@ const ManageStaff = () => {
       
       }
     
-    export default ManageStaff; 
+    export default ManagerStaffView; 

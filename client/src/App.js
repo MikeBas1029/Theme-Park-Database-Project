@@ -47,7 +47,7 @@ import NewCustForm from "./scenes/form/newcustomerform";
 import { useUser } from "./components/context/UserContext";
 import MapPage from "./scenes/map";
 import EmployeePayroll from "./scenes/employees/payroll";
-import ManageStaff from "./scenes/managestaff/managestaffselection";
+import ManageStaff from "./scenes/managestaff/admin/managestaffselection";
 import MaintenanceReports from "./scenes/insights/workorderreports";
 import Insights from "./scenes/insights";
 import Charts from "./scenes/charts";
@@ -55,6 +55,7 @@ import Finances from "./scenes/finances";
 import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
 import CustomerEvents from "./scenes/customerevents";
+import ManagerStaffView from "./scenes/managestaff/manager";
 
 function App() {
 	const navigate = useNavigate();
@@ -221,6 +222,7 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>{" "}
+							<Route path="/my-team"element={<ProtectedRoute allowedRoles={["manager"]}><ManagerStaffView/></ProtectedRoute>}/> {/*DESIRED ROUTES FORMAT !! */}
 							{/*Staff management page routing */}✅
 							<Route
 								path="/transactions"
