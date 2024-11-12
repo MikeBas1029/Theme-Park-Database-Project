@@ -42,7 +42,7 @@ export default function LoginPage() {
 				setErrorMessage("Invalid email or password");
 				return;
 			}
-
+			
 			const data = await response.json();
 			if (data && data.user) {
 				const { uid, email } = data.user;
@@ -97,8 +97,31 @@ export default function LoginPage() {
 					setErrorMessage("");
 					navigate("/");
 				} else {
-					setErrorMessage("User details not found");
+					login(
+						{
+							uid,
+							email,
+						},
+						"customer"
+					);
+
+					localStorage.setItem("access_token", data.access_token);
+					localStorage.setItem("refresh_token", data.refresh_token);
+					localStorage.setItem(
+						"user_data",
+						JSON.stringify(
+							{
+								uid,
+								email,
+							},
+							"customer"
+						)
+					);
+
 					console.error("User details not found");
+					console.log("Login successful without customer info:", data.user);
+					navigate("/");
+
 				}
 			} else {
 				setErrorMessage("No user data in response");
