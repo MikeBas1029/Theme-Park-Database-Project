@@ -141,7 +141,7 @@ const Navbar = () => {
 					<DropdownMenu
 						title="Services"
 						menuItems={[
-							{ label: "Dining", path: "/customerdining" },
+							{ label: "Dining", path: "/restaurants" },
 							{
 								label: "Facilities",
 								path: "/customerfacilities",

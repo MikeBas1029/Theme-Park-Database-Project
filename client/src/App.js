@@ -55,6 +55,7 @@ import Finances from "./scenes/finances";
 import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
 import CustomerEvents from "./scenes/customerevents";
+import CustomerRestaurants from "./scenes/customerrestaurants";
 
 function App() {
 	const navigate = useNavigate();
@@ -153,6 +154,10 @@ function App() {
 							<Route
 								path="/customer-events"
 								element={<CustomerEvents />}
+							/>{" "}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
 							/>{" "}
 							{/*Inventory's form page routing */}
 							<Route

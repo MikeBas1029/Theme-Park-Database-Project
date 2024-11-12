@@ -7,6 +7,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate, Link } from "react-router-dom";
+import { useUser } from "../../components/context/UserContext";
 
 export default function SignUpPage() {
 	const navigate = useNavigate();
@@ -18,9 +19,12 @@ export default function SignUpPage() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [isPasswordValid, setIsPasswordValid] = useState(true);
 	const [passwordsMatch, setPasswordsMatch] = useState(true);
+	const { login } = useUser();
+	const [emailError, setEmailError] = useState("");
 
 	const handleSignUp = async (e) => {
 		e.preventDefault();
+		setEmailError("");
 
 		// Check password length and match
 		if (password.length < 8) {
@@ -31,8 +35,6 @@ export default function SignUpPage() {
 			alert("Passwords do not match.");
 			return;
 		}
-
-		console.log({ username, email, first_name, last_name, password });
 
 		try {
 			const response = await fetch(
@@ -53,13 +55,62 @@ export default function SignUpPage() {
 			);
 
 			if (response.ok) {
-				const data = await response.json();
-				console.log("Sign-up successful:", data);
-				navigate("/customerhome"); //Send user to completion page after successful signup
+				let data;
+				try {
+					// Attempt to parse the JSON response
+					data = await response.json();
+					console.log("Sign-up successful:", data);
+				} catch (parseError) {
+					console.error("Failed to parse JSON:", parseError);
+					alert("Unexpected response format. Please try again.");
+					return;
+				}
+
+				login(
+					{
+						uid: data.user?.uid || data.uid,
+						email: data.user?.email || data.email,
+						customer_id: data.user?.customer_id || data.customer_id,
+						first_name: data.user?.first_name || data.first_name,
+						last_name: data.user?.last_name || data.last_name,
+					},
+					"customer"
+				);
+
+				localStorage.setItem("access_token", data.access_token);
+				localStorage.setItem("refresh_token", data.refresh_token);
+				localStorage.setItem(
+					"user_data",
+					JSON.stringify({
+						uid: data.user?.uid || data.uid,
+						email: data.user?.email || data.email,
+						customer_id: data.user?.customer_id || data.customer_id,
+						first_name: data.user?.first_name || data.first_name,
+						last_name: data.user?.last_name || data.last_name,
+					})
+				);
+				navigate("/"); // Send user to completion page after successful signup
 			} else {
-				const errorData = await response.json();
-				console.error("Sign-up failed with status:", response.status);
-				console.error("Error details:", errorData);
+				let errorData;
+				try {
+					// Attempt to parse the JSON error response
+					errorData = await response.json();
+				} catch (parseError) {
+					console.error("Failed to parse error JSON:", parseError);
+					alert("An error occurred. Please try again.");
+					return;
+				}
+
+				if (
+					errorData.message &&
+					errorData.message.includes("email already exists")
+				) {
+					setEmailError(
+						"An account with this email already exists. Please try logging in."
+					);
+				} else {
+					alert("An error occurred. Please try again.");
+				}
 			}
 		} catch (error) {
 			console.error("Sign-up failed:", error);
@@ -139,6 +190,8 @@ export default function SignUpPage() {
 								),
 							}}
 							sx={{ mb: 2 }}
+							error={Boolean(emailError)}
+							helperText={emailError}
 						/>
 						<TextField
 							type="text"
@@ -222,7 +275,7 @@ export default function SignUpPage() {
 						}}
 					>
 						<Typography variant="h4" gutterBottom>
-							Already a Customer ?{" "}
+							Already a Customer?{" "}
 							<Link to="/custlogin"> Login Here</Link>
 						</Typography>
 					</Box>
