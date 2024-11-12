@@ -27,6 +27,7 @@ from .shops import Shops
 from .sections import Section
 from .supplies import Supplies
 from .tickets import Tickets
+from .ticket_types import TicketTypes
 from .timesheet import Timesheet
 from .vendors import Vendors
 from .vendor_payments import VendorPayments
