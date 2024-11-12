@@ -6,6 +6,7 @@ import Header from "../../../components/Header";
 import Employees from "../../employees";
 import EmployeePayroll from "../../employees/payroll";
 import MyEmployees from "../../employees/manager";
+import Departments from "../../departments";
 
 
 
@@ -15,12 +16,12 @@ const ManagerStaffView = () => {
   const navigate = useNavigate();
 
   {/*Table/Tab state management */}
-    const [activeTab, setActiveTab] = useState('Employee Roster');
-    const tabs = ['Employee Roster', 'Timesheets'];   // Page table tabs
+    const [activeTab, setActiveTab] = useState('My Department');
+    const tabs = ['My Department', 'Timesheets',];   // Page table tabs
     // Function to render the correct table component
     const renderTable = () => {
       switch (activeTab) {
-        case 'Employee Roster':
+        case 'My Department':
           return <MyEmployees />
         case 'Timesheets':
           return <EmployeePayroll />
@@ -33,7 +34,7 @@ const ManagerStaffView = () => {
   
 
       return <Box m="20px"> 
-                  <Header title="Vendor and Order " subtitle="Track order status/history, and view list of park vendors " />
+                  <Header title="Manage Team " subtitle="View your department roster and track you employee's timelogs." />
                       <Box >
                         <CustomizedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                         {renderTable()} 

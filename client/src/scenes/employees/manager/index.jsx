@@ -11,12 +11,14 @@ import axios  from "axios"; //install if have !! needed for API requests
 import DownloadButton from "../../../components/DownloadButton";
 import AddButton from "../../../components/AddButton";
 import PrintButton from "../../../components/PrintButton";
+import { useUser } from "../../../components/context/UserContext";
 
 
 const MyEmployees = () => {
 const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
+const {user} = useUser();
 
 
 const [employeeData, setEmployeeData] = useState([]); {/*State for storing employee data*/}
@@ -28,7 +30,7 @@ const [showFullColumns, setShowFullColumns] = useState(true);
 useEffect(() => {
     const fetchEmployeeData = async () => {
         try {
-            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/department-employees/11");
+            const response = await axios.get(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/department-employees/${user.email}`);
             console.log("Fetched employees:", response.data);
             setEmployeeData(response.data);
         } catch (error) {
@@ -64,29 +66,6 @@ const allColumns = [
     { field: "hourly_wage", headerName: "Hourly Wage" },
     { field: "salary", headerName: "Salary" },
     { field: "job_function", headerName: "Job Function" },
-    {field: "access", headerName: "Access Level", flex: 1, renderCell: ({row: {access}}) => {
-        return (
-            <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-                access === "admin"
-                ? colors.greenAccent[600]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
-            >
-                {access === "admin" && <AdminPanelSettingsOutlinedIcon /> }
-                {access === "manager" && <SecurityOutlinedIcon />}
-                {access === "user" && <LockOpenOutlinedIcon />}
-                <p style={{marginLeft: "5px", color: colors.grey[100]}}>{access}</p>
-            </Box>
-        )
-        }
-    },
 ];
 //what would be visible from shortened columns
 const shortColumns = [
@@ -107,8 +86,8 @@ const columnsToShow = showFullColumns ? allColumns : shortColumns;
         <Box display="flex" justifyContent="space-between" alignItems="center">
             <Header title="My Employees" subtitle="List of all the employees in your department"/>
             <Box display="flex" alignItems="center">
-                <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/department-employees/11" columns={columnsToShow} />
-                <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/department-employees/11" fileName="employees_report.csv" columns={columnsToShow} />
+                <PrintButton apiUrl={`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/department-employees/${user.email}`} columns={columnsToShow} />
+                <DownloadButton apiUrl={`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/department-employees/${user.email}`} fileName="employees_report.csv" columns={columnsToShow} />
                 <AddButton navigateTo={'/employeeform'}/>
             </Box>
         </Box>
