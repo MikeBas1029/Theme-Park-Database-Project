@@ -76,7 +76,6 @@ const Customers = () => {
                     </Box>
             </Box>
 
-            {/*Form fields, missing validation method linkings + user auth */}
             <Box
             m="40px 0 0 0"
             height="75vh"

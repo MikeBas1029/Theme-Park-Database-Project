@@ -46,19 +46,22 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import NewCustForm from "./scenes/form/newcustomerform";
 import { useUser } from "./components/context/UserContext";
 import MapPage from "./scenes/map";
+import EmployeePayroll from "./scenes/employees/payroll";
+import ManageStaff from "./scenes/managestaff/admin/managestaffselection";
+import MaintenanceReports from "./scenes/insights/workorderreports";
+import Insights from "./scenes/insights";
+import Charts from "./scenes/charts";
+import Finances from "./scenes/finances";
+import ManagerDashboard from "./scenes/dashboard/managerdashboard";
+import CustomerRides from "./scenes/customerrides";
+import CustomerEvents from "./scenes/customerevents";
+import ManagerStaffView from "./scenes/managestaff/manager";
 
 function App() {
 	const navigate = useNavigate();
 
-<<<<<<< HEAD
 	/*user state management */
-	//const [userRole, setUserRole] = useState("employee");
-	const [userType, setUserType] = useState("employee");
 	const { user } = useUser();
-=======
-  /*user state management */
-  const { user } = useUser();
->>>>>>> 9f1d04b507cd9355bc0430b87f86b9a87e2eba88
 
 	/*diplay state management */
 	const [theme, colorMode] = useMode();
@@ -70,30 +73,6 @@ function App() {
 	const isSignUpPage = location.pathname === "/signup";
 	const isSignUpPageSub = location.pathname === "/sub";
 
-	// Simulated login functions
-	const loginAsEmployee = () => {
-		const hardcodedPassword = "tooShortToRide";
-		const userInput = prompt("Please enter the permission password:");
-
-		if (userInput === hardcodedPassword) {
-			setUserType("employee");
-			navigate("/");
-		} else {
-			alert("Incorrect password. Access denied.");
-		}
-	};
-
-<<<<<<< HEAD
-	const loginAsCustomer = () => {
-		setUserType("customer");
-		navigate("/customerhome");
-	};
-
-	const logout = () => {
-		setUserType(null);
-		navigate("/emplogin");
-	};
-
 	return (
 		<DisplayModeContext.Provider value={colorMode}>
 			<ThemeProvider theme={theme}>
@@ -102,51 +81,45 @@ function App() {
 					{!isCustLogin &&
 						!isSignUpPage &&
 						!isEmpLogin &&
-						user &&
-						userType === "employee" && <Sidebar />}
+						user?.userType === "employee" && <Sidebar />}
 					<main className="content">
 						{!isCustLogin && !isSignUpPage && !isEmpLogin && (
-							<Navbar userType={userType} />
+							<Navbar />
 						)}
-						{/* Simulated login buttons */}
-						<Box
-							m="20px"
-							display="flex"
-							justifyContent="flex-start"
-						>
-							<Box
-								display="flex"
-								flexDirection="row"
-								justifyContent="flex-start"
-								alignItems="center"
-							>
-								{user && userType === "employee" ? (
-									<Button
-										variant="contained"
-										onClick={loginAsCustomer}
-										sx={{ mx: 1 }}
-									>
-										Customer View
-									</Button>
-								) : user && userType === "customer" ? (
-									<Button
-										variant="contained"
-										onClick={loginAsEmployee}
-										sx={{ mx: 1 }}
-									>
-										Employee View
-									</Button>
-								) : null}
-							</Box>
-						</Box>
-
 						<Routes>
-							<Route path="/" element={<CustomerDashboard />} />{" "}
+							{/*User Authentication pages */}
+							<Route
+								path="/"
+								element={<CustomerDashboard />}
+							/>{" "}
+							<Route path="/emplogin" element={<LoginForm />} />{" "}
+							{/*Login page routing */}
+							<Route
+								path="/custlogin"
+								element={<LoginPage />}
+							/>{" "}
+							{/*Inventory's form page routing */}
+							<Route
+								path="/signup"
+								element={<SignUpPage />}
+							/>{" "}
+							{/*Inventory's form page routing */}
+							{/*Access controlled routes */}
+							{/* Dashboard routing */}
 							<Route
 								path="/dashboard"
 								element={
-									<ProtectedRoute>
+									<ProtectedRoute allowedRoles={["admin"]}>
 										<Dashboard />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/* Dashboard routing */}
+							<Route
+								path="/managerdashboard"
+								element={
+									<ProtectedRoute allowedRoles={["manager"]}>
+										<ManagerDashboard />
 									</ProtectedRoute>
 								}
 							/>{" "}
@@ -154,29 +127,150 @@ function App() {
 							<Route
 								path="/employees"
 								element={
-									<ProtectedRoute>
+									<ProtectedRoute
+										allowedRoles={["admin", "manager"]}
+									>
 										<Employees />
 									</ProtectedRoute>
 								}
 							/>{" "}
 							{/*Employee page routing */}
-							<Route path="/vendors" element={<Vendors />} />{" "}
+							<Route
+								path="/payroll"
+								element={
+									<ProtectedRoute
+										allowedRoles={["admin", "manager"]}
+									>
+										<EmployeePayroll />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Employee page routing */}
+							<Route path="/rides" element={<Rides />} />{" "}
+							<Route
+								path="/customer-rides"
+								element={<CustomerRides />}
+							/>{" "}
+							<Route
+								path="/customer-events"
+								element={<CustomerEvents />}
+							/>{" "}
+							{/*Inventory's form page routing */}
+							<Route
+								path="/vendors"
+								element={
+									<ProtectedRoute>
+										<Vendors />
+									</ProtectedRoute>
+								}
+							/>{" "}
 							{/*Vendors page routing */}
 							<Route
-								path="/emplogin"
-								element={<LoginForm />}
+								path="/customers"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<Customers />
+									</ProtectedRoute>
+								}
 							/>{" "}
-							{/*Login page routing */}
-							<Route
-								path="/transactions"
-								element={<TransactionSelection />}
-							/>{" "}
-							{/*Transactions tab routing */}
+							{/*Customers page routing */}
 							<Route
 								path="/invoices"
-								element={<Invoices />}
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<Invoices />
+									</ProtectedRoute>
+								}
 							/>{" "}
 							{/*Invoice page routing */}
+							<Route path="/shops" element={<Shops />} />{" "}
+							{/*Shops page pagerouting */}
+							<Route
+								path="/maintenance"
+								element={
+									<ProtectedRoute>
+										<Maintenance />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Maintenance page routing */}
+							<Route path="/safety" element={<Safety />} />{" "}
+							{/*Safety page routing */}
+							<Route
+								path="/tickets"
+								element={
+									<ProtectedRoute>
+										<Tickets />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Inventory's form page routing */}
+							<Route
+								path="/facilities"
+								element={
+									<ProtectedRoute>
+										<Facilities />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Facilities page routing */}
+							<Route
+								path="/managestaff"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<ManageStaff />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							<Route path="/my-team"element={<ProtectedRoute allowedRoles={["manager"]}><ManagerStaffView/></ProtectedRoute>}/> {/*DESIRED ROUTES FORMAT !! */}
+							{/*Staff management page routing */}✅
+							<Route
+								path="/transactions"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<TransactionSelection />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Transactions tab routing */} ✅
+							<Route
+								path="/insights"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<Insights />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Transactions tab routing */} ✅
+							{/*Report pages */}
+							<Route
+								path="/workorderreports"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<MaintenanceReports />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Transactions tab routing */} ✅
+							<Route
+								path="/charts"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<Charts />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Transactions tab routing */} ✅
+							<Route
+								path="/finances"
+								element={
+									<ProtectedRoute allowedRoles={["admin"]}>
+										<Finances />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Transactions tab routing */} ✅
+							{/*Creation forms*/}
 							<Route
 								path="/employeeform"
 								element={<EmployeeForm />}
@@ -212,57 +306,12 @@ function App() {
 								element={<RideForm />}
 							/>{" "}
 							{/*Wrong route for error dimmissal ! change to no s */}
-							<Route path="/shops" element={<Shops />} />{" "}
-							{/*Shops page pagerouting */}
-							<Route
-								path="/maintenance"
-								element={<Maintenance />}
-							/>{" "}
-							{/*Maintenance page routing */}
-							<Route
-								path="/supplies"
-								element={<Supplies />}
-							/>{" "}
-							{/*Shops&Inventory tab routing */}
-							<Route
-								path="/customers"
-								element={<Customers />}
-							/>{" "}
-							{/*Customers page routing */}
-							<Route
-								path="/facilities"
-								element={<Facilities />}
-							/>{" "}
-							{/*Facilities page routing */}
-							<Route
-								path="/vendorsorders"
-								element={<VendorSelection />}
-							/>{" "}
-							{/*Vendors&Orders tab form routing */}
-							<Route path="/safety" element={<Safety />} />{" "}
-							{/*Safety page routing */}
 							<Route
 								path="/inventoryForm"
 								element={<InventoryForm />}
 							/>{" "}
 							{/*Inventory's form page routing */}
-							<Route path="/rides" element={<Rides />} />{" "}
-							{/*Inventory's form page routing */}
-							<Route
-								path="/customervisits"
-								element={<CustomerVisitSelection />}
-							/>{" "}
-							{/*Inventory's form page routing */}
-							<Route
-								path="/custlogin"
-								element={<LoginPage />}
-							/>{" "}
-							{/*Inventory's form page routing */}
-							<Route
-								path="/signup"
-								element={<SignUpPage />}
-							/>{" "}
-							{/*Inventory's form page routing */}
+							{/*Customer side routes*/}
 							{/* <Route
 								path="/customerhome"
 								element={<CustomerDashboard />}
@@ -273,75 +322,42 @@ function App() {
 								element={<CustomerTickets />}
 							/>{" "}
 							{/*Inventory's form page routing */}
-							<Route path="/tickets" element={<Tickets />} />{" "}
-							{/*Inventory's form page routing */}
 							<Route path="/parkmap" element={<MapPage />} />{" "}
 							{/*Inventory's form page routing */}
+							{/*Sidebar page routes*/}
+							<Route
+								path="/vendorsorders"
+								element={
+									<ProtectedRoute>
+										<VendorSelection />{" "}
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Vendors & Orders tab form routing */}
+							<Route
+								path="/customervisits"
+								element={
+									<ProtectedRoute>
+										<CustomerVisitSelection />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Inventory's form page routing */}
+							<Route
+								path="/supplies"
+								element={
+									<ProtectedRoute>
+										<Supplies />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*Shops&Inventory tab routing */}
 						</Routes>
 					</main>
 				</div>
 			</ThemeProvider>
 		</DisplayModeContext.Provider>
 	);
-=======
-
-
-
-
-  return ( 
-  <DisplayModeContext.Provider value={colorMode}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div className="app">
-        {!isCustLogin && !isSignUpPage && !isEmpLogin && user?.userType === 'employee' && <Sidebar />}
-        <main className="content">
-        {!isCustLogin && !isSignUpPage && !isEmpLogin && user && <Navbar userType={user.userType} />}
-          <Routes>
-             {/*Login page routes */}
-            <Route path="/emplogin" element={<LoginForm />} />   {/*Login page routing */}
-            <Route path="/custlogin" element={<LoginPage />} /> {/*Inventory's form page routing */}
-            <Route path="/signup" element={<SignUpPage />} /> {/*Inventory's form page routing */}
-            
-             {/*Access controlled routes */}
-            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/> {/* Dashboard routing */}
-            <Route path="/employees" element={<ProtectedRoute><Employees userRole={user?.role} /></ProtectedRoute>}/>   {/*Employee page routing */}
-            <Route path="/rides" element={<ProtectedRoute> <Rides  /> </ProtectedRoute>} /> {/*Inventory's form page routing */}
-            <Route path="/vendors" element={<ProtectedRoute><Vendors  /></ProtectedRoute>} />   {/*Vendors page routing */}
-            <Route path="/customers" element={<ProtectedRoute><Customers  /></ProtectedRoute>} />   {/*Customers page routing */}
-            <Route path="/invoices" element={<ProtectedRoute><Invoices  /></ProtectedRoute>} />   {/*Invoice page routing */}
-            <Route path="/shops" element={<ProtectedRoute><Shops  /></ProtectedRoute>} />   {/*Shops page pagerouting */}
-            <Route path="/maintenance" element={<ProtectedRoute><Maintenance  /></ProtectedRoute>} />   {/*Maintenance page routing */}
-            <Route path="/safety" element={<ProtectedRoute><Safety  /></ProtectedRoute>} />   {/*Safety page routing */}
-            <Route path="/tickets" element={<ProtectedRoute><Tickets  /></ProtectedRoute>} /> {/*Inventory's form page routing */}
-            <Route path="/facilities" element={<ProtectedRoute><Facilities  /></ProtectedRoute>} />   {/*Facilities page routing */}
-            
-             {/*Creation form routes*/}
-            <Route path="/employeeform" element={<EmployeeForm />} />   {/*Employee creation form routing */}
-            <Route path="/visitform" element={<VisitForm />} />   {/*Login page routing */}
-            <Route path="/orderform" element={<OrderForm />} />   {/*Employee creation form routing */}
-            <Route path="/safetyform" element={<SafetyForm />} />   {/*Login page routing */}
-            <Route path="/maintenanceform" element={<MaintenanceForm />} />   {/*Employee creation form routing */}
-            <Route path="/facilitiesform" element={<FacilitiesForm />} />   {/*Login page routing */}
-            <Route path="/ridesform" element={<RideForm />} />   {/*Wrong route for error dimmissal ! change to no s */}
-            <Route path="/inventoryForm" element={<InventoryForm />} /> {/*Inventory's form page routing */}
-             
-             {/*Customer side routes*/}
-            <Route path="/customerhome" element={<CustomerDashboard />} /> {/*Inventory's form page routing */}
-            <Route path="/customertickets" element={<CustomerTickets  />} /> {/*Inventory's form page routing */}
-            <Route path="/parkmap" element={<MapPage />} /> {/*Inventory's form page routing */}
-            
-             {/*Sidebar page routes*/}
-            <Route path="/vendorsorders" element={<VendorSelection />} />   {/*Vendors&Orders tab form routing */}
-            <Route path="/customervisits" element={<CustomerVisitSelection />} /> {/*Inventory's form page routing */}
-            <Route path="/supplies" element={<Supplies />} />   {/*Shops&Inventory tab routing */}
-            <Route path="/transactions" element={<TransactionSelection />} />   {/*Transactions tab routing */}
-          </Routes>
-      </main>
-      </div>
-    </ThemeProvider>
-  </DisplayModeContext.Provider>
-  );
->>>>>>> 9f1d04b507cd9355bc0430b87f86b9a87e2eba88
 }
 
 export default App;

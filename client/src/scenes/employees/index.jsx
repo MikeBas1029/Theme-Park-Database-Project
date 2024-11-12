@@ -1,7 +1,6 @@
 import { Box, useTheme, Button} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import {sampleDataRoster} from "../../data/sampleData"
 import  AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import  LockOpenOutlinedIcon  from "@mui/icons-material/LockOpenOutlined";
 import  SecurityOutlinedIcon  from "@mui/icons-material/SecurityOutlined";
@@ -14,10 +13,11 @@ import AddButton from "../../components/AddButton";
 import PrintButton from "../../components/PrintButton";
 
 
-const Employees = ({ userRole }) => {
+const Employees = () => {
 const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
+
 
 const [employeeData, setEmployeeData] = useState([]); {/*State for storing employee data*/}
 const [loading, setLoading] = useState(true); // Loading state
@@ -99,13 +99,7 @@ const shortColumns = [
 
 const columnsToShow = showFullColumns ? allColumns : shortColumns;
 
-if (userRole !== 'admin') {
-    return (
-        <Box m="20px">
-            <Header title="Access Denied" subtitle="You do not have permission to view this page." />
-        </Box>
-    );
-}
+
 
     return (
         <Box m="20px">

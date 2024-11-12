@@ -1,4 +1,6 @@
 import uuid 
+import string
+import secrets
 from typing import Optional
 from sqlalchemy import event
 from datetime import datetime
@@ -53,7 +55,11 @@ class CustAuth(SQLModel, table=True):
 
     def __repr__(self):
         return f"<Customer {self.username}>"
-    
+
+def generate_random_id(length=12):
+    characters = string.ascii_letters + string.digits
+    return ''.join(secrets.choice(characters) for _ in range(length))   
+
 @event.listens_for(CustAuth, "before_insert")
 def lookup_customer_id(mapper, connection, target):
     # Use a regular session with a synchronous query
@@ -64,3 +70,24 @@ def lookup_customer_id(mapper, connection, target):
         cust = result.scalar_one_or_none()
         if cust:
             target.customer_id = cust.customer_id
+        else:
+            # if customer does not exist, create new Customer record
+            customer_id = generate_random_id()
+            new_customer = Customers(
+                customer_id=customer_id,
+                first_name=target.first_name,
+                last_name=target.last_name,
+                email=target.email,
+                phone_number="-",
+                country="US",
+                membership_type="Bronze",
+                registration_date=datetime.now().date()
+            )
+
+            # Add and commit new user
+            session.add(new_customer)
+            session.commit()
+            session.refresh(new_customer)
+
+            # Assign the new customer id to cust auth
+            target.customer_id = customer_id

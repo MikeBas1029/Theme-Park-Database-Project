@@ -33,6 +33,7 @@ class Employee(BaseModel):
     hourly_wage: Optional[float] 
     salary: Optional[float]
     job_function: str 
+    department_id: Optional[int | None]
 
 
 class EmployeeCreateModel(BaseModel):
@@ -55,6 +56,7 @@ class EmployeeCreateModel(BaseModel):
     hourly_wage: Optional[float] 
     salary: Optional[float]
     job_function: str 
+    department_id: Optional[int | None]
 
 class EmployeeUpdateModel(BaseModel):
     ssn: Optional[str] 
@@ -76,3 +78,5 @@ class EmployeeUpdateModel(BaseModel):
     hourly_wage: Optional[float] 
     salary: Optional[float]
     job_function: Optional[str] 
+    department_id: Optional[int | None]
+

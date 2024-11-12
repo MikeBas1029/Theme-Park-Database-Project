@@ -49,28 +49,12 @@ export default function LoginForm() {
             if (data && data.user) {
                 const { role, uid, email } = data.user;
 
-                login({
-                    uid,
-                    email,
-                    role, 
-                  }, 'employee');
-          
-
-                localStorage.setItem('access_token', data.access_token);
-                localStorage.setItem('refresh_token', data.refresh_token);
-                localStorage.setItem('user_data', JSON.stringify({
-                    uid,
-                    email,
-                    role,
-                }, 'employee'));
-
-                console.log('Login successful, user role:', data.role);
-                console.log('Login successful:', data.user);
-                navigate('/shops');
+                
 
                 {/*details for fetching customer info */}
-                /*
-                const userResponse = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/${email}`);
+
+                const userResponse = await fetch(`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/employees/email/${data.user.user}`);
+                console.log("Data: ", userResponse)
 
                 if (!userResponse.ok) {
                     setErrorMessage('Failed to fetch user details');
@@ -87,9 +71,11 @@ export default function LoginForm() {
                     login({
                         uid,
                         email,
+                        role,
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
+                        department: userData.department_id,
                     }, 'employee');
 
                     localStorage.setItem('access_token', data.access_token);
@@ -97,10 +83,12 @@ export default function LoginForm() {
                     localStorage.setItem('user_data', JSON.stringify({
                         uid,
                         email,
+                        role,
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                    }));
+                        department: userData.department_id,
+                    }, 'employee'));
 
                     console.log('Login successful:', data.user);
                     setErrorMessage('');
@@ -109,7 +97,7 @@ export default function LoginForm() {
                     setErrorMessage('User details not found');
                     console.error('User details not found');
                 }
-                */
+            
             } else {
                 setErrorMessage('No user data in response');
                 console.error('No user data in response');

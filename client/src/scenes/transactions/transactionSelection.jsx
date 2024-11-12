@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Invoices from "../invoices";
-import Payroll from "../payroll";
 import Transactions from "../customertransactions";
 
 
@@ -15,14 +14,13 @@ const TransactionSelection = () => {
   const navigate = useNavigate();
 
 
+
   {/*Table/Tab state management */}
-    const [activeTab, setActiveTab] = useState('Employee Payroll');
-    const tabs = ['Employee Payroll', 'Vendor Invoices', 'Customer Transactions'];   // Page table tabs
+    const [activeTab, setActiveTab] = useState('Vendor Invoices');
+    const tabs = ['Vendor Invoices', 'Customer Transactions'];   // Page table tabs
     // Function to render the correct table component
     const renderTable = () => {
       switch (activeTab) {
-        case 'Employee Payroll':
-          return <Payroll />
         case 'Vendor Invoices':
           return <Invoices />
         case 'Customer Transactions':
@@ -32,9 +30,7 @@ const TransactionSelection = () => {
       }
     };
   
-  
-  
-  
+
       return <Box m="20px"> 
                   <Header title="Transactions" subtitle="Select the Category you'd Like to see Transactions for. " />
                       <Box >

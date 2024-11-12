@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr, Field
 
 class CustAuth(BaseModel):
     uid: uuid.UUID 
-    customer_id: Optional[int | None] = None 
+    customer_id: Optional[str | None] = None 
     username: str
     email: EmailStr
     first_name: str

@@ -65,7 +65,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/v1/reports/customer-count'); 
+        const response = await fetch('https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/customer-count'); 
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
 

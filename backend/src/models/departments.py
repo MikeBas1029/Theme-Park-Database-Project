@@ -6,6 +6,7 @@ import sqlalchemy.dialects.mysql as mysql
 if TYPE_CHECKING:
     from src.models.employees import Employees
     from src.models.sections import Section
+    from src.models.department_managers import DepartmentManagers
 
 class Departments(SQLModel, table=True):
     __tablename__ = "departments"
@@ -22,15 +23,15 @@ class Departments(SQLModel, table=True):
     # This field is required and stored as a string.
     name: str = Field(sa_column=Column(mysql.VARCHAR(45), nullable=False, comment="Department name"), alias="Name")
     
-    # manager_id is the foreign key that links to the employee managing this department.
-    # It refers to the SSN of the employee in the employees table.
-    manager_id: str = Field(
-        sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.employee_id"), nullable=False, comment="ID of the manager for this department"),
-        alias="EmployeeID"
-    )
+    # # manager_id is the foreign key that links to the employee managing this department.
+    # # It refers to the SSN of the employee in the employees table.
+    # manager_id: Optional[str] = Field(
+    #     sa_column=Column(mysql.VARCHAR(9), ForeignKey("employees.employee_id"), nullable=False, comment="ID of the manager for this department"),
+    #     alias="EmployeeID"
+    # )
     
-    # manager_start_date represents the date when the manager started managing this department.
-    manager_start_date: date = Field(sa_column=Column(mysql.DATE, nullable=False, comment="Start date of the department manager"), alias="ManagerStartDate")
+    # # manager_start_date represents the date when the manager started managing this department.
+    # manager_start_date: date = Field(sa_column=Column(mysql.DATE, nullable=False, comment="Start date of the department manager"), alias="ManagerStartDate")
     
     # num_employees is the total number of employees in the department.
     num_employees: int = Field(sa_column=Column(mysql.INTEGER, nullable=False, comment="Number of employees in the department"), alias="NumEmployee")
@@ -45,11 +46,12 @@ class Departments(SQLModel, table=True):
 
     # Relationships
     # A department is managed by one employee, represented here as the `manager`.
-    manager: "Employees" = Relationship(back_populates="departments")
+    manager: "DepartmentManagers" = Relationship(back_populates="department")
     
     # A department can have multiple sections, represented as a list of `Section` objects.
     sections: List["Section"] = Relationship(back_populates="department")
 
+    employees: List["Employees"] = Relationship(back_populates="department")
 
     # Table index: Adds an index on the department_id field.
     # This index improves performance for queries filtering by the department_id.

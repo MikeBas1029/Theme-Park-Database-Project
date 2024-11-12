@@ -11,19 +11,20 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   
-
+ 
   // Function to log in and set user data
   const login = useCallback((userData, userType) => {
     const formattedUserData = {
       email: userData.email,
       uid: userData.uid,
       customer_id: userType === 'customer' ? userData.customer_id : null, // Store customer ID if customers
+      membership_type: userType === 'customer' ? userData.membership_type: null, // Store customer ID if customers
       first_name: userData.first_name,  
       last_name: userData.last_name, 
       userType, // "employee" or "customer"
       role: userType === 'employee' ? userData.role : null, // Set role only for employees
       employee_id: userType === 'employee' ? userData.employee_id : null, // Employee ID/department if employee
-      department: userType === 'employee' ? userData.department : null, 
+      department: userType === 'employee' ? userData.department_id : null, 
 
   };
 
