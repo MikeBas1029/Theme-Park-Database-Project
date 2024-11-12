@@ -42,7 +42,7 @@ export default function LoginPage() {
 				setErrorMessage("Invalid email or password");
 				return;
 			}
-
+			
 			const data = await response.json();
 			if (data && data.user) {
 				const { uid, email } = data.user;
