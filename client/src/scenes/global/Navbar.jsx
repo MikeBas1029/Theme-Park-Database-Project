@@ -20,7 +20,7 @@ import NotificationMenu from "./NotificationMenu";
 import AccountMenu from "../../components/AccountMenu";
 import DropdownMenu from "../../components/DropdownMenu";
 import { useUser } from "../../components/context/UserContext";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Cart from "../../components/Cart";
 
 const Item = ({ title, to, icon }) => {
 	const location = useLocation();
@@ -182,9 +182,10 @@ const Navbar = () => {
 						<IconButton>
 							<NotificationMenu />
 						</IconButton>
-						<IconButton onClick={() => navigate("/shopping-cart")}>
-							<ShoppingCartOutlinedIcon />
-						</IconButton>
+						{/* <IconButton onClick={() => navigate("/shopping-cart")}>
+							<Cart />
+						</IconButton> */}
+						<Cart />
 						<AccountMenu userType={user.userType} />
 					</Box>
 				) : (

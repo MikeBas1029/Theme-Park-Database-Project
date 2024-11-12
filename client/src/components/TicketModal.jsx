@@ -13,8 +13,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import CalendarComponent from "./Calendar";
 import TicketCounter from "./TicketCounter";
+import { useCart } from "./context/CartContext";
 
 const TicketSelectionModal = ({ open, onClose, ticket }) => {
+	const { addItem } = useCart();
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [adultCount, setAdultCount] = useState(1);
 	const [childCount, setChildCount] = useState(0);
@@ -33,9 +35,21 @@ const TicketSelectionModal = ({ open, onClose, ticket }) => {
 	};
 
 	const handleConfirm = () => {
-		console.log("Selected date:", selectedDate);
-		console.log("Adult tickets:", adultCount, "Child tickets:", childCount);
-		onClose(); // Pass data back if needed
+		const item = {
+			id: `${ticket.ticket_type}-${new Date().getTime()}`, // Unique ID for the cart item
+			ticketType: ticket.ticket_type,
+			date: selectedDate,
+			adultCount,
+			childCount,
+			adultPrice: ticket.base_price,
+			childPrice: (ticket.base_price * 0.8).toFixed(2),
+			totalPrice:
+				adultCount * ticket.base_price +
+				childCount * (ticket.base_price * 0.8),
+		};
+
+		addItem(item); // Add item to cart context
+		onClose();
 	};
 
 	return (
@@ -131,7 +145,7 @@ const TicketSelectionModal = ({ open, onClose, ticket }) => {
 							color="primary"
 							variant="contained"
 						>
-							Confirm
+							Add to Cart
 						</Button>
 					)}
 				</DialogActions>

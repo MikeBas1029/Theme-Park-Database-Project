@@ -58,6 +58,7 @@ import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
 import CustomerRestaurants from "./scenes/customerrestaurants";
 import PurchaseTickets from "./scenes/purchasetickets";
+import ShoppingCart from "./scenes/shoppingcart";
 
 function App() {
 	const navigate = useNavigate();
@@ -164,6 +165,10 @@ function App() {
 							<Route
 								path="/purchase-tickets"
 								element={<PurchaseTickets />}
+							/>{" "}
+							<Route
+								path="/shopping-cart"
+								element={<ShoppingCart />}
 							/>{" "}
 							{/*Inventory's form page routing */}
 							<Route
