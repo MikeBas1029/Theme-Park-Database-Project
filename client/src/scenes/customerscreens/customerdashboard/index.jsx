@@ -16,7 +16,6 @@ import HeroCarousel from "../../../components/HeroCarousel";
 import RideCard from "../../../components/RideCard";
 import EventCard from "../../../components/EventCard";
 import PromotionBanner from "../../../components/PromotionBanner";
-import Footer from "../../../components/Footer";
 import getRideImage from "../../../utils/getRideImage";
 
 const formatRideType = (rideType) => {
@@ -303,8 +302,6 @@ const CustomerDashboard = () => {
 					)}
 				</Box>
 			</Container>
-
-			<Footer />
 		</Box>
 	);
 };

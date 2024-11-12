@@ -61,6 +61,8 @@ import PurchaseTickets from "./scenes/purchasetickets";
 import ShoppingCart from "./scenes/shoppingcart";
 import Checkout from "./scenes/checkout";
 import ConfirmationPage from "./scenes/confirmation";
+import MyTickets from "./scenes/mytickets";
+import Footer from "./components/Footer";
 
 function App() {
 	const navigate = useNavigate();
@@ -168,6 +170,7 @@ function App() {
 								path="/purchase-tickets"
 								element={<PurchaseTickets />}
 							/>{" "}
+							<Route path="/my-tickets" element={<MyTickets />} />{" "}
 							<Route
 								path="/shopping-cart"
 								element={<ShoppingCart />}
@@ -383,6 +386,10 @@ function App() {
 							/>{" "}
 							{/*Shops&Inventory tab routing */}
 						</Routes>
+						{/* Add Footer globally */}
+						{!isCustLogin && !isSignUpPage && !isEmpLogin && (
+							<Footer />
+						)}
 					</main>
 				</div>
 			</ThemeProvider>
