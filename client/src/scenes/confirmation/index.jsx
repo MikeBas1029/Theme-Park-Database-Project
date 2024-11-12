@@ -2,20 +2,28 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Divider, Paper, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../components/context/CartContext";
 
 const ConfirmationPage = () => {
-	const { cartItems, calculateTotal, setCartItems } = useCart();
 	const navigate = useNavigate();
 	const [purchasedItems, setPurchasedItems] = useState([]);
 	const [total, setTotal] = useState(0);
 
 	useEffect(() => {
-		// Store cart items and total in local state, then clear the cart context
-		setPurchasedItems(cartItems);
-		setTotal(calculateTotal());
-		setCartItems([]); // Clear cart after storing for confirmation display
-	}, [cartItems, calculateTotal, setCartItems]);
+		// Retrieve purchased items from local storage
+		const storedItems = JSON.parse(localStorage.getItem("purchasedItems"));
+		if (storedItems) {
+			setPurchasedItems(storedItems);
+
+			// Calculate the total from stored items
+			const calculatedTotal = storedItems.reduce(
+				(acc, item) => acc + item.price * item.quantity,
+				0
+			);
+			setTotal(calculatedTotal);
+		}
+		// Clear local storage after retrieving for security and to avoid stale data
+		localStorage.removeItem("purchasedItems");
+	}, []);
 
 	return (
 		<Box p={3} maxWidth="md" mx="auto">

@@ -43,7 +43,7 @@ function getTicketTypeId(ticketTypeInput) {
 }
 
 const Checkout = () => {
-	const { cartItems, calculateTotal } = useCart();
+	const { cartItems, setCartItems, calculateTotal } = useCart();
 	const { user } = useUser();
 	const navigate = useNavigate();
 
@@ -117,6 +117,10 @@ const Checkout = () => {
 					throw new Error("Failed to place order.");
 				}
 			}
+
+			// store purchased items before navigating
+			localStorage.setItem("purchasedItems", JSON.stringify(cartItems));
+			setCartItems([]); // Clear cart in context
 			navigate("/confirmation");
 		} catch (error) {
 			console.error(error);
