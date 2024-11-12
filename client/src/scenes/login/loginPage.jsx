@@ -57,8 +57,8 @@ export default function LoginPage() {
 						"Failed to fetch user details:",
 						userResponse.status
 					);
-					return;
-				}
+					// return;  //leave commented to continue signing in new (non-customer) user
+				} 
 
 				const userData = await userResponse.json();
 				console.log("User Response:", userResponse); //sign in details
