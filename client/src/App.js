@@ -54,8 +54,10 @@ import Charts from "./scenes/charts";
 import Finances from "./scenes/finances";
 import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
+import CustomerRestaurants from "./scenes/customerrestaurants";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
+import CustomerShops from "./scenes/customershops";
 
 function App() {
 	const navigate = useNavigate();
@@ -324,6 +326,18 @@ function App() {
 							{/*Inventory's form page routing */}
 							<Route path="/parkmap" element={<MapPage />} />{" "}
 							{/*Inventory's form page routing */}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/customerfacilities"
+								element={<Facilities />}
+							/>{" "}
+							<Route
+								path="/customershops"
+								element={<CustomerShops/>}
+							/>{" "}
 							{/*Sidebar page routes*/}
 							<Route
 								path="/vendorsorders"
