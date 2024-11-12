@@ -81,6 +81,7 @@ def lookup_customer_id(mapper, connection, target):
                 phone_number="-",
                 country="US",
                 membership_type="Bronze",
+                registration_date=datetime.now().date()
             )
 
             # Add and commit new user
