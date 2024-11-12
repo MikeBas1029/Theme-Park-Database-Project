@@ -6,7 +6,7 @@ from pydantic import EmailStr
 from sqlalchemy import Enum as SAEnum
 import sqlalchemy.dialects.mysql as mysql
 from typing import Optional, List, TYPE_CHECKING
-from sqlmodel import SQLModel, Field, Relationship, Column, Index
+from sqlmodel import SQLModel, Field, Relationship, Column, Index, ForeignKey
 
 if TYPE_CHECKING:
     from src.models.departments import Departments
@@ -18,6 +18,9 @@ if TYPE_CHECKING:
     from src.models.shops import Shops
     from src.models.emp_auth import EmpAuth
     from src.models.emp_notifications import EmployeeNotifications
+    from src.models.departments import Departments
+    from src.models.department_managers import DepartmentManagers
+
 
 class EmployeeType(str, Enum):
     hourly = "Hourly"
@@ -135,10 +138,21 @@ class Employees(SQLModel, table=True):
     # This is a required field, stored as a string.
     job_function: str = Field(sa_column=Column(mysql.VARCHAR(50), nullable=False, comment="Job title or function of the employee"), alias="JobFunction")
 
+    department_id: Optional[int] = Field(
+        sa_column=Column(
+            mysql.INTEGER,
+            ForeignKey("departments.department_id"), 
+            nullable=True, # Make nullable if employees can be without a department initially
+            comment="Department employee works in")
+        )
+
 
     # Relationships
-    # A department can have multiple managers (employees), and each employee can be assigned to multiple departments.
-    departments: List["Departments"] = Relationship(back_populates="manager", cascade_delete=True)
+    # Relationship to the department this employee manages
+    managed_department: Optional["DepartmentManagers"] = Relationship(back_populates="manager")
+
+    # Relationship to the department they work in
+    department: Optional["Departments"] = Relationship(back_populates="employees")
 
     # A timesheet is created for each employee, capturing work hours and attendance.
     assigned_timesheets: List["Timesheet"] = Relationship(
@@ -176,6 +190,7 @@ class Employees(SQLModel, table=True):
     )
 
     managed_shops: Optional["Shops"] = Relationship(back_populates="manager")
+
 
     # An employee can have multiple payments recorded in the employee_payments table.
     employee_payments: List["EmployeePayments"] = Relationship(back_populates="employee", cascade_delete=True)

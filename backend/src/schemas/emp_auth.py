@@ -12,10 +12,7 @@ class EmpRole(str, enum.Enum):
 class EmpAuth(BaseModel):
     uid: uuid.UUID 
     employee_id: Optional[str] 
-    username: str
     email: EmailStr
-    first_name: str
-    last_name: str
     role: EmpRole 
     is_verified: bool 
     password_on_create: Optional[str] 
@@ -26,8 +23,6 @@ class EmpAuth(BaseModel):
 class EmpAuthCreateModel(BaseModel):
     employee_id: str 
     email: EmailStr
-    first_name: str
-    last_name: str
     role: EmpRole = EmpRole.employee
 
 class EmpAuthLogin(BaseModel):

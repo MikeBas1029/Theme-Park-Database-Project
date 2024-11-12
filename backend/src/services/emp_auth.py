@@ -6,9 +6,6 @@ from sqlmodel import select
 from src.schemas.emp_auth import EmpAuthCreateModel
 from src.utils import generate_hash, verify_password
 
-def generate_username(first_name: str, last_name: str) -> str:
-    return first_name[0].lower() + last_name[0].lower() + last_name[1:]
-
 def generate_first_password() -> str:
     characters = string.ascii_letters + string.digits
     return ''.join(secrets.choice(characters) for _ in range(8))
@@ -43,7 +40,6 @@ class EmpAuthService:
 
         # update the hash
         first_password = generate_first_password()
-        new_user.username = generate_username(new_user.first_name, new_user.last_name)
         new_user.password_on_create = first_password
         new_user.password_hash = generate_hash(first_password)
 

@@ -1,22 +1,21 @@
 import { Box, useTheme, Button} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import  Header from "../../components/Header"
+import { tokens } from "../../../theme";
+import  Header from "../../../components/Header"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios  from "axios"; //install if have !! needed for API requests
-import DownloadButton from "../../components/DownloadButton";
-import AddButton from "../../components/AddButton";
-import PrintButton from "../../components/PrintButton";
+import DownloadButton from "../../../components/DownloadButton";
+import AddButton from "../../../components/AddButton";
+import PrintButton from "../../../components/PrintButton";
 
 
-const EmployeePayroll = ({ userRole }) => {
+const EmployeePayroll = () => {
 const theme = useTheme();
 const colors = tokens(theme.palette.mode);
 const navigate = useNavigate();
 
 
-console.log("Received userRole in EmployeePayroll:", userRole); // Debugging statement
 
 const [employeePayrollData, setEmployeePayrollData] = useState([]); {/*State for storing employee data*/}
 const [loading, setLoading] = useState(true); // Loading state
@@ -59,19 +58,13 @@ const columns = [
 
 
 
-if (userRole !== 'admin') {
-    return (
-        <Box m="20px">
-            <Header title="Access Denied" subtitle="You do not have permission to view this page." />
-        </Box>
-    );
-}
+
 
     return (
         <Box m="20px">
         {/* Print | Export | Add  */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Header title="Employee Timesheets" subtitle="....move to manage staff section"/>
+            <Header title="Employee Timesheets" subtitle="fix access control"/>
             <Box display="flex" alignItems="center">
                 <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/"  />
                 <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/" fileName="employee_payroll_report.csv"  />

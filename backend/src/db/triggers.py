@@ -1,32 +1,89 @@
 from sqlalchemy import text 
 
 # Birthday Discount Trigger
-birthday_discount_trigger = text("""
-CREATE TRIGGER IF NOT EXISTS birthday_discount_trigger
-AFTER UPDATE ON customers
-FOR EACH ROW
-BEGIN
-    IF NEW.membership_type = 'Platinum' AND 
-       YEAR(NEW.date_of_birth) = YEAR(CURDATE()) AND
-       MONTH(NEW.date_of_birth) = MONTH(CURDATE()) AND 
-       DAY(NEW.date_of_birth) = DAY(CURDATE()) THEN
-                                 
-        -- Insert discounted ticket                         
-        INSERT INTO tickets (customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
-        VALUES (NEW.customer_id, 'WEEKEND', 75.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 15.00, 'ACTIVE');
-                                 
-        -- Insert notification for new ticket
-        INSERT INTO customer_notifications (customer_id, title, message, status, type, date_created)
-        VALUES (
-            NEW.customer_id,
-            'Happy Birthday from ShastaLand!',
-            'We wish you a happy birthday from us! Get 20% off a weekend pass.'
-            'SENT',
-            'PROMO',
-            CURDATE()
-        );                         
-    END IF;
-END;
+birthday_discount_trigger_after_insert = text("""
+    CREATE TRIGGER IF NOT EXISTS birthday_discount_trigger_after_insert
+    AFTER INSERT ON customers
+    FOR EACH ROW
+    BEGIN
+        DECLARE ticket_id CHAR(12);
+        DECLARE notification_id CHAR(12);
+        SET ticket_id = CONCAT(
+            SUBSTRING(MD5(RAND()), 1, 6),
+            SUBSTRING(MD5(RAND()), 7, 6)
+        );
+        SET notification_id = CONCAT(
+            SUBSTRING(MD5(RAND()), 1, 6),
+            SUBSTRING(MD5(RAND()), 7, 6)
+        );
+
+        IF NEW.membership_type = 'Platinum' AND 
+           MONTH(NEW.date_of_birth) = MONTH(CURDATE()) AND 
+           DAY(NEW.date_of_birth) = DAY(CURDATE()) THEN
+           
+            -- Insert discounted ticket with random ticket_id, only if not already given today
+            IF NOT EXISTS (SELECT 1 FROM tickets WHERE customer_id = NEW.customer_id AND purchase_date = CURDATE()) THEN
+                INSERT INTO tickets (ticket_id, customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
+                VALUES (ticket_id, NEW.customer_id, 'WEEKEND', 75.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 15.00, 'ACTIVE');
+            END IF;
+
+            -- Insert notification, only if not already sent today
+            IF NOT EXISTS (SELECT 1 FROM customer_notifications WHERE customer_id = NEW.customer_id AND date_created = CURDATE()) THEN
+                INSERT INTO customer_notifications (notification_id, customer_id, title, message, status, type, date_created)
+                VALUES (
+                    notification_id,
+                    NEW.customer_id,
+                    'Happy Birthday from ShastaLand!',
+                    'We wish you a happy birthday from us! Get 20% off a weekend pass.',
+                    'SENT',
+                    'PROMO',
+                    CURDATE()
+                );
+            END IF;
+        END IF;
+    END;
+""")
+birthday_discount_trigger_after_update = text("""
+    CREATE TRIGGER IF NOT EXISTS birthday_discount_trigger_after_update
+    AFTER UPDATE ON customers
+    FOR EACH ROW
+    BEGIN
+        DECLARE ticket_id CHAR(12);
+        DECLARE notification_id CHAR(12);
+        SET ticket_id = CONCAT(
+            SUBSTRING(MD5(RAND()), 1, 6),
+            SUBSTRING(MD5(RAND()), 7, 6)
+        );
+        SET notification_id = CONCAT(
+            SUBSTRING(MD5(RAND()), 1, 6),
+            SUBSTRING(MD5(RAND()), 7, 6)
+        );
+
+        IF NEW.membership_type = 'Platinum' AND 
+           MONTH(NEW.date_of_birth) = MONTH(CURDATE()) AND 
+           DAY(NEW.date_of_birth) = DAY(CURDATE()) THEN
+           
+            -- Insert discounted ticket with random ticket_id, only if not already given today
+            IF NOT EXISTS (SELECT 1 FROM tickets WHERE customer_id = NEW.customer_id AND purchase_date = CURDATE()) THEN
+                INSERT INTO tickets (ticket_id, customer_id, ticket_type, price, purchase_date, start_date, expiration_date, discount, status)
+                VALUES (ticket_id, NEW.customer_id, 'WEEKEND', 75.00, CURDATE(), CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR), 15.00, 'ACTIVE');
+            END IF;
+
+            -- Insert notification, only if not already sent today
+            IF NOT EXISTS (SELECT 1 FROM customer_notifications WHERE customer_id = NEW.customer_id AND date_created = CURDATE()) THEN
+                INSERT INTO customer_notifications (notification_id, customer_id, title, message, status, type, date_created)
+                VALUES (
+                    notification_id,
+                    NEW.customer_id,
+                    'Happy Birthday from ShastaLand!',
+                    'We wish you a happy birthday from us! Get 20% off a weekend pass.',
+                    'SENT',
+                    'PROMO',
+                    CURDATE()
+                );
+            END IF;
+        END IF;
+    END;
 """)
 
 """

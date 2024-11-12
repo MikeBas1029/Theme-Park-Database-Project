@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUser } from './context/UserContext';
+import { Box, CircularProgress } from '@mui/material';
+import Header from './Header';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, allowedRoles }) => {
     const { user } = useUser();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (user) {
+            setIsLoading(false);
+        }
+    }, [user]);
+
+    // Show a loading indicator until user data is loaded
+    if (isLoading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress />
+            </Box>
+        );
+    }
 
     
 
@@ -22,7 +40,18 @@ const ProtectedRoute = ({ children }) => {
         return <Navigate to="/customerhome" />;
     }
 
-    // If user is authenticated and has the necessary role or permissions, render children
+    // If the user doesn't have the necessary role, show an access denied message
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+        return (
+            <Box m="20px">
+                <Header title="Access Denied" subtitle="You do not have permission to view this page." />
+                <p>Warning: ({user.role})s are not allowed access to this page. Any attempt at unathourized access will be kept note of ⚠️</p>
+            </Box>
+        );
+    }
+    
+
+    // If user is authenticated and has the necessary roles render children
     return children;
 };
 

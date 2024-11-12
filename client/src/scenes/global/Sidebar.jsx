@@ -9,9 +9,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import ConstructionIcon from '@mui/icons-material/Construction';
 import HandymanIcon from '@mui/icons-material/Handyman';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import TourIcon from '@mui/icons-material/Tour';
@@ -19,13 +16,10 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import InsightsIcon from '@mui/icons-material/Insights';
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import SecurityIcon from '@mui/icons-material/Security';
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { useUser } from "../../components/context/UserContext";
+import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -98,7 +92,7 @@ return(
                ml="15px"
              >
                <Typography variant="h3" color={colors.grey[100]}>
-                  ADMIN PORTAL
+                   SHASTA PORTAL
                </Typography>
                <IconButton onClick={() => setIsClosed(!isClosed)}>
                  <MenuOutlinedIcon />
@@ -129,7 +123,7 @@ return(
                  {user.first_name} {user.last_name}
                </Typography>
                <Typography variant="h5" color={colors.greenAccent[500]}>
-                 {user.role} | Human Resources
+                 {user.role} |{user.department}
                </Typography>
              </Box>
            </Box>
@@ -137,17 +131,40 @@ return(
 
 
          <Box paddingLeft={isClosed ? undefined : "10%"}>
-           <Item
-             title="Dashboard Home"
-             to="/"
-             icon={<HomeOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
+
+            <Item
+              title="Dashboard Home"
+              to={user?.role === 'employee' ? '/employeedashboard' : user?.role === 'manager' ? '/managerdashboard' : '/'}
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+              {/* Employee elements */}
+              {user.role === 'employee' && (
+            <>
+              <Typography variant="h4" color={colors.grey[300]} sx={{ m: "15px 0 5px 20px" }}>
+                  My Employment
+              </Typography>
+              <Item
+                  title="Timesheet"
+                  to="/clockin"
+                  icon={<AccessibilityNewIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+              <Item
+                  title="Payroll"
+                  to="/mypayroll"
+                  icon={<InventoryIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+            </>)}
+
 
            {!isClosed &&(
            <Typography
-             to="/"
              variant="h4"
              color={colors.grey[300]}
              sx={{ m: "15px 0 5px 20px" }}
@@ -156,22 +173,38 @@ return(
            </Typography>
              )}
 
+
+
+           {/* Park(admin) overview */}
+           {user.role === 'admin' && (
+            <>
             <Item
              title="Shops & Inventory"
              to="/supplies"
              icon={<InventoryIcon />}
              selected={selected}
              setSelected={setSelected}
-           />
+           /> 
+             <Item
+              title="Orders & Vendors"
+              to="/vendorsorders"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              />
+            </>)}
 
-            <Item
-             title="Orders & Vendors"
-             to="/vendorsorders"
-             icon={<ContactsOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
-
+            {/* Everyone but varying elements */}
+            {user.role === 'employee' && (
+            <>
+              <Item
+                  title="Shops & Dining"
+                  to="/shops"
+                  icon={<InventoryIcon />}
+                  selected={selected}
+                  setSelected={setSelected}
+              />
+            </>)}
             <Item
              title="Rides & Attractions"
              to="/rides"
@@ -187,6 +220,85 @@ return(
              setSelected={setSelected}
            />
 
+
+
+
+                
+           {/* Admin elements */}
+           {user.role === 'manager' && (
+                            <>
+             {!isClosed &&(
+           <Typography
+             variant="h4"
+             color={colors.grey[300]}
+             sx={{ m: "15px 0 5px 20px" }}
+           >
+             My Department
+           </Typography>
+                 )}
+
+           <Item
+             title="Manage Team"
+             to="/managestaff"
+             icon={<PeopleOutlinedIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+
+           <Item
+             title="Timesheets"
+             to="/maintenance"
+             icon={<HandymanIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+
+            <Item
+             title="Meetings"
+             to="/customervisits"
+             icon={<TourIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+
+             {!isClosed &&(
+           <Typography
+             variant="h4"
+             color={colors.grey[300]}
+             sx={{ m: "15px 0 5px 20px" }}
+           >
+               Communication and Planning
+           </Typography>
+                 )}
+             <Item
+             title="Tasks"
+             to="/insights"
+             icon={<InsightsIcon />}
+             selected={selected}
+             setSelected={setSelected}
+             />
+
+            <Item
+             title="Workflow"
+             to="/finances"
+             icon={<ReceiptOutlinedIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+            <Item
+             title="Announcements"
+             to="/charts"
+             icon={<AnalyticsOutlinedIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
+          </>)}
+
+
+
+           {/* Admin elements */}
+           {user.role === 'admin' && (
+                            <>
              {!isClosed &&(
            <Typography
              variant="h4"
@@ -199,7 +311,7 @@ return(
 
            <Item
              title="Manage Staff"
-             to="/employees"
+             to="/managestaff"
              icon={<PeopleOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
@@ -238,6 +350,13 @@ return(
                Reports and Analytics
            </Typography>
                  )}
+           <Item
+             title="Charts"
+             to="/charts"
+             icon={<AnalyticsOutlinedIcon />}
+             selected={selected}
+             setSelected={setSelected}
+           />
              <Item
              title="Insights"
              to="/insights"
@@ -247,20 +366,16 @@ return(
              />
 
             <Item
-             title="Transactions"
-             to="/transactions"
+             title="Finances"
+             to="/finances"
              icon={<ReceiptOutlinedIcon />}
              selected={selected}
              setSelected={setSelected}
            />
+          </>)}
 
-           <Item
-             title="Tikcets might merge w/ visits, need new tab here"
-             to="/tickets"
-             icon={<TimelineOutlinedIcon />}
-             selected={selected}
-             setSelected={setSelected}
-           />
+
+
          </Box>
        </Menu>
      </ProSidebar>
