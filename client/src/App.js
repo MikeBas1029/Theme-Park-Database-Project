@@ -60,6 +60,7 @@ import CustomerRestaurants from "./scenes/customerrestaurants";
 import PurchaseTickets from "./scenes/purchasetickets";
 import ShoppingCart from "./scenes/shoppingcart";
 import Checkout from "./scenes/checkout";
+import ConfirmationPage from "./scenes/confirmation";
 
 function App() {
 	const navigate = useNavigate();
@@ -172,6 +173,10 @@ function App() {
 								element={<ShoppingCart />}
 							/>{" "}
 							<Route path="/checkout" element={<Checkout />} />{" "}
+							<Route
+								path="/confirmation"
+								element={<ConfirmationPage />}
+							/>{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"

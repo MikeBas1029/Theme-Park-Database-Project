@@ -13,6 +13,8 @@ export const CartProvider = ({ children }) => {
 			...prevItems,
 			{
 				...newItem,
+				id: newItem.id,
+				date: newItem.date,
 				quantity: newItem.quantity || 1,
 				name: newItem.name || "Ticket",
 				type: newItem.type || "Adult",
@@ -54,6 +56,7 @@ export const CartProvider = ({ children }) => {
 				removeItem,
 				updateItemQuantity,
 				calculateTotal,
+				setCartItems,
 			}}
 		>
 			{children}
