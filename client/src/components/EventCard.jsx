@@ -1,4 +1,3 @@
-// components/EventCard.js
 import {
 	Card,
 	CardContent,
@@ -7,21 +6,24 @@ import {
 	Box,
 	useTheme,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const EventCard = ({
 	title,
 	date,
 	description = "Join us for an unforgettable experience!",
+	showSeeDatesButton = true, // New prop with a default value of true
 }) => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 
 	return (
 		<Card
 			sx={{
 				width: 250,
 				mb: 2,
-				bgcolor: theme.palette.background.paper, // Use theme's background color
-				color: theme.palette.text.primary, // Use theme's primary text color
+				bgcolor: theme.palette.background.paper,
+				color: theme.palette.text.primary,
 				transition: "all 0.2s ease",
 				"&:hover": {
 					boxShadow: 3,
@@ -47,20 +49,24 @@ const EventCard = ({
 				<Typography variant="body2" color={theme.palette.text.primary}>
 					{description}
 				</Typography>
-				<Button
-					size="small"
-					variant="contained"
-					sx={{
-						mt: 2,
-						backgroundColor: theme.palette.primary.main,
-						color: theme.palette.primary.contrastText, // Use theme's contrast text color
-						"&:hover": {
-							backgroundColor: theme.palette.primary.dark, // Use theme's dark shade on hover
-						},
-					}}
-				>
-					Get Tickets
-				</Button>
+				{/* Conditionally render the See Dates button */}
+				{showSeeDatesButton && (
+					<Button
+						size="small"
+						variant="contained"
+						onClick={() => navigate("/customer-events")}
+						sx={{
+							mt: 2,
+							backgroundColor: theme.palette.primary.main,
+							color: theme.palette.primary.contrastText,
+							"&:hover": {
+								backgroundColor: theme.palette.primary.dark,
+							},
+						}}
+					>
+						See Dates
+					</Button>
+				)}
 			</CardContent>
 		</Card>
 	);
