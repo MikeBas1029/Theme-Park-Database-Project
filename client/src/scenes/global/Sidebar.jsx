@@ -32,12 +32,6 @@ import Settings from "@mui/icons-material/Settings";
 import NotificationMenu from "./NotificationMenu";
 import AnalyticsOutlinedIcon from "@mui/icons-material/AnalyticsOutlined";
 import { useUser } from "../../components/context/UserContext";
-import AttractionsOutlinedIcon from '@mui/icons-material/AttractionsOutlined';
-import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
-import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
-
-
-
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
 	const theme = useTheme();
@@ -57,7 +51,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 	);
 };
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const colorMode = useContext(DisplayModeContext);
@@ -82,7 +76,7 @@ const Sidebar = () => {
 				top: 0,
 				left: 0,
 				height: "100vh",
-				width: isClosed ? "80px" : "250px",
+				width: isOpen ? "250px" : "80px",
 				background: `${colors.grey[700]} !important`,
 				zIndex: 1000,
 				"& .pro-sidebar-inner": {
@@ -102,11 +96,11 @@ const Sidebar = () => {
 				},
 			}}
 		>
-			<ProSidebar collapsed={isClosed}>
+			<ProSidebar collapsed={!isOpen}>
 				<Menu iconShape="square">
 					{/* LOGO AND MENU ICON */}
 					<MenuItem
-						onClick={() => setIsClosed(!isClosed)}
+						onClick={toggleSidebar}
 						icon={<MenuOutlinedIcon fontSize="small" />}
 						style={{
 							color: colors.grey[100],
@@ -117,7 +111,7 @@ const Sidebar = () => {
 							marginBottom: "10px",
 						}}
 					>
-						{!isClosed && (
+						{isOpen && (
 							<Typography variant="h4" color={colors.grey[100]}>
 								SHASTA PORTAL
 							</Typography>
@@ -134,8 +128,8 @@ const Sidebar = () => {
 						{/* Profile Picture for Collapsed Sidebar */}
 						<Box
 							sx={{
-								width: isClosed ? "40px" : "70px", // Smaller profile picture when collapsed
-								height: isClosed ? "40px" : "70px",
+								width: isOpen ? "70px" : "40px",
+								height: isOpen ? "70px" : "40px",
 								borderRadius: "50%",
 								overflow: "hidden",
 								border: `2px solid ${colors.primary[500]}`,
@@ -157,7 +151,7 @@ const Sidebar = () => {
 						</Box>
 
 						{/* Name and Role for Expanded Sidebar */}
-						{!isClosed && (
+						{isOpen && (
 							<>
 								<Typography
 									variant="h4"
@@ -177,7 +171,7 @@ const Sidebar = () => {
 						)}
 
 						{/* Action Icons (Toggle & Notifications) */}
-						{!isClosed && (
+						{isOpen && (
 							<Box
 								display="flex"
 								justifyContent="center"
@@ -212,7 +206,7 @@ const Sidebar = () => {
 					</Box>
 
 					{/* Sidebar Main Items */}
-					<Box paddingLeft={isClosed ? undefined : "10%"}>
+					<Box paddingLeft={isOpen ? "10%" : undefined}>
 						<Item
 							title="Dashboard Home"
 							to={
@@ -230,13 +224,15 @@ const Sidebar = () => {
 						{/* Employee elements */}
 						{user.role === "employee" && (
 							<>
-								<Typography
-									variant="h4"
-									color={colors.grey[300]}
-									sx={{ m: "15px 0 5px 20px" }}
-								>
-									My Employment
-								</Typography>
+								{isOpen && (
+									<Typography
+										variant="h4"
+										color={colors.grey[300]}
+										sx={{ m: "15px 0 5px 20px" }}
+									>
+										My Employment
+									</Typography>
+								)}
 								<Item
 									title="Timesheet"
 									to="/clockin"
@@ -255,182 +251,6 @@ const Sidebar = () => {
 						)}
 
 						{/* Departmental Tab Bar */}
-						{user.role === "employee" && (
-							<>
-                  {!isClosed && (
-                    <Typography
-                      variant="h4"
-                      color={colors.grey[300]}
-                      sx={{ m: "15px 0 5px 20px" }}
-                    >
-                      My Roles
-                    </Typography>
-                  )}
-
-
-                {user.email === 2 && (
-                <>
-                  <Item
-                    title="Rides"
-                    to="/rides"
-                    icon={<AttractionsOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </>
-              )}
-
-              {user.email === 5 && (
-                <>
-                  <Item
-                    title="Rides"
-                    to="/rides"
-                    icon={<AttractionsOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                  <Item
-                    title="Maintence Overview"
-                    to="/maintenance-reports"
-                    icon={<EngineeringOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </>
-              )}
-
-
-                {user.email === 11 && (
-                <>
-                  <Item
-                    title="Shops"
-                    to="/shops"
-                    icon={<InventoryIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                  <Item
-                    title="Supplies"
-                    to="/supplies"
-                    icon={<InventoryOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </>
-              )}
-                </>
-						)}
-
-
-						{/* Departmental Tab Bar */}
-						{user.role === "manager" && (
-							<>
-                  {!isClosed && (
-                    <Typography
-                      variant="h4"
-                      color={colors.grey[300]}
-                      sx={{ m: "15px 0 5px 20px" }}
-                    >
-                      My Roles
-                    </Typography>
-                  )}
-
-
-                {user.email === 2 && (
-                <>
-                  <Item
-                    title="Rides"
-                    to="/rides"
-                    icon={<AttractionsOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                  <Item
-                    title="Maintence Overview"
-                    to="/maintenance-reports"
-                    icon={<EngineeringOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </>
-              )}
-
-              {user.email === 5 && (
-                <>
-                  <Item
-                    title="Rides"
-                    to="/rides"
-                    icon={<AttractionsOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                  <Item
-                    title="Maintence Overview"
-                    to="/maintenance-reports"
-                    icon={<EngineeringOutlinedIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </>
-              )}
-
-
-                {user.email === 11 && (
-                <>
-                  <Item
-                    title="Shops"
-                    to="/shops"
-                    icon={<InventoryIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                  <Item
-                    title="Supplies"
-                    to="/supplies"
-                    icon={<InventoryIcon />}
-                    selected={selected}
-                    setSelected={setSelected}
-                  />
-                </>
-              )}
-                </>
-						)}
-
-
-
-
-
-
-						{/* Park Overview (Admin) */}
-						{user.role === "admin" && (
-							<>
-								{!isClosed && (
-									<Typography
-										variant="h4"
-										color={colors.grey[300]}
-										sx={{ m: "15px 0 5px 20px" }}
-									>
-										Park Overview
-									</Typography>
-								)}
-								<Item
-									title="Shops & Inventory"
-									to="/supplies"
-									icon={<InventoryIcon />}
-									selected={selected}
-									setSelected={setSelected}
-								/>
-								<Item
-									title="Orders & Vendors"
-									to="/vendorsorders"
-									icon={<ContactsOutlinedIcon />}
-									selected={selected}
-									setSelected={setSelected}
-								/>
-							</>
-						)}
-
-
 
 						{/* Manager Elements */}
 						{user.role === "manager" && (
@@ -498,24 +318,119 @@ const Sidebar = () => {
 							</>
 						)}
 
+						{/* Park Overview (Admin) */}
+						{user.role === "admin" && (
+							<>
+								{isOpen && (
+									<Typography
+										variant="h4"
+										color={colors.grey[300]}
+										sx={{ m: "15px 0 5px 20px" }}
+									>
+										Park Overview
+									</Typography>
+								)}
+								<Item
+									title="Shops & Inventory"
+									to="/supplies"
+									icon={<InventoryIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Orders & Vendors"
+									to="/vendorsorders"
+									icon={<ContactsOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+							</>
+						)}
+
+						{/* Manager Elements */}
+						{user.role === "manager" && (
+							<>
+								{isOpen && (
+									<Typography
+										variant="h4"
+										color={colors.grey[300]}
+										sx={{ m: "15px 0 5px 20px" }}
+									>
+										My Team
+									</Typography>
+								)}
+								<Item
+									title="Manage Team"
+									to="/my-team"
+									icon={<PeopleOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Budget"
+									to="/managerdashboard"
+									icon={<HandymanIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Meetings"
+									to="/managerdashboard"
+									icon={<TourIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								{isOpen && (
+									<Typography
+										variant="h4"
+										color={colors.grey[300]}
+										sx={{ m: "15px 0 5px 20px" }}
+									>
+										Communication and Planning
+									</Typography>
+								)}
+								<Item
+									title="Tasks"
+									to="/managerdashboard"
+									icon={<InsightsIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Workflow"
+									to="/managerdashboard"
+									icon={<ReceiptOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Announcements"
+									to="/managerdashboard"
+									icon={<AnalyticsOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+							</>
+						)}
+
 						{/* Admin Elements */}
 						{user.role === "admin" && (
 							<>
-                  <Item
-                  title="Rides & Attractions"
-                  to="/rides"
-                  icon={<LocalActivityIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-                <Item
-                  title="Park Safety"
-                  to="/safety"
-                  icon={<SecurityIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-                />
-								{!isClosed && (
+								<Item
+									title="Rides & Attractions"
+									to="/rides"
+									icon={<LocalActivityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Park Safety"
+									to="/safety"
+									icon={<SecurityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -524,6 +439,20 @@ const Sidebar = () => {
 										Team and Operations
 									</Typography>
 								)}
+								<Item
+									title="Rides & Attractions"
+									to="/rides"
+									icon={<LocalActivityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Park Safety"
+									to="/safety"
+									icon={<SecurityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
 								<Item
 									title="Manage Staff"
 									to="/managestaff"
@@ -552,7 +481,7 @@ const Sidebar = () => {
 									selected={selected}
 									setSelected={setSelected}
 								/>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -605,9 +534,9 @@ const Sidebar = () => {
 							justifyContent="center"
 							alignItems="center"
 							width="100%"
-							gap={isClosed ? 2 : 3}
-							px={isClosed ? 2 : 1}
-							flexDirection={isClosed ? "column" : "row"}
+							gap={isOpen ? 3 : 2}
+							px={isOpen ? 1 : 2}
+							flexDirection={isOpen ? "row" : "column"}
 						>
 							<Box
 								display="flex"

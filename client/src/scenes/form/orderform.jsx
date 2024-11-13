@@ -152,7 +152,7 @@ const userSchema = yup.object().shape({
 
 
 
-const OrderForm = () => {
+const OrderForm = ({isOpen}) => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
 
@@ -215,115 +215,171 @@ const OrderForm = () => {
         }
     };
 
-    return(
-    
-    <Box  m="20px">
-        <IconButton onClick={() => navigate('/vendorsandorders')}>
-            <ArrowBackIcon sx={{ fontSize: "30px", color: "grey" }} />
-        </IconButton>
+    return (
+		<Box
+			m="20px"
+			ml={isOpen ? "250px" : "80px"} // Adjust left margin based on isOpen
+			transition="margin 0.3s ease" // Smooth transition for margin
+		>
+			<IconButton onClick={() => navigate("/vendorsandorders")}>
+				<ArrowBackIcon sx={{ fontSize: "30px", color: "grey" }} />
+			</IconButton>
 
-        <Header title="START VENDOR ORDER" subtitle="Request a merchandise or supplies order from a vendor" />
-        <Formik 
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={userSchema}>
-            {({values, errors, touched, handleBlur, handleChange, handleSubmit}) => (
-                <form onSubmit={handleSubmit}>
-                    <Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                    sx={{
-                        "& > div": {gridColumn: isNonMobile ? undefined: "span 4"},  
-                    }}>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="First Name"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.first_name}
-                        name="first_name"
-                        error={!!touched.first_name && !!errors.first_name}
-                        helperText={touched.first_name && errors.first_name}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Middle Initial"
-                        inputProps={{ maxLength: 1 }}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.middle_initial}
-                        name="middle_initial"
-                        error={!!touched.middle_initial && !!errors.middle_initial}
-                        helperText={touched.middle_initial && errors.dmiddle_initialb}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Last Name"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.last_name}
-                        name="last_name"
-                        error={!!touched.last_name && !!errors.last_name}
-                        helperText={touched.last_name && errors.last_name}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
+			<Header
+				title="START VENDOR ORDER"
+				subtitle="Request a merchandise or supplies order from a vendor"
+			/>
+			<Formik
+				onSubmit={handleFormSubmit}
+				initialValues={initialValues}
+				validationSchema={userSchema}
+			>
+				{({
+					values,
+					errors,
+					touched,
+					handleBlur,
+					handleChange,
+					handleSubmit,
+				}) => (
+					<form onSubmit={handleSubmit}>
+						<Box
+							display="grid"
+							gap="30px"
+							gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+							sx={{
+								"& > div": {
+									gridColumn: isNonMobile
+										? undefined
+										: "span 4",
+								},
+							}}
+						>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="First Name"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.first_name}
+								name="first_name"
+								error={
+									!!touched.first_name && !!errors.first_name
+								}
+								helperText={
+									touched.first_name && errors.first_name
+								}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Middle Initial"
+								inputProps={{ maxLength: 1 }}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.middle_initial}
+								name="middle_initial"
+								error={
+									!!touched.middle_initial &&
+									!!errors.middle_initial
+								}
+								helperText={
+									touched.middle_initial &&
+									errors.dmiddle_initialb
+								}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Last Name"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.last_name}
+								name="last_name"
+								error={
+									!!touched.last_name && !!errors.last_name
+								}
+								helperText={
+									touched.last_name && errors.last_name
+								}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
 
+							<FormControl
+								fullWidth
+								variant="filled"
+								sx={{ gridColumn: "span 1" }}
+							>
+								<InputLabel>Title</InputLabel>
+								<Select
+									name="title"
+									value={values.title}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={!!touched.title && !!errors.title}
+								>
+									<MenuItem value="">None</MenuItem>{" "}
+									{/* Option for no title */}
+									<MenuItem value="Mr.">Mr.</MenuItem>
+									<MenuItem value="Mrs.">Mrs.</MenuItem>
+									<MenuItem value="Ms.">Ms.</MenuItem>
+									<MenuItem value="Dr.">Dr.</MenuItem>
+									<MenuItem value="Prof.">Prof.</MenuItem>
+									<MenuItem value="Mx.">Mx.</MenuItem>
+								</Select>
+								{touched.title && errors.title && (
+									<div
+										style={{
+											color: "red",
+											fontSize: "12px",
+										}}
+									>
+										{errors.title}
+									</div>
+								)}
+							</FormControl>
 
-                        <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
-                            <InputLabel>Title</InputLabel>
-                            <Select
-                                name="title"
-                                value={values.title}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={!!touched.title && !!errors.title}
-                            >
-                                <MenuItem value="">None</MenuItem> {/* Option for no title */}
-                                <MenuItem value="Mr.">Mr.</MenuItem>
-                                <MenuItem value="Mrs.">Mrs.</MenuItem>
-                                <MenuItem value="Ms.">Ms.</MenuItem>
-                                <MenuItem value="Dr.">Dr.</MenuItem>
-                                <MenuItem value="Prof.">Prof.</MenuItem>
-                                <MenuItem value="Mx.">Mx.</MenuItem>
-                            </Select>
-                            {touched.title && errors.title && (
-                                <div style={{ color: 'red', fontSize: '12px' }}>{errors.title}</div>
-                            )}
-                        </FormControl>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Social Security Number"
+								inputProps={{ maxLength: 11 }}
+								onBlur={handleBlur}
+								onChange={(e) => {
+									const formattedValue = formatSSN(
+										e.target.value
+									);
+									handleChange({
+										target: {
+											name: "ssn",
+											value: formattedValue,
+										},
+									});
+								}}
+								value={values.ssn}
+								name="ssn"
+								error={!!touched.ssn && !!errors.ssn}
+								helperText={touched.ssn && errors.ssn}
+								sx={{
+									gridColumn: "span 2",
+								}}
+							/>
 
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Social Security Number"
-                        inputProps={{ maxLength: 11 }}
-                        onBlur={handleBlur}
-                        onChange={(e) => {
-                            const formattedValue = formatSSN(e.target.value);
-                            handleChange({ target: { name: 'ssn', value: formattedValue } });
-                        }}
-                        value={values.ssn}
-                        name="ssn"
-                        error={!!touched.ssn && !!errors.ssn}
-                        helperText={touched.ssn && errors.ssn}
-                        sx={{
-                            gridColumn: "span 2"
-                        }}/>   
+							<BasicDateTimePicker label="Date of Birth" />
 
-                        <BasicDateTimePicker label="Date of Birth"/>
-
-
-
-{/*      save for style refernce                   <TextField 
+							{/*      save for style refernce                   <TextField 
                         fullWidth
                         variant="filled"
                         type="text"
@@ -343,231 +399,316 @@ const OrderForm = () => {
                         }}/>
 */}
 
-                        <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
-                            <InputLabel>Gender</InputLabel>
-                            <Select
-                                name="gender"
-                                value={values.gender}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={!!touched.gender && !!errors.gender}
-                            >
-                                <MenuItem value="M">Male</MenuItem>
-                                <MenuItem value="F">Female</MenuItem>
-                                <MenuItem value="N">Non-binary</MenuItem>
-                            </Select>
-                            {touched.gender && errors.gender && (
-                                <div style={{ color: 'red', fontSize: '12px' }}>{errors.gender}</div>
-                            )}
-                        </FormControl>
+							<FormControl
+								fullWidth
+								variant="filled"
+								sx={{ gridColumn: "span 1" }}
+							>
+								<InputLabel>Gender</InputLabel>
+								<Select
+									name="gender"
+									value={values.gender}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={!!touched.gender && !!errors.gender}
+								>
+									<MenuItem value="M">Male</MenuItem>
+									<MenuItem value="F">Female</MenuItem>
+									<MenuItem value="N">Non-binary</MenuItem>
+								</Select>
+								{touched.gender && errors.gender && (
+									<div
+										style={{
+											color: "red",
+											fontSize: "12px",
+										}}
+									>
+										{errors.gender}
+									</div>
+								)}
+							</FormControl>
 
+							{/*Emmployee Type selection + user auth passage ?? */}
+							<FormControl
+								fullWidth
+								variant="filled"
+								sx={{ gridColumn: "span 1" }}
+							>
+								<InputLabel>Employee Type</InputLabel>
+								<Select
+									name="employee_type"
+									value={values.employee_type}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									error={
+										!!touched.employee_type &&
+										!!errors.employee_type
+									}
+								>
+									<MenuItem value="Hourly">Hourly</MenuItem>
+									<MenuItem value="Salary">Salary</MenuItem>
+								</Select>
+								{touched.employee_type &&
+									errors.employee_type && (
+										<div
+											style={{
+												color: "red",
+												fontSize: "12px",
+											}}
+										>
+											{errors.employee_type}
+										</div>
+									)}
+							</FormControl>
 
-                        {/*Emmployee Type selection + user auth passage ?? */}
-                        <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 1" }}>
-                                <InputLabel>Employee Type</InputLabel>
-                                <Select
-                                    name="employee_type"
-                                    value={values.employee_type}
-                                    
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={!!touched.employee_type && !!errors.employee_type}
-                                >
-                                    <MenuItem value="Hourly">Hourly</MenuItem>
-                                    <MenuItem value="Salary">Salary</MenuItem>
-                                </Select>
-                                {touched.employee_type && errors.employee_type && (
-                                    <div style={{ color: 'red', fontSize: '12px' }}>{errors.employee_type}</div>
-                                )}
-                        </FormControl>
+							{/* Payment field managemenet, depending on dropdown (if) selection*/}
+							{values.employee_type === "" && (
+								<Box
+									sx={{
+										gridColumn: "span 1",
+										height: "56px",
+									}}
+								/>
+							)}
+							{values.employee_type === "Hourly" && (
+								<TextField
+									fullWidth
+									variant="filled"
+									type="text"
+									label="Hourly Wage"
+									onBlur={handleBlur}
+									onChange={(e) => {
+										const inputValue = e.target.value;
+										// Allow the user to type while starting from 0.00
+										handleChange({
+											target: {
+												name: "hourly_wage",
+												value: inputValue,
+											},
+										});
+									}}
+									value={formatHourlyWage(values.hourly_wage)}
+									name="hourly_wage"
+									error={
+										!!touched.hourly_wage &&
+										!!errors.hourly_wage
+									}
+									helperText={
+										touched.hourly_wage &&
+										errors.hourly_wage
+									}
+									sx={{ gridColumn: "span 1" }}
+								/>
+							)}
 
-                        {/* Payment field managemenet, depending on dropdown (if) selection*/}
-                        {values.employee_type === "" && (
-                                <Box sx={{ gridColumn: "span 1", height: '56px' }} />
-                            )}
-                        {values.employee_type === 'Hourly' && (
-                                <TextField 
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Hourly Wage"
-                                    onBlur={handleBlur}
-                                    onChange={(e) => {
-                                        const inputValue = e.target.value;
-                                        // Allow the user to type while starting from 0.00
-                                        handleChange({ target: { name: 'hourly_wage', value: inputValue } });
-                                    }}
-                                    value={formatHourlyWage(values.hourly_wage)}
-                                    name="hourly_wage"
-                                    error={!!touched.hourly_wage && !!errors.hourly_wage}
-                                    helperText={touched.hourly_wage && errors.hourly_wage}
-                                    sx={{ gridColumn: "span 1" }}
-                                />
-                            )}
+							{values.employee_type === "Salary" && (
+								<TextField
+									fullWidth
+									variant="filled"
+									type="text"
+									label="Salary"
+									onBlur={handleBlur}
+									onChange={(e) => {
+										const inputValue = e.target.value;
+										handleChange({
+											target: {
+												name: "salary",
+												value: inputValue,
+											},
+										});
+									}}
+									value={formatSalary(values.salary)}
+									name="salary"
+									error={!!touched.salary && !!errors.salary}
+									helperText={touched.salary && errors.salary}
+									sx={{ gridColumn: "span 1" }}
+								/>
+							)}
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Job Function"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.job_function}
+								name="job_function"
+								error={
+									!!touched.job_function &&
+									!!errors.job_function
+								}
+								helperText={
+									touched.job_function && errors.job_function
+								}
+								sx={{
+									gridColumn: "span 2",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Phone Number"
+								inputProps={{ maxLength: 12 }}
+								onBlur={handleBlur}
+								onChange={(e) => {
+									const formattedValue = formatPhoneNumber(
+										e.target.value
+									);
+									handleChange({
+										target: {
+											name: "phone_number",
+											value: formattedValue,
+										},
+									});
+								}}
+								value={values.phone_number}
+								name="phone_number"
+								error={
+									!!touched.phone_number &&
+									!!errors.phone_number
+								}
+								helperText={
+									touched.phone_number && errors.phone_number
+								}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Email"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.email}
+								name="email"
+								error={!!touched.email && !!errors.email}
+								helperText={touched.email && errors.email}
+								sx={{
+									gridColumn: "span 3",
+								}}
+							/>
 
-                            {values.employee_type === 'Salary' && (
-                                <TextField 
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Salary"
-                                    onBlur={handleBlur}
-                                    onChange={(e) => {
-                                        const inputValue = e.target.value;
-                                        handleChange({ target: { name: 'salary', value: inputValue } });
-                                    }}
-                                    value={formatSalary(values.salary)}
-                                    name="salary"
-                                    error={!!touched.salary && !!errors.salary}
-                                    helperText={touched.salary && errors.salary}
-                                    sx={{ gridColumn: "span 1" }}
-                                />
-                            )}
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Job Function"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.job_function}
-                        name="job_function"
-                        error={!!touched.job_function && !!errors.job_function}
-                        helperText={touched.job_function && errors.job_function}
-                        sx={{
-                            gridColumn: "span 2"
-                        }}/> 
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Phone Number"
-                        inputProps={{ maxLength: 12 }}
-                        onBlur={handleBlur}
-                        onChange={(e) => {
-                            const formattedValue = formatPhoneNumber(e.target.value);
-                            handleChange({ target: { name: 'phone_number', value: formattedValue } });
-                        }}
-                        value={values.phone_number}
-                        name="phone_number"
-                        error={!!touched.phone_number && !!errors.phone_number}
-                        helperText={touched.phone_number && errors.phone_number}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>  
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Email"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.email}
-                        name="email"
-                        error={!!touched.email && !!errors.email}
-                        helperText={touched.email && errors.email}
-                        sx={{
-                            gridColumn: "span 3"
-                        }}/>       
-
- 
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Adress 1"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.address_line1}
-                        name="address_line1"
-                        error={!!touched.address_line1 && !!errors.address_line1}
-                        helperText={touched.address_line1 && errors.address_line1}
-                        sx={{
-                            gridColumn: "span 3"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Adress 2"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.address_line2}
-                        name="address_line2"
-                        error={!!touched.address_line2 && !!errors.address_line2}
-                        helperText={touched.address_line2 && errors.address_line2}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="City"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.city}
-                        name="city"
-                        error={!!touched.city && !!errors.city}
-                        helperText={touched.city && errors.city}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="State"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.state}
-                        name="state"
-                        error={!!touched.state && !!errors.state}
-                        helperText={touched.state && errors.state}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Country"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.country}
-                        name="country"
-                        error={!!touched.country && !!errors.country}
-                        helperText={touched.country && errors.country}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-                        <TextField 
-                        fullWidth
-                        variant="filled"
-                        type="text"
-                        label="Zip Code"
-                        inputProps={{ maxLength: 5 }}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.zip_code}
-                        name="zip_code"
-                        error={!!touched.zip_code && !!errors.zip_code}
-                        helperText={touched.zip_code && errors.zip_code}
-                        sx={{
-                            gridColumn: "span 1"
-                        }}/>
-
-                    </Box>
-                    <Box display="flex" justifyContent="end" mt="20px">
-                        <Button type="submit" color="secondary" variant="contained">
-                            Add Review
-                        </Button>
-                    </Box>
-                </form>
-            )}
-        </Formik>
-    </Box>
-    )
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Adress 1"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.address_line1}
+								name="address_line1"
+								error={
+									!!touched.address_line1 &&
+									!!errors.address_line1
+								}
+								helperText={
+									touched.address_line1 &&
+									errors.address_line1
+								}
+								sx={{
+									gridColumn: "span 3",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Adress 2"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.address_line2}
+								name="address_line2"
+								error={
+									!!touched.address_line2 &&
+									!!errors.address_line2
+								}
+								helperText={
+									touched.address_line2 &&
+									errors.address_line2
+								}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="City"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.city}
+								name="city"
+								error={!!touched.city && !!errors.city}
+								helperText={touched.city && errors.city}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="State"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.state}
+								name="state"
+								error={!!touched.state && !!errors.state}
+								helperText={touched.state && errors.state}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Country"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.country}
+								name="country"
+								error={!!touched.country && !!errors.country}
+								helperText={touched.country && errors.country}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Zip Code"
+								inputProps={{ maxLength: 5 }}
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.zip_code}
+								name="zip_code"
+								error={!!touched.zip_code && !!errors.zip_code}
+								helperText={touched.zip_code && errors.zip_code}
+								sx={{
+									gridColumn: "span 1",
+								}}
+							/>
+						</Box>
+						<Box display="flex" justifyContent="end" mt="20px">
+							<Button
+								type="submit"
+								color="secondary"
+								variant="contained"
+							>
+								Add Review
+							</Button>
+						</Box>
+					</form>
+				)}
+			</Formik>
+		</Box>
+	);
 }
 
 export default OrderForm;
