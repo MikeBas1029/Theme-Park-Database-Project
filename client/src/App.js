@@ -106,10 +106,15 @@ function App() {
 						component="main"
 						sx={{
 							marginLeft:
-								sidebarOpen && user?.userType === "employee"
+								user?.userType === "employee" && sidebarOpen
 									? "250px"
-									: "80px",
-							transition: "margin-left 0.3s ease", // Smooth transition for sidebar toggle
+									: user?.userType === "employee"
+										? "80px"
+										: "0px",
+							transition:
+								user?.userType === "employee"
+									? "margin-left 0.3s ease"
+									: "none", // Smooth transition for sidebar toggle
 						}}
 						flexGrow={1}
 						ml={
@@ -128,7 +133,12 @@ function App() {
 						{/* {!isCustLogin && !isSignUpPage && !isEmpLogin && (
 							<Navbar />
 						)} */}
-						{(!user || user?.userType !== "employee") && <Navbar />}
+						{!isCustLogin &&
+							!isEmpLogin &&
+							!isSignUpPage &&
+							(!user || !user?.userType === "employee") && (
+								<Navbar />
+							)}
 						<Routes>
 							{/*User Authentication pages */}
 							<Route
