@@ -99,7 +99,6 @@ const Navbar = () => {
 			</Box>
 
 			{/* Centered Navbar Content - only for customers */}
-			{isCustomer && (
 				<Box
 					display="flex"
 					justifyContent="center"
@@ -155,7 +154,9 @@ const Navbar = () => {
 						/>
 					</Box>
 				</Box>
-			)}
+
+				
+
 
 			{/* Right-aligned Icon Section */}
 			<Box
