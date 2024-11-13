@@ -136,7 +136,7 @@ function App() {
 						{!isCustLogin &&
 							!isEmpLogin &&
 							!isSignUpPage &&
-							(!user || !user?.userType === "employee") && (
+							(user?.userType !== "employee" || !user) && (
 								<Navbar />
 							)}
 						<Routes>
