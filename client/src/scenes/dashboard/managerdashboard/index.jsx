@@ -8,6 +8,7 @@ import StatBox from "../../../components/StatBox";
 import DownloadButton from "../../../components/DownloadButton";
 import LineChart from "../../../components/LineChart";
 import { useUser } from "../../../components/context/UserContext";
+import PieChart from "../../../components/PieChart";
 
 const ManagerDashboard = () => {
   const theme = useTheme();
@@ -131,7 +132,7 @@ const ManagerDashboard = () => {
         </Box>
           </Box>
           <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <PieChart />
           </Box>
         </Box>
         <Box
@@ -149,7 +150,7 @@ const ManagerDashboard = () => {
             p="15px"
           >
             <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Approve Hours
+              Recent Employee Hours
             </Typography>
           </Box>
           Timelogs here

@@ -168,7 +168,41 @@ return(
             </>)}
 
 
-           {!isClosed &&(
+
+
+            {/* Departmental Tab Bar*/}
+            {user.role === "manager" && (  
+            <>
+            {user.email === 2 && (
+              
+              <>
+              {!isClosed &&(
+                <Typography
+                  variant="h4"
+                  color={colors.grey[300]}
+                  sx={{ m: "15px 0 5px 20px" }}
+                >
+                    My Roles
+                </Typography>)}
+                <Item
+                    title="Shops & Dining"
+                    to="/shops"
+                    icon={<InventoryIcon />}
+                    selected={selected}
+                    setSelected={setSelected}
+                />
+              </>)}
+            </>)}
+
+
+
+
+
+
+           {/* Park(admin) overview */}
+           {user.role === 'admin' && (
+            <>
+            {!isClosed &&(
            <Typography
              variant="h4"
              color={colors.grey[300]}
@@ -177,12 +211,6 @@ return(
                Park Overview
            </Typography>
              )}
-
-
-
-           {/* Park(admin) overview */}
-           {user.role === 'admin' && (
-            <>
             <Item
              title="Shops & Inventory"
              to="/supplies"
@@ -199,17 +227,7 @@ return(
               />
             </>)}
 
-            {/* Everyone but varying elements */}
-            {user.role === 'employee' && (
-            <>
-              <Item
-                  title="Shops & Dining"
-                  to="/shops"
-                  icon={<InventoryIcon />}
-                  selected={selected}
-                  setSelected={setSelected}
-              />
-            </>)}
+
             <Item
              title="Rides & Attractions"
              to="/rides"
@@ -238,7 +256,7 @@ return(
              color={colors.grey[300]}
              sx={{ m: "15px 0 5px 20px" }}
            >
-             My Department
+             My Team
            </Typography>
                  )}
 
