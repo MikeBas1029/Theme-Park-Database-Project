@@ -193,11 +193,17 @@ export default function LoginForm() {
                         <a href="#">Forgot Password?</a>
                     </Box>
 
-                    <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
-                    <Typography variant="h4" gutterBottom >
-                        <Link to="#">Sign-in with OTP</Link>
-                    </ Typography >
-                    </Box>
+                    <Box
+						sx={{
+							mb: 2,
+							display: "flex",
+							justifyContent: "center",
+						}}
+					>
+						<Typography variant="h4" gutterBottom>
+							Customer ?<Link to="/custlogin "> Sign in Here</Link>
+						</Typography>
+					</Box>
 
                     <Button type="submit" variant="contained" fullWidth >
                         Sign In
