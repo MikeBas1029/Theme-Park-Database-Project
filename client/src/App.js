@@ -57,7 +57,16 @@ import CustomerRides from "./scenes/customerrides";
 import CustomerRestaurants from "./scenes/customerrestaurants";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
+import CustomerRestaurants from "./scenes/customerrestaurants";
 import CustomerShops from "./scenes/customershops";
+import CustomerFacilities from "./scenes/customerfacilities";
+import PurchaseTickets from "./scenes/purchasetickets";
+import ShoppingCart from "./scenes/shoppingcart";
+import Checkout from "./scenes/checkout";
+import ConfirmationPage from "./scenes/confirmation";
+import MyTickets from "./scenes/mytickets";
+import Footer from "./components/Footer";
+import ProfilePage from "./scenes/profile";
 
 function App() {
 	const navigate = useNavigate();
@@ -163,6 +172,33 @@ function App() {
 								path="/customer-events"
 								element={<CustomerEvents />}
 							/>{" "}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/customerfacilities"
+								element={<CustomerFacilities />}
+							/>{" "}
+							<Route
+								path="/customershops"
+								element={<CustomerShops />}
+							/>{" "}
+							<Route
+								path="/purchase-tickets"
+								element={<PurchaseTickets />}
+							/>{" "}
+							<Route path="/my-tickets" element={<MyTickets />} />{" "}
+							<Route
+								path="/shopping-cart"
+								element={<ShoppingCart />}
+							/>{" "}
+							<Route path="/checkout" element={<Checkout />} />{" "}
+							<Route
+								path="/confirmation"
+								element={<ConfirmationPage />}
+							/>{" "}
+							<Route path="/profile" element={<ProfilePage />} />{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"

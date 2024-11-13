@@ -265,6 +265,7 @@ const CustomerDashboard = () => {
 														show.show_time
 													)}
 													description={`Join us for this amazing show! Tickets starting at $${show.ticket_price.toFixed(2)}`}
+													showSeeDatesButton={true}
 												/>
 											</Grid>
 										</Fade>
