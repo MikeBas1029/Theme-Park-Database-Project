@@ -21,6 +21,7 @@ const EditButton = ({ editingRow, disabled, sx, onSuccess }) => {
             console.error("Error updating data:", error);
         }
     };
+    
 
     return (
         <IconButton 

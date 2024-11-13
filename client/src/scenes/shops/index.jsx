@@ -10,6 +10,7 @@ import axios from "axios";
 import EditButton from "../../components/EditButton";
 import DeleteButton from "../../components/DeleteButton";
 
+
 const Shops = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);

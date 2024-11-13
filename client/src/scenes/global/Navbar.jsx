@@ -189,7 +189,7 @@ const Navbar = () => {
 							onClick={() => navigate("/custlogin")}
 						>
 							Log In
-						</Button>
+						</Button> 
 						<Button
 							variant="text"
 							color="inherit"

@@ -137,7 +137,7 @@ export default function AccountMenu({ userRole }) {
 				transformOrigin={{ horizontal: "right", vertical: "top" }}
 				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 			>
-				{/* Profile Settings Tab */}
+				{/* Profile Settings Tab  */}
 				<MenuItem onClick={handleClose}>
 					<Avatar src={avatarSrc} alt="Profile Picture" />
 					{user

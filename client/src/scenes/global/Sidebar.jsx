@@ -49,8 +49,6 @@ const Sidebar = () => {
     const { user } = useUser(); //Get the user context
 
 
-
-
 return(
     <Box
     sx ={{
