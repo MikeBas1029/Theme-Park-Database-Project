@@ -54,7 +54,6 @@ import Charts from "./scenes/charts";
 import Finances from "./scenes/finances";
 import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
-import CustomerRestaurants from "./scenes/customerrestaurants";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
 import CustomerRestaurants from "./scenes/customerrestaurants";
