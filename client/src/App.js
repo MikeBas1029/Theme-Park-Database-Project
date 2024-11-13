@@ -54,6 +54,7 @@ import Charts from "./scenes/charts";
 import Finances from "./scenes/finances";
 import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
+import CustomerRestaurants from "./scenes/customerrestaurants";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
 import CustomerRestaurants from "./scenes/customerrestaurants";
@@ -87,12 +88,18 @@ function App() {
 		<DisplayModeContext.Provider value={colorMode}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<div className="app">
+				<Box className="app" displ>
 					{!isCustLogin &&
 						!isSignUpPage &&
 						!isEmpLogin &&
 						user?.userType === "employee" && <Sidebar />}
-					<main className="content">
+					<Box 
+						component="main"
+						flexGrow={1}
+						ml={!isCustLogin && !isSignUpPage && !isEmpLogin && user?.userType === "employee" ? '250px' : 0}
+						pt="70px" 
+						p={2}
+						className="content">
 						{!isCustLogin && !isSignUpPage && !isEmpLogin && (
 							<Navbar />
 						)}
@@ -259,15 +266,7 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>{" "}
-							<Route
-								path="/my-team"
-								element={
-									<ProtectedRoute allowedRoles={["manager"]}>
-										<ManagerStaffView />
-									</ProtectedRoute>
-								}
-							/>{" "}
-							{/*DESIRED ROUTES FORMAT !! */}
+							<Route path="/my-team"element={<ProtectedRoute allowedRoles={["manager"]}><ManagerStaffView/></ProtectedRoute>}/> {/*DESIRED ROUTES FORMAT !! */}
 							{/*Staff management page routing */}✅
 							<Route
 								path="/transactions"
@@ -369,6 +368,18 @@ function App() {
 							{/*Inventory's form page routing */}
 							<Route path="/parkmap" element={<MapPage />} />{" "}
 							{/*Inventory's form page routing */}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/customerfacilities"
+								element={<Facilities />}
+							/>{" "}
+							<Route
+								path="/customershops"
+								element={<CustomerShops/>}
+							/>{" "}
 							{/*Sidebar page routes*/}
 							<Route
 								path="/vendorsorders"
@@ -398,12 +409,8 @@ function App() {
 							/>{" "}
 							{/*Shops&Inventory tab routing */}
 						</Routes>
-						{/* Add Footer globally */}
-						{!isCustLogin && !isSignUpPage && !isEmpLogin && (
-							<Footer />
-						)}
-					</main>
-				</div>
+					</Box>
+				</Box>
 			</ThemeProvider>
 		</DisplayModeContext.Provider>
 	);
