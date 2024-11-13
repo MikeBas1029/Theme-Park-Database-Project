@@ -20,7 +20,6 @@ import NotificationMenu from "./NotificationMenu";
 import AccountMenu from "../../components/AccountMenu";
 import DropdownMenu from "../../components/DropdownMenu";
 import { useUser } from "../../components/context/UserContext";
-import Cart from "../../components/Cart";
 
 const Item = ({ title, to, icon }) => {
 	const location = useLocation();
@@ -71,6 +70,8 @@ const Navbar = () => {
 	const navigate = useNavigate();
 	const { user } = useUser();
 
+	const isCustomer = user?.userType === "customer";
+
 	return (
 		<Box
 			display="flex"
@@ -87,7 +88,7 @@ const Navbar = () => {
 				flex="1"
 				display="flex"
 				alignItems="center"
-				justifyContent="center"
+				justifyContent={isCustomer ? "center" : "flex-start"}
 			>
 				<img
 					src="assets/logo.png"
@@ -97,69 +98,64 @@ const Navbar = () => {
 				/>
 			</Box>
 
-			{/* Centered Navbar Content - visible for all users */}
-			<Box
-				display="flex"
-				justifyContent="center"
-				alignItems="center"
-				flex="2"
-				mx="auto"
-				pr={2}
-			>
+			{/* Centered Navbar Content - only for customers */}
+			{isCustomer && (
 				<Box
 					display="flex"
 					justifyContent="center"
 					alignItems="center"
-					flexWrap={isSmallScreen ? "wrap" : "nowrap"}
-					gap={1}
-					maxWidth="800px"
+					flex="2"
+					mx="auto"
+					pr={2}
 				>
-					<Item title="Home" to="/" icon={<HomeOutlinedIcon />} />
-					<DropdownMenu
-						title="Tickets"
-						menuItems={[
-							...(user
-								? [
-										{
-											label: "My Tickets",
-											path: "/my-tickets",
-										},
-									]
-								: []),
-							{
-								label: "Purchase Tickets",
-								path: "/purchase-tickets",
-							},
-						]}
-						icon={<LocalActivityIcon />}
-					/>
-					<Item
-						title="Map"
-						to="/parkmap"
-						icon={<MapOutlinedIcon />}
-					/>
-					<DropdownMenu
-						title="Amusement"
-						menuItems={[
-							{ label: "Rides", path: "/customer-rides" },
-							{ label: "Events", path: "/customer-events" },
-						]}
-						icon={<AttractionsOutlinedIcon />}
-					/>
-					<DropdownMenu
-						title="Services"
-						menuItems={[
-							{ label: "Dining", path: "/restaurants" },
-							{
-								label: "Facilities",
-								path: "/customerfacilities",
-							},
-							{ label: "Shopping", path: "/customershops" },
-						]}
-						icon={<StoreOutlinedIcon />}
-					/>
+					<Box
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						flexWrap={isSmallScreen ? "wrap" : "nowrap"}
+						gap={1}
+						maxWidth="800px"
+					>
+						<Item title="Home" to="/" icon={<HomeOutlinedIcon />} />
+						<DropdownMenu
+							title="Tickets"
+							menuItems={[
+								{ label: "My Tickets", path: "/customertickets" },
+								{
+									label: "Purchase Tickets",
+									path: "/purchaseTickets",
+								},
+							]}
+							icon={<LocalActivityIcon />}
+						/>
+						<Item
+							title="Map"
+							to="/parkmap"
+							icon={<MapOutlinedIcon />}
+						/>
+						<DropdownMenu
+							title="Amusement"
+							menuItems={[
+								{ label: "Rides", path: "/customer-rides" },
+								{ label: "Events", path: "/customer-events" },
+							]}
+							icon={<AttractionsOutlinedIcon />}
+						/>
+						<DropdownMenu
+							title="Services"
+							menuItems={[
+								{ label: "Dining", path: "/restaurants" },
+								{
+									label: "Facilities",
+									path: "/customerfacilities",
+								},
+								{ label: "Shopping", path: "/customershops" },
+							]}
+							icon={<StoreOutlinedIcon />}
+						/>
+					</Box>
 				</Box>
-			</Box>
+			)}
 
 			{/* Right-aligned Icon Section */}
 			<Box
@@ -182,10 +178,6 @@ const Navbar = () => {
 						<IconButton>
 							<NotificationMenu />
 						</IconButton>
-						{/* <IconButton onClick={() => navigate("/shopping-cart")}>
-							<Cart />
-						</IconButton> */}
-						<Cart />
 						<AccountMenu userType={user.userType} />
 					</Box>
 				) : (
