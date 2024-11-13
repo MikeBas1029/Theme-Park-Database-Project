@@ -1,30 +1,28 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import  Header from "../../components/Header"
+import Header from "../../components/Header";
 import PrintButton from "../../components/PrintButton";
 import AddButton from "../../components/AddButton";
 import DownloadButton from "../../components/DownloadButton";
 import { useEffect, useState } from "react";
-import axios  from "axios"; //install if have !! needed for API requests
+import axios from "axios";
 import EditButton from "../../components/EditButton";
 import DeleteButton from "../../components/DeleteButton";
-
-
 
 const Shops = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    
-    const [ShopsData, setShopsData] = useState([]); {/*State for storing employee data*/}
-    const [loading, setLoading] = useState(true); // Loading state
-    const [selectedShops, setSelectedShops] = useState([]); // State for currently selected shop
+    const [ShopsData, setShopsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedShops, setSelectedShops] = useState([]);
+    const [editingRow, setEditingRow] = useState(null);
 
     useEffect(() => {
         const fetchShopsData = async () => {
             try {
                 const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/");
-                console.log("Fetched shop:", response.data);
+                console.log("Fetched Shops Data:", response.data);
                 setShopsData(response.data);
             } catch (error) {
                 console.error("Error fetching shop:", error);
@@ -35,109 +33,90 @@ const Shops = () => {
         fetchShopsData();
     }, []);
 
-    // Handle row selection for deletion/editing
+    // Handle row selection
     const handleRowSelection = (selectionModel) => {
         setSelectedShops(selectionModel);
-        console.log("Selected Shops:", selectionModel);
+        const selectedRowData = selectionModel.length === 1 ? ShopsData.find(shop => shop.shop_id === selectionModel[0]) : null;
+        setEditingRow(selectedRowData);
+        console.log("Editing Row Data:", selectedRowData); // Log for debugging
     };
 
-    // After delete, filter out deleted IDs from the data and refresh table
-    const handleDeleteSuccess = () => {
-        setShopsData((prevData) =>
-            prevData.filter((shop) => !selectedShops.includes(shop.shop_id))
-        );
-        setSelectedShops([]); // Clear selection after deletion
-    };
-
-
-
-
-
-
+    // Define columns with editable properties
     const columns = [
-        {field: "shop_id", headerName: "ShopID", flex: 1}, 
-        {field: "shop_name", headerName: "Shop Name", flex: 1, cellClassName: "name-column--cell"}, 
-        {field: "address", headerName: "Address",flex: 1},
-        {field: "park_section_id", headerName: "Park Section ID", flex: 1},
-        {field: "manager_id", headerName: "Manager ID", flex: 1},
-        {field: "opening_time", headerName: "Opening Time", flex: 1},
-        {field: "closing_time", headerName: "Closing Time", flex: 1},
-        
-        ]; {/*field: value/data grabbed from  colName: column title in table */}
+        { field: "shop_id", headerName: "ShopID", flex: 1 },
+        { field: "shop_name", headerName: "Shop Name", flex: 1, editable: true },
+        { field: "address", headerName: "Address", flex: 1, editable: true },
+        { field: "park_section_id", headerName: "Park Section ID", flex: 1 },
+        { field: "manager_id", headerName: "Manager ID", flex: 1, editable: true },
+        { field: "opening_time", headerName: "Opening Time", flex: 1, editable: true },
+        { field: "closing_time", headerName: "Closing Time", flex: 1, editable: true },
+    ];
 
-    return(
+    return (
         <Box m="20px">
             <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Header title="Shops💻" subtitle="View a list of Theme Park Shops"/>
+                <Header title="Shops💻" subtitle="View a list of Theme Park Shops" />
                 <Box display="flex" alignItems="center">
                     <PrintButton
                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
                         columns={columns} />
                     <DownloadButton
-                         apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
                         fileName="shops_report.csv"
                         columns={columns}
-                        />
+                    />
                     <EditButton
-                        navigateTo={`/`} 
-                        disabled={selectedShops.length === 0} // Disabled if no selection
-                        sx={{
-                            color: selectedShops.length > 0 ? colors.primary.main : colors.grey[500],
+                        editingRow={editingRow}
+                        disabled={!editingRow}
+                        onSuccess={(updatedRow) => {
+                            // Update ShopsData state with the updated row details
+                            setShopsData(prevData =>
+                                prevData.map(shop =>
+                                    shop.shop_id === updatedRow.shop_id ? updatedRow : shop
+                                )
+                            );
+                            setEditingRow(null); // Clear editingRow state after save
                         }}
                     />
                     <DeleteButton
                         selectedItems={selectedShops}
-                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops"
-                        onDeleteSuccess={handleDeleteSuccess} // Pass the deletion handler
+                        apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/shops/"
+                        onDeleteSuccess={() => {
+                            setShopsData(prevData => prevData.filter(shop => !selectedShops.includes(shop.shop_id)));
+                            setSelectedShops([]);
+                        }}
                     />
                     <AddButton navigateTo={'/shopform'} />
                 </Box>
             </Box>
 
             <Box
-            m="10px 0 0 0"
-            height="75vh"
-            sx={{"& .MuiDataGrid-root": {
-                border: "none"
-                }, 
-                "& .MuiDataGrid-cell": {
-                borderBottom: "none"
-                },
-                "& .name-column--cell": {
-                color: colors.greenAccent[300]
-                },
-                "& .MuiDataGrid-columnHeader": {
-                backgroundColor: colors.blueAccent[700],
-                borderBottom: "none"
-                },
-                "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: colors.primary[400]
-                },
-                "& .MuiDataGrid-footerContainer": {
-                borderTop: "none",
-                backgroundColor: colors.blueAccent[700]
-                },
-                "& .MuicCheckbox-root": {
-                color: `${colors.greenAccent[200]} !important`,
-                },
-                }}>
-
-            <DataGrid 
-                    checkboxSelection={true}
+                m="10px 0 0 0"
+                height="75vh"
+                sx={{
+                    "& .MuiDataGrid-root": { border: "none" },
+                    "& .MuiDataGrid-cell": { borderBottom: "none" },
+                    "& .name-column--cell": { color: colors.greenAccent[300] },
+                    "& .MuiDataGrid-columnHeader": { backgroundColor: colors.blueAccent[700], borderBottom: "none" },
+                    "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
+                    "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] },
+                    "& .Mui-selected": {
+                        backgroundColor: colors.primary[200], // Highlight edited row
+                    },
+                }}
+            >
+                <DataGrid
+                    checkboxSelection
                     rows={ShopsData}
-                    columns={columns} // Use the columns based on the toggle
+                    columns={columns}
                     components={{ Toolbar: GridToolbar }}
                     loading={loading}
                     getRowId={(row) => row.shop_id}
                     onRowSelectionModelChange={handleRowSelection}
-                    />
-
+                />
             </Box>
         </Box>
     );
-}
+};
 
 export default Shops;
-
-
-
