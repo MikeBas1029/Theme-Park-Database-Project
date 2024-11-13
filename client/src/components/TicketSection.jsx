@@ -34,9 +34,21 @@ const TicketsSection = ({ title, tickets, emptyMessage, styleVariant }) => {
 					{emptyMessage}
 				</Typography>
 			) : (
-				<Grid container spacing={3} justifyContent="flex-start">
+				<Grid
+					container
+					spacing={3}
+					alignItems="center"
+					justifyContent="center"
+				>
 					{tickets.map((ticket) => (
-						<Grid item key={ticket.ticket_type_id}>
+						<Grid
+							item
+							xs={12}
+							sm={6}
+							md={4}
+							lg={3}
+							key={ticket.ticket_type_id}
+						>
 							<TicketCard ticket={ticket} />
 						</Grid>
 					))}

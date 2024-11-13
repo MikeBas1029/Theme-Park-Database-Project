@@ -67,7 +67,6 @@ import MyTickets from "./scenes/mytickets";
 import Footer from "./components/Footer";
 import ProfilePage from "./scenes/profile";
 
-
 function App() {
 	const navigate = useNavigate();
 
@@ -93,16 +92,26 @@ function App() {
 						!isSignUpPage &&
 						!isEmpLogin &&
 						user?.userType === "employee" && <Sidebar />}
-					<Box 
+					<Box
 						component="main"
 						flexGrow={1}
-						ml={!isCustLogin && !isSignUpPage && !isEmpLogin && user?.userType === "employee" ? '250px' : 0}
-						pt="70px" 
-						p={2}
-						className="content">
-						{!isCustLogin && !isSignUpPage && !isEmpLogin && (
+						ml={
+							!isCustLogin &&
+							!isSignUpPage &&
+							!isEmpLogin &&
+							user?.userType === "employee"
+								? "250px"
+								: 0
+						}
+						// pt="70px"
+						// p={2}
+
+						className="content"
+					>
+						{/* {!isCustLogin && !isSignUpPage && !isEmpLogin && (
 							<Navbar />
-						)}
+						)} */}
+						{(!user || user?.userType !== "employee") && <Navbar />}
 						<Routes>
 							{/*User Authentication pages */}
 							<Route
@@ -266,7 +275,15 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>{" "}
-							<Route path="/my-team"element={<ProtectedRoute allowedRoles={["manager"]}><ManagerStaffView/></ProtectedRoute>}/> {/*DESIRED ROUTES FORMAT !! */}
+							<Route
+								path="/my-team"
+								element={
+									<ProtectedRoute allowedRoles={["manager"]}>
+										<ManagerStaffView />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*DESIRED ROUTES FORMAT !! */}
 							{/*Staff management page routing */}✅
 							<Route
 								path="/transactions"
@@ -378,7 +395,7 @@ function App() {
 							/>{" "}
 							<Route
 								path="/customershops"
-								element={<CustomerShops/>}
+								element={<CustomerShops />}
 							/>{" "}
 							{/*Sidebar page routes*/}
 							<Route

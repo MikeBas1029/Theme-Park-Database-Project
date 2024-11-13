@@ -74,6 +74,7 @@ const TicketsList = ({ tickets }) => (
 					elevation={3}
 					sx={{ p: 2, mb: 2 }}
 				>
+					<Typography variant="h4">Park Pass</Typography>
 					<Typography variant="h6">
 						Ticket ID: {ticket.ticket_id}
 					</Typography>
