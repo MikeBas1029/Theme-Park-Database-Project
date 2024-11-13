@@ -154,7 +154,7 @@ const CustomerDashboard = () => {
 						renderLoadingState()
 					) : ridesError ? (
 						<Alert severity="error" sx={{ my: 2 }}>
-							Error loading rides:  {ridesError}
+							Error loading rides: {ridesError}
 						</Alert>
 					) : (
 						<>

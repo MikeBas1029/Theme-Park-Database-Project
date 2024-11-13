@@ -100,64 +100,68 @@ const Navbar = () => {
 			</Box>
 
 			{/* Centered Navbar Content -  for everyone */}
+			<Box
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+				flex="2"
+				mx="auto"
+				pr={2}
+			>
 				<Box
 					display="flex"
 					justifyContent="center"
 					alignItems="center"
-					flex="2"
-					mx="auto"
-					pr={2}
+					flexWrap={isSmallScreen ? "wrap" : "nowrap"}
+					gap={1}
+					maxWidth="800px"
 				>
-					<Box
-						display="flex"
-						justifyContent="center"
-						alignItems="center"
-						flexWrap={isSmallScreen ? "wrap" : "nowrap"}
-						gap={1}
-						maxWidth="800px"
-					>
-						<Item title="Home" to="/" icon={<HomeOutlinedIcon />} />
-						<DropdownMenu
-							title="Tickets"
-							menuItems={[
-								{ label: "My Tickets", path: "/customertickets" },
-								{
-									label: "Purchase Tickets",
-									path: "/purchase-tickets",
-								},
-							]}
-							icon={<LocalActivityIcon />}
-						/>
-						<Item
-							title="Map"
-							to="/parkmap"
-							icon={<MapOutlinedIcon />}
-						/>
-						<DropdownMenu
-							title="Amusement"
-							menuItems={[
-								{ label: "Rides", path: "/customer-rides" },
-								{ label: "Events", path: "/customer-events" },
-							]}
-							icon={<AttractionsOutlinedIcon />}
-						/>
-						<DropdownMenu
-							title="Services"
-							menuItems={[
-								{ label: "Dining", path: "/restaurants" },
-								{
-									label: "Facilities",
-									path: "/customerfacilities",
-								},
-								{ label: "Shopping", path: "/customershops" },
-							]}
-							icon={<StoreOutlinedIcon />}
-						/>
-					</Box>
+					<Item title="Home" to="/" icon={<HomeOutlinedIcon />} />
+					<DropdownMenu
+						title="Tickets"
+						menuItems={[
+							...(user
+								? [
+										{
+											label: "My Tickets",
+											path: "/my-tickets",
+										},
+									]
+								: []),
+							{
+								label: "Purchase Tickets",
+								path: "/purchase-tickets",
+							},
+						]}
+						icon={<LocalActivityIcon />}
+					/>
+					<Item
+						title="Map"
+						to="/parkmap"
+						icon={<MapOutlinedIcon />}
+					/>
+					<DropdownMenu
+						title="Amusement"
+						menuItems={[
+							{ label: "Rides", path: "/customer-rides" },
+							{ label: "Events", path: "/customer-events" },
+						]}
+						icon={<AttractionsOutlinedIcon />}
+					/>
+					<DropdownMenu
+						title="Services"
+						menuItems={[
+							{ label: "Dining", path: "/restaurants" },
+							{
+								label: "Facilities",
+								path: "/customerfacilities",
+							},
+							{ label: "Shopping", path: "/customershops" },
+						]}
+						icon={<StoreOutlinedIcon />}
+					/>
 				</Box>
-
-				
-
+			</Box>
 
 			{/* Right-aligned Icon Section */}
 			<Box
@@ -182,7 +186,7 @@ const Navbar = () => {
 						</IconButton>
 
 						<Cart />
-						
+
 						<AccountMenu userType={user.userType} />
 					</Box>
 				) : (
@@ -193,7 +197,7 @@ const Navbar = () => {
 							onClick={() => navigate("/custlogin")}
 						>
 							Log In
-						</Button> 
+						</Button>
 						<Button
 							variant="text"
 							color="inherit"
