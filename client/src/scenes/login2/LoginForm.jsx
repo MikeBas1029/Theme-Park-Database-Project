@@ -141,6 +141,19 @@ export default function LoginForm() {
                     boxShadow: 3,
                 }}
             >
+                				<Box
+					flex="1"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+				>
+					<img
+						src="assets/logo.png"
+						alt="Logo"
+						style={{ maxHeight: "50px", cursor: "pointer" }}
+						onClick={() => navigate("/")}
+					/>
+				</Box>
                 <Typography variant="h4" gutterBottom marginBottom="35px">
                     Employee Sign In
                 </Typography>
