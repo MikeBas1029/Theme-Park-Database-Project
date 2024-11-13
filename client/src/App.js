@@ -63,6 +63,7 @@ import Checkout from "./scenes/checkout";
 import ConfirmationPage from "./scenes/confirmation";
 import MyTickets from "./scenes/mytickets";
 import Footer from "./components/Footer";
+import ProfilePage from "./scenes/profile";
 
 function App() {
 	const navigate = useNavigate();
@@ -180,6 +181,7 @@ function App() {
 								path="/confirmation"
 								element={<ConfirmationPage />}
 							/>{" "}
+							<Route path="/profile" element={<ProfilePage />} />{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"
