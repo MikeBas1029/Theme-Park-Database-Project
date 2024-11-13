@@ -338,14 +338,14 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 								/>
 								<Item
 									title="Budget"
-									to=""
+									to="/managerdashboard"
 									icon={<HandymanIcon />}
 									selected={selected}
 									setSelected={setSelected}
 								/>
 								<Item
 									title="Meetings"
-									to=""
+									to="/managerdashboard"
 									icon={<TourIcon />}
 									selected={selected}
 									setSelected={setSelected}
@@ -361,21 +361,21 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 								)}
 								<Item
 									title="Tasks"
-									to=""
+									to="/managerdashboard"
 									icon={<InsightsIcon />}
 									selected={selected}
 									setSelected={setSelected}
 								/>
 								<Item
 									title="Workflow"
-									to=""
+									to="/managerdashboard"
 									icon={<ReceiptOutlinedIcon />}
 									selected={selected}
 									setSelected={setSelected}
 								/>
 								<Item
 									title="Announcements"
-									to=""
+									to="/managerdashboard"
 									icon={<AnalyticsOutlinedIcon />}
 									selected={selected}
 									setSelected={setSelected}
