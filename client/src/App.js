@@ -76,6 +76,9 @@ function App() {
 	/*diplay state management */
 	const [theme, colorMode] = useMode();
 
+	// Track sidebar state (open/closed)
+	const [sidebarOpen, setSidebarOpen] = useState(true);
+
 	//keep track of pages for limiting ui
 	const location = useLocation();
 	const isCustLogin = location.pathname === "/custlogin";
@@ -91,9 +94,23 @@ function App() {
 					{!isCustLogin &&
 						!isSignUpPage &&
 						!isEmpLogin &&
-						user?.userType === "employee" && <Sidebar />}
+						user?.userType === "employee" && (
+							<Sidebar
+								isOpen={sidebarOpen}
+								toggleSidebar={() =>
+									setSidebarOpen(!sidebarOpen)
+								}
+							/>
+						)}
 					<Box
 						component="main"
+						sx={{
+							marginLeft:
+								sidebarOpen && user?.userType === "employee"
+									? "250px"
+									: "80px",
+							transition: "margin-left 0.3s ease", // Smooth transition for sidebar toggle
+						}}
 						flexGrow={1}
 						ml={
 							!isCustLogin &&

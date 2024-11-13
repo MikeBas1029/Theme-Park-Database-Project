@@ -51,7 +51,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 	);
 };
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, toggleSidebar }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const colorMode = useContext(DisplayModeContext);
@@ -76,7 +76,7 @@ const Sidebar = () => {
 				top: 0,
 				left: 0,
 				height: "100vh",
-				width: isClosed ? "80px" : "250px",
+				width: isOpen ? "250px" : "80px",
 				background: `${colors.grey[700]} !important`,
 				zIndex: 1000,
 				"& .pro-sidebar-inner": {
@@ -96,11 +96,11 @@ const Sidebar = () => {
 				},
 			}}
 		>
-			<ProSidebar collapsed={isClosed}>
+			<ProSidebar collapsed={!isOpen}>
 				<Menu iconShape="square">
 					{/* LOGO AND MENU ICON */}
 					<MenuItem
-						onClick={() => setIsClosed(!isClosed)}
+						onClick={toggleSidebar}
 						icon={<MenuOutlinedIcon fontSize="small" />}
 						style={{
 							color: colors.grey[100],
@@ -111,7 +111,7 @@ const Sidebar = () => {
 							marginBottom: "10px",
 						}}
 					>
-						{!isClosed && (
+						{isOpen && (
 							<Typography variant="h4" color={colors.grey[100]}>
 								SHASTA PORTAL
 							</Typography>
@@ -128,8 +128,8 @@ const Sidebar = () => {
 						{/* Profile Picture for Collapsed Sidebar */}
 						<Box
 							sx={{
-								width: isClosed ? "40px" : "70px", // Smaller profile picture when collapsed
-								height: isClosed ? "40px" : "70px",
+								width: isOpen ? "70px" : "40px",
+								height: isOpen ? "70px" : "40px",
 								borderRadius: "50%",
 								overflow: "hidden",
 								border: `2px solid ${colors.primary[500]}`,
@@ -151,7 +151,7 @@ const Sidebar = () => {
 						</Box>
 
 						{/* Name and Role for Expanded Sidebar */}
-						{!isClosed && (
+						{isOpen && (
 							<>
 								<Typography
 									variant="h4"
@@ -171,7 +171,7 @@ const Sidebar = () => {
 						)}
 
 						{/* Action Icons (Toggle & Notifications) */}
-						{!isClosed && (
+						{isOpen && (
 							<Box
 								display="flex"
 								justifyContent="center"
@@ -206,7 +206,7 @@ const Sidebar = () => {
 					</Box>
 
 					{/* Sidebar Main Items */}
-					<Box paddingLeft={isClosed ? undefined : "10%"}>
+					<Box paddingLeft={isOpen ? "10%" : undefined}>
 						<Item
 							title="Dashboard Home"
 							to={
@@ -224,13 +224,15 @@ const Sidebar = () => {
 						{/* Employee elements */}
 						{user.role === "employee" && (
 							<>
-								<Typography
-									variant="h4"
-									color={colors.grey[300]}
-									sx={{ m: "15px 0 5px 20px" }}
-								>
-									My Employment
-								</Typography>
+								{isOpen && (
+									<Typography
+										variant="h4"
+										color={colors.grey[300]}
+										sx={{ m: "15px 0 5px 20px" }}
+									>
+										My Employment
+									</Typography>
+								)}
 								<Item
 									title="Timesheet"
 									to="/clockin"
@@ -251,7 +253,7 @@ const Sidebar = () => {
 						{/* Departmental Tab Bar */}
 						{user.role === "manager" && (
 							<>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -273,7 +275,7 @@ const Sidebar = () => {
 						{/* Park Overview (Admin) */}
 						{user.role === "admin" && (
 							<>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -318,7 +320,7 @@ const Sidebar = () => {
 						{/* Manager Elements */}
 						{user.role === "manager" && (
 							<>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -348,7 +350,7 @@ const Sidebar = () => {
 									selected={selected}
 									setSelected={setSelected}
 								/>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -384,7 +386,7 @@ const Sidebar = () => {
 						{/* Admin Elements */}
 						{user.role === "admin" && (
 							<>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -421,7 +423,7 @@ const Sidebar = () => {
 									selected={selected}
 									setSelected={setSelected}
 								/>
-								{!isClosed && (
+								{isOpen && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
@@ -474,9 +476,9 @@ const Sidebar = () => {
 							justifyContent="center"
 							alignItems="center"
 							width="100%"
-							gap={isClosed ? 2 : 3}
-							px={isClosed ? 2 : 1}
-							flexDirection={isClosed ? "column" : "row"}
+							gap={isOpen ? 3 : 2}
+							px={isOpen ? 1 : 2}
+							flexDirection={isOpen ? "row" : "column"}
 						>
 							<Box
 								display="flex"
