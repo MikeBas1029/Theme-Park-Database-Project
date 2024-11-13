@@ -35,7 +35,7 @@ const ManageStaff = () => {
   
 
       return <Box m="20px"> 
-                  <Header title="Vendor and Order " subtitle="Track order status/history, and view list of park vendors " />
+                  <Header title="Manage your Staff " subtitle="View your departments and employees" />
                       <Box >
                         <CustomizedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                         {renderTable()} 
