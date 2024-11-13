@@ -251,21 +251,67 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 						)}
 
 						{/* Departmental Tab Bar */}
+
+						{/* Manager Elements */}
 						{user.role === "manager" && (
 							<>
-								{isOpen && (
+								{!isClosed && (
 									<Typography
 										variant="h4"
 										color={colors.grey[300]}
 										sx={{ m: "15px 0 5px 20px" }}
 									>
-										My Roles
+										My Team
 									</Typography>
 								)}
 								<Item
-									title="Shops & Dining"
-									to="/shops"
-									icon={<InventoryIcon />}
+									title="Manage Team"
+									to="/my-team"
+									icon={<PeopleOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Budget"
+									to=""
+									icon={<HandymanIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Meetings"
+									to=""
+									icon={<TourIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								{!isClosed && (
+									<Typography
+										variant="h4"
+										color={colors.grey[300]}
+										sx={{ m: "15px 0 5px 20px" }}
+									>
+										Communication and Planning
+									</Typography>
+								)}
+								<Item
+									title="Tasks"
+									to=""
+									icon={<InsightsIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Workflow"
+									to=""
+									icon={<ReceiptOutlinedIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Announcements"
+									to=""
+									icon={<AnalyticsOutlinedIcon />}
 									selected={selected}
 									setSelected={setSelected}
 								/>
@@ -300,22 +346,6 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 								/>
 							</>
 						)}
-
-						{/* Shared Items */}
-						<Item
-							title="Rides & Attractions"
-							to="/rides"
-							icon={<LocalActivityIcon />}
-							selected={selected}
-							setSelected={setSelected}
-						/>
-						<Item
-							title="Park Safety"
-							to="/safety"
-							icon={<SecurityIcon />}
-							selected={selected}
-							setSelected={setSelected}
-						/>
 
 						{/* Manager Elements */}
 						{user.role === "manager" && (
@@ -386,6 +416,20 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 						{/* Admin Elements */}
 						{user.role === "admin" && (
 							<>
+								<Item
+									title="Rides & Attractions"
+									to="/rides"
+									icon={<LocalActivityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Park Safety"
+									to="/safety"
+									icon={<SecurityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
 								{isOpen && (
 									<Typography
 										variant="h4"
@@ -395,6 +439,20 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 										Team and Operations
 									</Typography>
 								)}
+								<Item
+									title="Rides & Attractions"
+									to="/rides"
+									icon={<LocalActivityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
+								<Item
+									title="Park Safety"
+									to="/safety"
+									icon={<SecurityIcon />}
+									selected={selected}
+									setSelected={setSelected}
+								/>
 								<Item
 									title="Manage Staff"
 									to="/managestaff"
