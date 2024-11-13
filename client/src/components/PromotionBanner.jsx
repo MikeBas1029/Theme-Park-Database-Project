@@ -1,8 +1,18 @@
-// components/PromotionBanner.js
+import { useState } from "react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
+import PromoModal from "./PromoModal";
 
-const PromotionBanner = ({ title, ctaText, ctaLink = "/promotions" }) => {
+const PromotionBanner = ({ title, ctaText }) => {
 	const theme = useTheme();
+	const [isPromoOpen, setIsPromoOpen] = useState(false);
+
+	const handleOpenPromo = () => {
+		setIsPromoOpen(true);
+	};
+
+	const handleClosePromo = () => {
+		setIsPromoOpen(false);
+	};
 
 	return (
 		<Box
@@ -21,7 +31,7 @@ const PromotionBanner = ({ title, ctaText, ctaLink = "/promotions" }) => {
 			<Button
 				variant="contained"
 				color="secondary"
-				href={ctaLink}
+				onClick={handleOpenPromo} // Open modal on button click
 				sx={{
 					backgroundColor: theme.palette.secondary.main, // Secondary color for button
 					color: theme.palette.secondary.contrastText, // Ensure text is readable
@@ -32,6 +42,9 @@ const PromotionBanner = ({ title, ctaText, ctaLink = "/promotions" }) => {
 			>
 				{ctaText}
 			</Button>
+
+			{/* Promo Modal */}
+			<PromoModal open={isPromoOpen} onClose={handleClosePromo} />
 		</Box>
 	);
 };

@@ -12,16 +12,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../components/context/UserContext";
 
 export default function LoginPage() {
-	//Get cust credentials
 	const navigate = useNavigate();
 	const { login } = useUser();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 
-	//Handle cust login authentication
 	const handleLogin = async (e) => {
-		console.log({ email, password });
 		e.preventDefault();
 		try {
 			const response = await fetch(
@@ -42,14 +39,14 @@ export default function LoginPage() {
 				setErrorMessage("Invalid email or password");
 				return;
 			}
-			
+
 			const data = await response.json();
 			if (data && data.user) {
 				const { uid, email } = data.user;
 
 				const userResponse = await fetch(
 					`https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/customers/${email}`
-				); // Fetch user details using the email
+				);
 
 				if (!userResponse.ok) {
 					setErrorMessage("Failed to fetch user details");
@@ -57,72 +54,43 @@ export default function LoginPage() {
 						"Failed to fetch user details:",
 						userResponse.status
 					);
-					// return;  //leave commented to continue signing in new (non-customer) user
-				} 
+					return;
+				}
 
 				const userData = await userResponse.json();
-				console.log("User Response:", userResponse); //sign in details
-				console.log("User Data:", userData); //user details
+				console.log("Fetched User Data:", userData);
 
-				// Check if userData contains name (user is in customers)
-				if (userData && userData.first_name && userData.last_name) {
-					login(
-						{
-							uid,
-							email,
-							customer_id: userData.customer_id,
-							first_name: userData.first_name,
-							last_name: userData.last_name,
-						},
-						"customer"
-					);
+				const completeUserData = {
+					uid,
+					email,
+					customer_id: userData.customer_id,
+					first_name: userData.first_name,
+					last_name: userData.last_name,
+					phone_number: userData.phone_number,
+					rewards_member: userData.rewards_member,
+					address_line1: userData.address_line1,
+					address_line2: userData.address_line2,
+					city: userData.city,
+					state: userData.state,
+					zip_code: userData.zip_code,
+					country: userData.country,
+					date_of_birth: userData.date_of_birth,
+					membership_type: userData.membership_type,
+					registration_date: userData.registration_date,
+					renewal_date: userData.renewal_date,
+				};
 
-					localStorage.setItem("access_token", data.access_token);
-					localStorage.setItem("refresh_token", data.refresh_token);
-					localStorage.setItem(
-						"user_data",
-						JSON.stringify(
-							{
-								uid,
-								email,
-								customer_id: userData.customer_id,
-								first_name: userData.first_name,
-								last_name: userData.last_name,
-							},
-							"customer"
-						)
-					);
+				login(completeUserData, "customer");
+				localStorage.setItem("access_token", data.access_token);
+				localStorage.setItem("refresh_token", data.refresh_token);
+				localStorage.setItem(
+					"user_data",
+					JSON.stringify(completeUserData)
+				);
 
-					console.log("Login successful:", data.user);
-					setErrorMessage("");
-					navigate("/");
-				} else {
-					login(
-						{
-							uid,
-							email,
-						},
-						"customer"
-					);
-
-					localStorage.setItem("access_token", data.access_token);
-					localStorage.setItem("refresh_token", data.refresh_token);
-					localStorage.setItem(
-						"user_data",
-						JSON.stringify(
-							{
-								uid,
-								email,
-							},
-							"customer"
-						)
-					);
-
-					console.error("User details not found");
-					console.log("Login successful without customer info:", data.user);
-					navigate("/");
-
-				}
+				console.log("Login successful:", data.user);
+				setErrorMessage("");
+				navigate("/");
 			} else {
 				setErrorMessage("No user data in response");
 				console.error("No user data in response");
@@ -142,7 +110,7 @@ export default function LoginPage() {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				height: "100vh", // Fill the viewport height for vertical centering
+				height: "100vh",
 			}}
 		>
 			<Box
@@ -154,7 +122,7 @@ export default function LoginPage() {
 					justifyContent: "center",
 					width: "100%",
 					maxWidth: 700,
-					margin: "0 auto", // Center horizontally
+					margin: "0 auto",
 					padding: 6,
 					border: "1px solid #ccc",
 					borderRadius: 2,
@@ -204,8 +172,8 @@ export default function LoginPage() {
 							required
 							fullWidth
 							variant="outlined"
-							value={password} //Bind to typing state
-							onChange={(e) => setPassword(e.target.value)} //update as typed
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
@@ -213,7 +181,7 @@ export default function LoginPage() {
 									</InputAdornment>
 								),
 								inputProps: {
-									minLength: 8, //Force min length requirement
+									minLength: 8,
 								},
 							}}
 							sx={{ mb: 2 }}
@@ -242,7 +210,7 @@ export default function LoginPage() {
 						}}
 					>
 						<Typography variant="h4" gutterBottom>
-							Don't have an account ?{" "}
+							Don't have an account?{" "}
 							<Link
 								to="/signup"
 								sx={{
@@ -262,7 +230,7 @@ export default function LoginPage() {
 						}}
 					>
 						<Typography variant="h4" gutterBottom>
-							Employee ?<Link to="/emplogin "> Sign in Here</Link>
+							Employee? <Link to="/emplogin"> Sign in Here</Link>
 						</Typography>
 					</Box>
 

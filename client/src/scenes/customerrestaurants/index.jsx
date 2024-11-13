@@ -2,6 +2,7 @@
 import {
 	Box,
 	Typography,
+	useTheme,
 	CircularProgress,
 	Alert,
 	Container,
@@ -21,6 +22,7 @@ const CustomerRestaurants = () => {
 	const [error, setError] = useState(null);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+	const theme = useTheme();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -81,10 +83,19 @@ const CustomerRestaurants = () => {
 					textAlign: "center",
 				}}
 			>
-				<Typography variant="h3" fontWeight="bold" gutterBottom>
+				<Typography
+					variant="h3"
+					fontWeight="bold"
+					gutterBottom
+					sx={{ color: theme.palette.text.primary }}
+				>
 					Discover Our Restaurants
 				</Typography>
-				<Typography variant="h6" mb={3}>
+				<Typography
+					variant="h6"
+					mb={3}
+					sx={{ color: theme.palette.text.primary }}
+				>
 					Explore a wide range of dining options to satisfy every
 					taste.
 				</Typography>
