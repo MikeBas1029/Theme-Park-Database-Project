@@ -47,7 +47,7 @@ import NewCustForm from "./scenes/form/newcustomerform";
 import { useUser } from "./components/context/UserContext";
 import MapPage from "./scenes/map";
 import EmployeePayroll from "./scenes/employees/payroll";
-import ManageStaff from "./scenes/managestaff/managestaffselection";
+import ManageStaff from "./scenes/managestaff/admin/managestaffselection";
 import MaintenanceReports from "./scenes/insights/workorderreports";
 import Insights from "./scenes/insights";
 import Charts from "./scenes/charts";
@@ -55,6 +55,17 @@ import Finances from "./scenes/finances";
 import ManagerDashboard from "./scenes/dashboard/managerdashboard";
 import CustomerRides from "./scenes/customerrides";
 import CustomerEvents from "./scenes/customerevents";
+import ManagerStaffView from "./scenes/managestaff/manager";
+import CustomerRestaurants from "./scenes/customerrestaurants";
+import CustomerShops from "./scenes/customershops";
+import CustomerFacilities from "./scenes/customerfacilities";
+import PurchaseTickets from "./scenes/purchasetickets";
+import ShoppingCart from "./scenes/shoppingcart";
+import Checkout from "./scenes/checkout";
+import ConfirmationPage from "./scenes/confirmation";
+import MyTickets from "./scenes/mytickets";
+import Footer from "./components/Footer";
+import ProfilePage from "./scenes/profile";
 
 function App() {
 	const navigate = useNavigate();
@@ -64,6 +75,9 @@ function App() {
 
 	/*diplay state management */
 	const [theme, colorMode] = useMode();
+
+	// Track sidebar state (open/closed)
+	const [sidebarOpen, setSidebarOpen] = useState(true);
 
 	//keep track of pages for limiting ui
 	const location = useLocation();
@@ -76,15 +90,55 @@ function App() {
 		<DisplayModeContext.Provider value={colorMode}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<div className="app">
+				<Box className="app" displ>
 					{!isCustLogin &&
 						!isSignUpPage &&
 						!isEmpLogin &&
-						user?.userType === "employee" && <Sidebar />}
-					<main className="content">
-						{!isCustLogin && !isSignUpPage && !isEmpLogin && (
-							<Navbar />
+						user?.userType === "employee" && (
+							<Sidebar
+								isOpen={sidebarOpen}
+								toggleSidebar={() =>
+									setSidebarOpen(!sidebarOpen)
+								}
+							/>
 						)}
+					<Box
+						component="main"
+						sx={{
+							marginLeft:
+								user?.userType === "employee" && sidebarOpen
+									? "250px"
+									: user?.userType === "employee"
+										? "80px"
+										: "0px",
+							transition:
+								user?.userType === "employee"
+									? "margin-left 0.3s ease"
+									: "none", // Smooth transition for sidebar toggle
+						}}
+						flexGrow={1}
+						ml={
+							!isCustLogin &&
+							!isSignUpPage &&
+							!isEmpLogin &&
+							user?.userType === "employee"
+								? "250px"
+								: 0
+						}
+						// pt="70px"
+						// p={2}
+
+						className="content"
+					>
+						{/* {!isCustLogin && !isSignUpPage && !isEmpLogin && (
+							<Navbar />
+						)} */}
+						{!isCustLogin &&
+							!isEmpLogin &&
+							!isSignUpPage &&
+							(user?.userType !== "employee" || !user) && (
+								<Navbar />
+							)}
 						<Routes>
 							{/*User Authentication pages */}
 							<Route
@@ -154,6 +208,33 @@ function App() {
 								path="/customer-events"
 								element={<CustomerEvents />}
 							/>{" "}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/customerfacilities"
+								element={<CustomerFacilities />}
+							/>{" "}
+							<Route
+								path="/customershops"
+								element={<CustomerShops />}
+							/>{" "}
+							<Route
+								path="/purchase-tickets"
+								element={<PurchaseTickets />}
+							/>{" "}
+							<Route path="/my-tickets" element={<MyTickets />} />{" "}
+							<Route
+								path="/shopping-cart"
+								element={<ShoppingCart />}
+							/>{" "}
+							<Route path="/checkout" element={<Checkout />} />{" "}
+							<Route
+								path="/confirmation"
+								element={<ConfirmationPage />}
+							/>{" "}
+							<Route path="/profile" element={<ProfilePage />} />{" "}
 							{/*Inventory's form page routing */}
 							<Route
 								path="/vendors"
@@ -221,6 +302,15 @@ function App() {
 									</ProtectedRoute>
 								}
 							/>{" "}
+							<Route
+								path="/my-team"
+								element={
+									<ProtectedRoute allowedRoles={["manager"]}>
+										<ManagerStaffView />
+									</ProtectedRoute>
+								}
+							/>{" "}
+							{/*DESIRED ROUTES FORMAT !! */}
 							{/*Staff management page routing */}✅
 							<Route
 								path="/transactions"
@@ -322,6 +412,18 @@ function App() {
 							{/*Inventory's form page routing */}
 							<Route path="/parkmap" element={<MapPage />} />{" "}
 							{/*Inventory's form page routing */}
+							<Route
+								path="/restaurants"
+								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/customerfacilities"
+								element={<Facilities />}
+							/>{" "}
+							<Route
+								path="/customershops"
+								element={<CustomerShops />}
+							/>{" "}
 							{/*Sidebar page routes*/}
 							<Route
 								path="/vendorsorders"
@@ -351,8 +453,8 @@ function App() {
 							/>{" "}
 							{/*Shops&Inventory tab routing */}
 						</Routes>
-					</main>
-				</div>
+					</Box>
+				</Box>
 			</ThemeProvider>
 		</DisplayModeContext.Provider>
 	);

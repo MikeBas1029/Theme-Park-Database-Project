@@ -65,29 +65,31 @@ export default function LoginForm() {
                 const userData = await userResponse.json();
                 console.log('User Response:', userResponse); //sign in details
                 console.log('User Data:', userData); //user details
+                console.log('User Data:', userData.department_id); //user details
+
 
                 // Check if userData contains employee-specific details
                 if (userData && userData.first_name && userData.last_name) {
                     login({
                         uid,
-                        email,
+                        email: userData.department_id,
                         role,
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                        department: userData.job_function,
+                        department: userData.department_id,
                     }, 'employee');
 
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
                     localStorage.setItem('user_data', JSON.stringify({
                         uid,
-                        email,
+                        email: userData.department_id,
                         role,
                         employee_id: userData.employee_id,
                         first_name: userData.first_name,
                         last_name: userData.last_name,
-                        department: userData.job_function,
+                        department: userData.department_id,
                     }, 'employee'));
 
                     console.log('Login successful:', data.user);
@@ -139,6 +141,19 @@ export default function LoginForm() {
                     boxShadow: 3,
                 }}
             >
+                				<Box
+					flex="1"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+				>
+					<img
+						src="assets/logo.png"
+						alt="Logo"
+						style={{ maxHeight: "50px", cursor: "pointer" }}
+						onClick={() => navigate("/")}
+					/>
+				</Box>
                 <Typography variant="h4" gutterBottom marginBottom="35px">
                     Employee Sign In
                 </Typography>
@@ -193,11 +208,17 @@ export default function LoginForm() {
                         <a href="#">Forgot Password?</a>
                     </Box>
 
-                    <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center'}}>
-                    <Typography variant="h4" gutterBottom >
-                        <Link to="#">Sign-in with OTP</Link>
-                    </ Typography >
-                    </Box>
+                    <Box
+						sx={{
+							mb: 2,
+							display: "flex",
+							justifyContent: "center",
+						}}
+					>
+						<Typography variant="h4" gutterBottom>
+							Customer ?<Link to="/custlogin "> Sign in Here</Link>
+						</Typography>
+					</Box>
 
                     <Button type="submit" variant="contained" fullWidth >
                         Sign In

@@ -25,7 +25,7 @@ const [loading, setLoading] = useState(true); // Loading state
 useEffect(() => {
     const fetchEmployeePayrollData = async () => {
         try {
-            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/");
+            const response = await axios.get("https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/hours-worked");
             console.log("Fetched employees:", response.data);
             setEmployeePayrollData(response.data);
         } catch (error) {
@@ -41,19 +41,15 @@ useEffect(() => {
 
 
 const columns = [
-    { field: "shift_id", headerName: "Shift ID", flex: 0.5 },
-    { field: "employee_id", headerName: "Employee ID", flex: 0.5 },
-    { field: "section_id", headerName: "Section ID", cellClassName: "name-column--cell" },
-    { field: "shift_date", headerName: "Shift Date", cellClassName: "name-column--cell" },
+    { field: "first_name", headerName: "Shift ID", flex: 0.5 },
+    { field: "last_name", headerName: "Employee ID", flex: 0.5 },
+    { field: "job_function", headerName: "Section ID", cellClassName: "name-column--cell" },
+    { field: "department", headerName: "Shift Date", cellClassName: "name-column--cell" },
     { field: "punch_in_time", headerName: "Clock In", cellClassName: "name-column--cell" },
-    { field: "punch_out_time", headerName: "Clock out" },
-    { field: "meal_break_start", headerName: "Break Start" },
-    { field: "meal_break_end", headerName: "Break End" },
-    { field: "status", headerName: "Status" },
-    { field: "created_on", headerName: "Date Created" },
-    { field: "updated_on", headerName: "Date Updated" },
-    { field: "created_by", headerName: "Logged By" },
-    { field: "updated_by", headerName: "Confirmed by" },
+    { field: "year", headerName: "Clock out" },
+    { field: "month", headerName: "Break Start" },
+    { field: "day", headerName: "Break End" },
+    { field: "hours_worked", headerName: "Status" },
 ];
 
 
@@ -66,8 +62,8 @@ const columns = [
         <Box display="flex" justifyContent="space-between" alignItems="center">
             <Header title="Employee Timesheets" subtitle="fix access control"/>
             <Box display="flex" alignItems="center">
-                <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/"  />
-                <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/timesheets/" fileName="employee_payroll_report.csv"  />
+                <PrintButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/hours-worked"  />
+                <DownloadButton apiUrl="https://theme-park-backend.ambitioussea-02dd25ab.eastus.azurecontainerapps.io/api/v1/reports/hours-worked" fileName="employee_payroll_report.csv"  />
                 <AddButton navigateTo={'/employeeform'}/>
             </Box>
         </Box>
@@ -81,7 +77,7 @@ const columns = [
                     "& .MuiDataGrid-root": { border: "none" },
                     "& .MuiDataGrid-cell": { borderBottom: "none" },
                     "& .MuiDataGrid-columnHeader": { backgroundColor: colors.blueAccent[700] },
-                    "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[400] },
+                    "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[100] },
                     "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.blueAccent[700] }
                 }}
             >
@@ -91,7 +87,7 @@ const columns = [
                     columns={columns} // Use the columns based on the toggle
                     components={{ Toolbar: GridToolbar }}
                     loading={loading}
-                    getRowId={(row) => row.shift_id}
+                    getRowId={(row) => `${row.employee_id}-${row.shift_id}`}
                 />
             </Box>
         </Box>

@@ -20,6 +20,7 @@ import NotificationMenu from "./NotificationMenu";
 import AccountMenu from "../../components/AccountMenu";
 import DropdownMenu from "../../components/DropdownMenu";
 import { useUser } from "../../components/context/UserContext";
+import Cart from "../../components/Cart";
 
 const Item = ({ title, to, icon }) => {
 	const location = useLocation();
@@ -42,7 +43,7 @@ const Item = ({ title, to, icon }) => {
 				<Box
 					sx={{
 						color: isActive
-							? theme.palette.secondary.main // Apply secondary color only to icon if active
+							? theme.palette.secondary.main
 							: theme.palette.navbarText.main,
 						marginRight: "8px",
 					}}
@@ -70,6 +71,8 @@ const Navbar = () => {
 	const navigate = useNavigate();
 	const { user } = useUser();
 
+	const isCustomer = user?.userType === "customer";
+
 	return (
 		<Box
 			display="flex"
@@ -86,7 +89,7 @@ const Navbar = () => {
 				flex="1"
 				display="flex"
 				alignItems="center"
-				justifyContent="center"
+				justifyContent={isCustomer ? "center" : "flex-start"}
 			>
 				<img
 					src="assets/logo.png"
@@ -96,7 +99,7 @@ const Navbar = () => {
 				/>
 			</Box>
 
-			{/* Centered Navbar Content - visible for all users */}
+			{/* Centered Navbar Content -  for everyone */}
 			<Box
 				display="flex"
 				justifyContent="center"
@@ -117,10 +120,17 @@ const Navbar = () => {
 					<DropdownMenu
 						title="Tickets"
 						menuItems={[
-							{ label: "My Tickets", path: "/customertickets" },
+							...(user
+								? [
+										{
+											label: "My Tickets",
+											path: "/my-tickets",
+										},
+									]
+								: []),
 							{
 								label: "Purchase Tickets",
-								path: "/purchaseTickets",
+								path: "/purchase-tickets",
 							},
 						]}
 						icon={<LocalActivityIcon />}
@@ -141,7 +151,7 @@ const Navbar = () => {
 					<DropdownMenu
 						title="Services"
 						menuItems={[
-							{ label: "Dining", path: "/customerdining" },
+							{ label: "Dining", path: "/restaurants" },
 							{
 								label: "Facilities",
 								path: "/customerfacilities",
@@ -174,6 +184,9 @@ const Navbar = () => {
 						<IconButton>
 							<NotificationMenu />
 						</IconButton>
+
+						<Cart />
+
 						<AccountMenu userType={user.userType} />
 					</Box>
 				) : (

@@ -74,6 +74,7 @@ app.include_router(section_router, prefix=f"{version_prefix}/sections", tags=["s
 app.include_router(shop_router, prefix=f"{version_prefix}/shops", tags=["shops"])
 app.include_router(supplies_router, prefix=f"{version_prefix}/supplies", tags=["supplies"])
 app.include_router(ticket_router, prefix=f"{version_prefix}/tickets", tags=["tickets"])
+app.include_router(ticket_type_router, prefix=f"{version_prefix}/ticket-type", tags=["ticket types"])
 app.include_router(timesheet_router, prefix=f"{version_prefix}/timesheets", tags=["timesheets"])
 app.include_router(vendor_router, prefix=f"{version_prefix}/vendors", tags=["vendors"])
 app.include_router(vendor_payment_router, prefix=f"{version_prefix}/vendor-payments", tags=["vendor payments"])

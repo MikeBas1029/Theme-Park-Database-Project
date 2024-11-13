@@ -23,7 +23,7 @@ const Insights = () => {
 
 
     const [activeTab, setActiveTab] = useState('Customer Reports');
-    const tabs = ['Customer Reports', 'Rides Reports', 'Maintenance Reports', 'Order Reports', 'Timelog Reports' ];   // Page table tabs
+    const tabs = ['Rides Reports', 'Maintenance Reports', 'Order Reports', 'Timelog Reports' ];   // Page table tabs
     // Function to render the correct table component
     const renderTable = () => {
       switch (activeTab) {

@@ -1,26 +1,24 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "./context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountMenu({ userRole }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const navigate = useNavigate();
-
-	const { user, logout } = useUser(); //Get the user context
+	const { user, logout } = useUser(); // Get the user context
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -32,20 +30,33 @@ export default function AccountMenu({ userRole }) {
 
 	const handleLogout = () => {
 		handleClose();
-		// Clear user data and tokens from local storage
 		localStorage.removeItem("user_data");
 		localStorage.removeItem("access_token");
 		localStorage.removeItem("refresh_token");
-		user.userType === "employee"
-			? navigate("/emplogin")
-			: navigate("/custlogin");
+		user.userType === "employee" ? navigate("/emplogin") : navigate("/");
 		logout();
+	};
+
+	const handleProfileClick = () => {
+		handleClose();
+		navigate("/profile"); // Navigate to the profile page
 	};
 
 	const avatarSrc =
 		user.userType === "employee"
 			? "../../assets/user.png"
 			: "../../assets/user2.jpeg"; // Replace with your actual paths
+
+	// Define colors for different membership types
+	const membershipColors = {
+		Bronze: "#cd7f32",
+		Silver: "#c0c0c0",
+		Gold: "#ffd700",
+		Platinum: "#e5e4e2",
+	};
+
+	// Get the color for the membership type, defaulting to "Gold" if undefined
+	const trophyColor = membershipColors[user.membership_type] || "#cd7f32";
 
 	return (
 		<React.Fragment>
@@ -56,18 +67,37 @@ export default function AccountMenu({ userRole }) {
 					textAlign: "center",
 				}}
 			>
-				<Tooltip title="Profile Settings">
-					<IconButton
-						onClick={handleClick}
-						size="small"
-						sx={{ ml: 2 }}
-						aria-controls={open ? "account-menu" : undefined}
-						aria-haspopup="true"
-						aria-expanded={open ? "true" : undefined}
-					>
-						<Avatar src={avatarSrc} alt="Profile Picture" />
-					</IconButton>
-				</Tooltip>
+				<IconButton
+					onClick={handleClick}
+					size="small"
+					sx={{ ml: 2 }}
+					aria-controls={open ? "account-menu" : undefined}
+					aria-haspopup="true"
+					aria-expanded={open ? "true" : undefined}
+				>
+					<Box position="relative" display="inline-block">
+						{/* Profile Picture with Trophy Overlay */}
+						<Tooltip title="Profile Settings">
+							<Avatar
+								src={avatarSrc}
+								alt="Profile Picture"
+								sx={{ width: 40, height: 40 }}
+							/>
+						</Tooltip>
+						<EmojiEventsIcon
+							sx={{
+								position: "absolute",
+								top: -7,
+								right: -9,
+								color: trophyColor,
+								fontSize: 22,
+								borderRadius: "50%",
+								padding: "2px",
+								zIndex: 99,
+							}}
+						/>
+					</Box>
+				</IconButton>
 			</Box>
 
 			<Menu
@@ -107,18 +137,17 @@ export default function AccountMenu({ userRole }) {
 				transformOrigin={{ horizontal: "right", vertical: "top" }}
 				anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 			>
-				{/*Profile Settings Tab*/}
+				{/* Profile Settings Tab  */}
 				<MenuItem onClick={handleClose}>
 					<Avatar src={avatarSrc} alt="Profile Picture" />
 					{user
 						? `${user.first_name} ${user.last_name}`
-						: `${user.email}`}{" "}
-					{/* Display user's email and uid or 'Guest' */}
+						: `${user.email}`}
 				</MenuItem>
 
 				<Divider />
 
-				<MenuItem onClick={handleClose}>
+				<MenuItem onClick={handleProfileClick}>
 					<ListItemIcon>
 						<PersonAdd fontSize="small" />
 					</ListItemIcon>

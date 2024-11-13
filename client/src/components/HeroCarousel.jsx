@@ -9,7 +9,7 @@ const HeroCarousel = () => {
 			title: "Welcome to Shasta Land",
 			subtitle: "The Adventure of a Lifetime Awaits!",
 			ctaText: "Buy Tickets",
-			ctaLink: "/purchaseTickets",
+			ctaLink: "/purchase-tickets",
 		},
 		{
 			image: "assets/hero2.jpeg",

@@ -36,7 +36,7 @@ const CustomerVisitSelection = () => {
   
   
       return <Box m="20px"> 
-                  <Header title="Vendor and Order " subtitle="Track order status/history, and view list of park vendors " />
+                  <Header title="Customer and Visit history " subtitle="Track visit history and see a list of your customers " />
                       <Box >
                         <CustomizedTabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
                         {renderTable()} 

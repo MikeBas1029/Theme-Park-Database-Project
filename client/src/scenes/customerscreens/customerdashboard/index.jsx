@@ -16,7 +16,6 @@ import HeroCarousel from "../../../components/HeroCarousel";
 import RideCard from "../../../components/RideCard";
 import EventCard from "../../../components/EventCard";
 import PromotionBanner from "../../../components/PromotionBanner";
-import Footer from "../../../components/Footer";
 import getRideImage from "../../../utils/getRideImage";
 
 const formatRideType = (rideType) => {
@@ -266,6 +265,7 @@ const CustomerDashboard = () => {
 														show.show_time
 													)}
 													description={`Join us for this amazing show! Tickets starting at $${show.ticket_price.toFixed(2)}`}
+													showSeeDatesButton={true}
 												/>
 											</Grid>
 										</Fade>
@@ -303,8 +303,6 @@ const CustomerDashboard = () => {
 					)}
 				</Box>
 			</Container>
-
-			<Footer />
 		</Box>
 	);
 };
