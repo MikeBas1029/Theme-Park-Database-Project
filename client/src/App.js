@@ -57,6 +57,8 @@ import CustomerRides from "./scenes/customerrides";
 import CustomerEvents from "./scenes/customerevents";
 import ManagerStaffView from "./scenes/managestaff/manager";
 import CustomerRestaurants from "./scenes/customerrestaurants";
+import CustomerShops from "./scenes/customershops";
+import CustomerFacilities from "./scenes/customerfacilities";
 import PurchaseTickets from "./scenes/purchasetickets";
 import ShoppingCart from "./scenes/shoppingcart";
 import Checkout from "./scenes/checkout";
@@ -165,6 +167,14 @@ function App() {
 							<Route
 								path="/restaurants"
 								element={<CustomerRestaurants />}
+							/>{" "}
+							<Route
+								path="/customerfacilities"
+								element={<CustomerFacilities />}
+							/>{" "}
+							<Route
+								path="/customershops"
+								element={<CustomerShops />}
 							/>{" "}
 							<Route
 								path="/purchase-tickets"
