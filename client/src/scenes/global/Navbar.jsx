@@ -20,6 +20,7 @@ import NotificationMenu from "./NotificationMenu";
 import AccountMenu from "../../components/AccountMenu";
 import DropdownMenu from "../../components/DropdownMenu";
 import { useUser } from "../../components/context/UserContext";
+import Cart from "../../components/Cart";
 
 const Item = ({ title, to, icon }) => {
 	const location = useLocation();
@@ -98,7 +99,7 @@ const Navbar = () => {
 				/>
 			</Box>
 
-			{/* Centered Navbar Content - only for customers */}
+			{/* Centered Navbar Content -  for everyone */}
 				<Box
 					display="flex"
 					justifyContent="center"
@@ -122,7 +123,7 @@ const Navbar = () => {
 								{ label: "My Tickets", path: "/customertickets" },
 								{
 									label: "Purchase Tickets",
-									path: "/purchaseTickets",
+									path: "/purchase-tickets",
 								},
 							]}
 							icon={<LocalActivityIcon />}

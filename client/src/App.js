@@ -67,6 +67,7 @@ import MyTickets from "./scenes/mytickets";
 import Footer from "./components/Footer";
 import ProfilePage from "./scenes/profile";
 
+
 function App() {
 	const navigate = useNavigate();
 
