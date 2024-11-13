@@ -180,6 +180,9 @@ const Navbar = () => {
 						<IconButton>
 							<NotificationMenu />
 						</IconButton>
+
+						<Cart />
+						
 						<AccountMenu userType={user.userType} />
 					</Box>
 				) : (
